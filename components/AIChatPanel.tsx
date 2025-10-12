@@ -157,7 +157,7 @@ export default function AIChatPanel() {
                   Start a conversation about the HEART economic model
                 </p>
                 <p className="text-xs mt-2">
-                  Try asking: "What is the HEART Score?" or "Compare US and China"
+                  Try asking: &quot;What is the HEART Score?&quot; or &quot;Compare US and China&quot;
                 </p>
               </div>
             )}

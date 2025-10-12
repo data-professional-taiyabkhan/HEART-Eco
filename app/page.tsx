@@ -100,7 +100,7 @@ export default function LandingPage() {
               </div>
 
               <p className="text-gray-700">
-                This model provides a holistic view of a country's economic health, combining infrastructure 
+                This model provides a holistic view of a country&apos;s economic health, combining infrastructure 
                 investment, social development, and affordability metrics to assess overall economic performance.
               </p>
             </div>

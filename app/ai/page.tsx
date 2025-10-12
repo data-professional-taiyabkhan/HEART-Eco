@@ -141,13 +141,13 @@ export default function AIPage() {
                 </p>
                 <div className="max-w-md mx-auto space-y-3">
                   <div className="bg-white p-4 rounded-lg shadow-sm text-left border border-gray-200 hover:border-indigo-300 transition-colors cursor-pointer" onClick={() => setInput("What is the HEART Score?")}>
-                    <p className="text-sm text-gray-700">💡 "What is the HEART Score?"</p>
+                    <p className="text-sm text-gray-700">💡 &quot;What is the HEART Score?&quot;</p>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-left border border-gray-200 hover:border-indigo-300 transition-colors cursor-pointer" onClick={() => setInput("Compare USA and China")}>
-                    <p className="text-sm text-gray-700">🌍 "Compare USA and China"</p>
+                    <p className="text-sm text-gray-700">🌍 &quot;Compare USA and China&quot;</p>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-left border border-gray-200 hover:border-indigo-300 transition-colors cursor-pointer" onClick={() => setInput("Which country has the highest HEART Score?")}>
-                    <p className="text-sm text-gray-700">📊 "Which country has the highest HEART Score?"</p>
+                    <p className="text-sm text-gray-700">📊 &quot;Which country has the highest HEART Score?&quot;</p>
                   </div>
                 </div>
               </div>
