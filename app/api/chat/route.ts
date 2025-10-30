@@ -49,6 +49,10 @@ export async function POST(req: NextRequest) {
     // Run the assistant
     const run = await openai!.beta.threads.runs.create(currentThreadId, {
       assistant_id: ASSISTANT_ID,
+      // Force plain text responses to avoid json_object enforcement errors
+      response_format: { type: "text" },
+      // Ensure we don't accidentally invoke tools unless configured
+      // tool_choice: "none",
     });
 
     // Poll for completion
