@@ -43,11 +43,11 @@ export default function AIPage() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to get response");
-      }
+      const data = await response.json().catch(() => ({} as any));
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || `Failed to get response (${response.status})`);
+      }
       
       if (data.threadId && !threadId) {
         setThreadId(data.threadId);
@@ -57,13 +57,13 @@ export default function AIPage() {
         ...prev,
         { role: "assistant", content: data.response },
       ]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error sending message:", error);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Sorry, I encountered an error. Please try again.",
+          content: `Sorry, I encountered an error. ${error?.message || "Please try again."}`,
         },
       ]);
     } finally {
