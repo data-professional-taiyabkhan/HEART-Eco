@@ -72,7 +72,6 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
     ];
 
     const runner = new Runner({
-      apiKey: process.env.OPENAI_API_KEY,
       traceMetadata: {
         __trace_source__: "agent-builder",
         workflow_id: process.env.HEARTECO_WORKFLOW_ID || "wf_68e851cfa8ac819088d7c1c7fd6f189402f9f8bad3d1dd73"
