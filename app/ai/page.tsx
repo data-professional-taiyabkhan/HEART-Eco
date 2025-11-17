@@ -12,7 +12,6 @@ export default function AIPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [threadId, setThreadId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -39,7 +38,6 @@ export default function AIPage() {
         },
         body: JSON.stringify({
           message: userMessage,
-          threadId,
         }),
       });
 
@@ -48,14 +46,10 @@ export default function AIPage() {
       if (!response.ok) {
         throw new Error(data?.error || `Failed to get response (${response.status})`);
       }
-      
-      if (data.threadId && !threadId) {
-        setThreadId(data.threadId);
-      }
 
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: data.response },
+        { role: "assistant", content: data.reply },
       ]);
     } catch (error: any) {
       console.error("Error sending message:", error);

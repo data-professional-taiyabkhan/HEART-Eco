@@ -1,91 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { runWorkflow } from "@/lib/workflow";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_ORG_ID = process.env.OPENAI_ORG_ID;
-const OPENAI_PROJECT = process.env.OPENAI_PROJECT;
-
-// Initialize client when key exists; otherwise we will error out in handler
-const openai = OPENAI_API_KEY
-  ? new OpenAI({
-      apiKey: OPENAI_API_KEY,
-      organization: OPENAI_ORG_ID,
-      project: OPENAI_PROJECT,
-    })
-  : null;
-
-const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID || "asst_9dMB8z1B2Vzgck7AdXKe3ko9";
 
 export async function POST(req: NextRequest) {
   try {
     if (!OPENAI_API_KEY) {
-      // Surface a clear error if key is missing in the environment
       return NextResponse.json(
         { error: "OPENAI_API_KEY is not set on the server. Add it to environment variables." },
         { status: 500 }
       );
     }
 
-    const { message, threadId } = await req.json();
+    const { message } = await req.json();
 
     if (!message) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    let currentThreadId = threadId;
-
-    // Create a new thread if one doesn't exist
-    if (!currentThreadId) {
-      const thread = await openai!.beta.threads.create();
-      currentThreadId = thread.id;
-    }
-
-    // Add the user's message to the thread
-    await openai!.beta.threads.messages.create(currentThreadId, {
-      role: "user",
-      content: message,
+    // Call the workflow using the Agents SDK
+    const result = await runWorkflow({
+      input_as_text: message,
     });
 
-    // Run the assistant
-    const run = await openai!.beta.threads.runs.create(currentThreadId, {
-      assistant_id: ASSISTANT_ID,
-      // Force plain text responses to avoid json_object enforcement errors
-      response_format: { type: "text" },
-      // Ensure we don't accidentally invoke tools unless configured
-      // tool_choice: "none",
-    });
+    // Extract the reply text from the workflow response
+    const replyText = result.output_text || "";
 
-    // Poll for completion
-    let runStatus = await openai!.beta.threads.runs.retrieve(currentThreadId, run.id);
-    
-    while (runStatus.status !== "completed") {
-      if (runStatus.status === "failed" || runStatus.status === "cancelled" || runStatus.status === "expired") {
-        throw new Error(`Run ${runStatus.status}`);
-      }
-      
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      runStatus = await openai!.beta.threads.runs.retrieve(currentThreadId, run.id);
+    if (!replyText) {
+      throw new Error("No output from workflow");
     }
 
-    // Get the assistant's messages
-    const messages = await openai!.beta.threads.messages.list(currentThreadId);
-    const assistantMessages = messages.data.filter((msg) => msg.role === "assistant");
-    
-    if (assistantMessages.length === 0) {
-      throw new Error("No response from assistant");
-    }
-
-    const lastMessage = assistantMessages[0];
-    const textContent = lastMessage.content.find((content) => content.type === "text");
-    
-    if (!textContent || textContent.type !== "text") {
-      throw new Error("Invalid response format");
-    }
-
-    return NextResponse.json({
-      response: textContent.text.value,
-      threadId: currentThreadId,
-    });
+    return NextResponse.json({ reply: replyText });
   } catch (error: any) {
     // Try to unwrap OpenAI SDK error shapes and surface useful messages
     const status =
