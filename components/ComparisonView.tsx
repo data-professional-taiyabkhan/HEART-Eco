@@ -202,14 +202,14 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
           <h3 className="text-xl font-semibold mb-4">{country1.country}</h3>
           <div className="text-6xl font-black mb-2">{country1.heartScore}</div>
           <div className="text-lg opacity-90">
-            HV: {country1.heartValue.toFixed(2)} + HAR: {country1.heartAffordabilityRanking}
+            HV: {country1.heartValue.toFixed(2)} × HAR: {country1.heartAffordabilityRanking}
           </div>
         </div>
         <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg shadow-lg p-8 text-white">
           <h3 className="text-xl font-semibold mb-4">{country2.country}</h3>
           <div className="text-6xl font-black mb-2">{country2.heartScore}</div>
           <div className="text-lg opacity-90">
-            HV: {country2.heartValue.toFixed(2)} + HAR: {country2.heartAffordabilityRanking}
+            HV: {country2.heartValue.toFixed(2)} × HAR: {country2.heartAffordabilityRanking}
           </div>
         </div>
       </div>
@@ -265,7 +265,10 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
         <ResponsiveContainer width="100%" height={400}>
           <RadarChart data={radarData}>
             <PolarGrid />
-            <PolarAngleAxis dataKey="metric" />
+            <PolarAngleAxis 
+              dataKey="metric" 
+              tick={{ fill: '#1f2937', fontSize: 12, fontWeight: 'bold' }}
+            />
             <PolarRadiusAxis />
             <Radar
               name={country1.country}

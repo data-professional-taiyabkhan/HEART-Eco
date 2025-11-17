@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CountryData, AFFORDABILITY_GRADES } from "@/lib/types";
-import { formatCurrency, formatPercent, formatNumber } from "@/lib/calculations";
+import { formatCurrency, formatPercent, formatNumber, formatLargeNumber } from "@/lib/calculations";
 import MetricCard from "./MetricCard";
 import {
   BarChart,
@@ -85,7 +85,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <div className="text-center">
             <div className="text-7xl font-black mb-2">{country.heartScore}</div>
             <div className="text-xl opacity-90">
-              HV: {country.heartValue.toFixed(2)} + HAR: {country.heartAffordabilityRanking}
+              HV: {country.heartValue.toFixed(2)} × HAR: {country.heartAffordabilityRanking}
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <MetricCard
             label="Adjusted PCI (APCI)"
             value={formatCurrency(country.adjustedPCI)}
-            calculation={`PCI (${formatCurrency(country.perCapitaIncome)}) - Inflation (${formatPercent(country.countryInflation)})`}
+            calculation={`PCI (${formatCurrency(country.perCapitaIncome)}) × (1 - Inflation ${formatPercent(country.countryInflation)})`}
             colorClass="bg-green-50"
           />
         </div>
@@ -178,7 +178,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           />
           <MetricCard
             label="Trade Balance"
-            value={formatCurrency(country.tradeBalance)}
+            value={`${formatCurrency(country.tradeBalance)} ${country.tradeBalance >= 0 ? '(Surplus)' : '(Deficit)'}`}
             colorClass={country.tradeBalance >= 0 ? "bg-green-50" : "bg-red-50"}
           />
           <MetricCard
@@ -249,7 +249,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <MetricCard
             label="Housing Units"
-            value={formatNumber(country.countryHousingUnits)}
+            value={formatLargeNumber(country.countryHousingUnits)}
           />
           <MetricCard
             label="Houses per Person"
@@ -280,7 +280,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <MetricCard
             label="Adjusted HDI (AHDI)"
             value={country.adjustedHDI.toFixed(3)}
-            calculation={`HDI (${country.hdi.toFixed(3)}) × GINI (${country.gini.toFixed(3)})`}
+            calculation={`HDI (${country.hdi.toFixed(3)}) - GINI (${country.gini.toFixed(3)})`}
             colorClass="bg-blue-50"
           />
           <MetricCard
@@ -360,9 +360,13 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={heartValueData} layout="horizontal" margin={{ left: 20, right: 30, top: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
+              <XAxis 
+                type="number" 
+                domain={['dataMin', 'dataMax']}
+                tickFormatter={(value) => `${value.toFixed(1)}%`}
+              />
               <YAxis dataKey="name" type="category" width={120} />
-              <Tooltip formatter={(value: number) => `${value.toFixed(2)}%`} />
+              <Tooltip formatter={(value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`} />
               <Legend />
               <Bar dataKey="value" fill="#4F46E5" name="% Contribution">
                 {heartValueData.map((entry, index) => (

@@ -2,10 +2,11 @@ import { AFFORDABILITY_GRADES } from './types';
 
 /**
  * Calculate Adjusted PCI
- * APCI = PCI - Inflation
+ * APCI = PCI * (1 - Inflation)
+ * Inflation is stored as decimal (0.0235 = 2.35%)
  */
 export function calculateAdjustedPCI(pci: number, inflation: number): number {
-  return pci - inflation;
+  return pci * (1 - inflation);
 }
 
 /**
@@ -30,10 +31,10 @@ export function calculateAdjustedDebtToGDP(
 
 /**
  * Calculate Adjusted HDI
- * AHDI = HDI × GINI
+ * AHDI = HDI - GINI
  */
 export function calculateAdjustedHDI(hdi: number, gini: number): number {
-  return hdi * gini;
+  return hdi - gini;
 }
 
 /**
@@ -123,6 +124,20 @@ export function formatPercent(value: number, isAlreadyPercent: boolean = false):
  * Format large numbers
  */
 export function formatNumber(value: number): string {
+  return value.toLocaleString('en-US');
+}
+
+/**
+ * Format large numbers with M/B suffixes (for Housing Units, etc.)
+ */
+export function formatLargeNumber(value: number): string {
+  if (value >= 1e9) {
+    return `${(value / 1e9).toFixed(0)}B`;
+  } else if (value >= 1e6) {
+    return `${(value / 1e6).toFixed(0)}M`;
+  } else if (value >= 1e3) {
+    return `${(value / 1e3).toFixed(0)}K`;
+  }
   return value.toLocaleString('en-US');
 }
 
