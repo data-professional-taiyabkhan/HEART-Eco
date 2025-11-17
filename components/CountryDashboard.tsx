@@ -27,7 +27,7 @@ const COLORS = ["#4F46E5", "#06B6D4", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"
 export default function CountryDashboard({ country }: CountryDashboardProps) {
   const [showRawValues, setShowRawValues] = useState(false);
 
-  // Prepare chart data for Heart Value components
+  // Prepare chart data for Heart Value components (for display cards)
   const heartValueData = [
     { name: "Housing", value: country.housingContributionToGDPPercent * 100 },
     { name: "Health", value: country.healthContributionToGDPPercent * 100 },
@@ -85,7 +85,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <div className="text-center">
             <div className="text-7xl font-black mb-2">{country.heartScore}</div>
             <div className="text-xl opacity-90">
-              HV: {country.heartValue.toFixed(2)} × HAR: {country.heartAffordabilityRanking}
+              HV: {country.heartValue.toFixed(2)} + HAR: {country.heartAffordabilityRanking}
             </div>
           </div>
         </div>
@@ -177,8 +177,8 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
             value={formatPercent(country.tradeContributionToGDPPercent)}
           />
           <MetricCard
-            label="Trade Balance"
-            value={`${formatCurrency(country.tradeBalance)} ${country.tradeBalance >= 0 ? '(Surplus)' : '(Deficit)'}`}
+            label={`Trade Balance ${country.tradeBalance >= 0 ? '(Surplus)' : '(Deficit)'}`}
+            value={formatCurrency(country.tradeBalance)}
             colorClass={country.tradeBalance >= 0 ? "bg-green-50" : "bg-red-50"}
           />
           <MetricCard
@@ -357,26 +357,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
             </div>
           </div>
 
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={heartValueData} layout="horizontal" margin={{ left: 20, right: 30, top: 20, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                type="number" 
-                domain={['dataMin', 'dataMax']}
-                tickFormatter={(value) => `${value.toFixed(1)}%`}
-              />
-              <YAxis dataKey="name" type="category" width={120} />
-              <Tooltip formatter={(value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`} />
-              <Legend />
-              <Bar dataKey="value" fill="#4F46E5" name="% Contribution">
-                {heartValueData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-
-          <div className="mt-6 bg-indigo-50 rounded-lg p-4">
+          <div className="mb-6 bg-indigo-50 rounded-lg p-4">
             <h5 className="font-semibold text-gray-900 mb-2">Calculation Formula:</h5>
             <p className="text-sm font-mono text-gray-700">
               HV_raw = Housing%GDP + Health%GDP + Energy%GDP + Education%GDP + Global_GDP_Share − Interest_Payments%GDP + Trade%GDP
