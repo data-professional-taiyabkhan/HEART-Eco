@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CountryData, AFFORDABILITY_GRADES } from "@/lib/types";
+import { CountryData, AFFORDABILITY_GRADES, HEART_VALUE_RESILIENCE_GRADES } from "@/lib/types";
 import { formatCurrency, formatPercent, formatNumber, formatLargeNumber } from "@/lib/calculations";
 import MetricCard from "./MetricCard";
 import {
@@ -69,7 +69,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           </div>
           <div>
             <p className="text-indigo-100 text-sm">Population</p>
-            <p className="text-2xl font-bold">{formatNumber(country.countryPopulation)}</p>
+            <p className="text-2xl font-bold">{formatLargeNumber(country.countryPopulation)}</p>
           </div>
           <div>
             <p className="text-indigo-100 text-sm">Per Capita Income</p>
@@ -85,7 +85,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <div className="text-center">
             <div className="text-7xl font-black mb-2">{country.heartScore}</div>
             <div className="text-xl opacity-90">
-              HV: {country.heartValue.toFixed(2)} + HAR: {country.heartAffordabilityRanking}
+              HV: {country.heartValue.toFixed(2)} × HAR: {country.heartAffordabilityRanking}
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           />
           <MetricCard
             label="Population"
-            value={formatNumber(country.countryPopulation)}
+            value={formatLargeNumber(country.countryPopulation)}
             subValue={`${formatPercent(country.countryPopulationToGlobalPercent)} of Global Population`}
           />
           <MetricCard
@@ -360,11 +360,54 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <div className="mb-6 bg-indigo-50 rounded-lg p-4">
             <h5 className="font-semibold text-gray-900 mb-2">Calculation Formula:</h5>
             <p className="text-sm font-mono text-gray-700">
-              HV_raw = Housing%GDP + Health%GDP + Energy%GDP + Education%GDP + Global_GDP_Share − Interest_Payments%GDP + Trade%GDP
+              HV_raw = Housing%GDP + Health%GDP + Energy%GDP + Education%GDP + Global_GDP_Share − Interest_Payments%GDP ± Trade%GDP
             </p>
             <p className="text-xs text-gray-600 mt-2">
               Then normalized to 0-1 scale across all countries
             </p>
+          </div>
+        </div>
+
+        {/* Heart Value Resilience Table */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-4">
+          <h4 className="text-lg font-semibold text-gray-900 mb-4">
+            Economic Resilience Reference Table
+          </h4>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Heart Value
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Economic Resilience
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {HEART_VALUE_RESILIENCE_GRADES.map((grade, idx) => {
+                  const isCurrentGrade = country.heartValue >= grade.min && country.heartValue <= grade.max;
+                  return (
+                    <tr
+                      key={idx}
+                      className={
+                        isCurrentGrade
+                          ? "bg-indigo-100 font-semibold"
+                          : ""
+                      }
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {grade.min.toFixed(2)} - {grade.max.toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {grade.description}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
 

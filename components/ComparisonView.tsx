@@ -202,14 +202,14 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
           <h3 className="text-xl font-semibold mb-4">{country1.country}</h3>
           <div className="text-6xl font-black mb-2">{country1.heartScore}</div>
           <div className="text-lg opacity-90">
-            HV: {country1.heartValue.toFixed(2)} × HAR: {country1.heartAffordabilityRanking}
+            HS = HV: {country1.heartValue.toFixed(2)} × HAR: {country1.heartAffordabilityRanking}
           </div>
         </div>
         <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg shadow-lg p-8 text-white">
           <h3 className="text-xl font-semibold mb-4">{country2.country}</h3>
           <div className="text-6xl font-black mb-2">{country2.heartScore}</div>
           <div className="text-lg opacity-90">
-            HV: {country2.heartValue.toFixed(2)} × HAR: {country2.heartAffordabilityRanking}
+            HS = HV: {country2.heartValue.toFixed(2)} × HAR: {country2.heartAffordabilityRanking}
           </div>
         </div>
       </div>

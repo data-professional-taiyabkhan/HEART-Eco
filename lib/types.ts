@@ -92,3 +92,18 @@ export const AFFORDABILITY_GRADES: AffordabilityGrade[] = [
   { grade: 'D-', min: 0, max: 2500, description: 'Very Poor' },
 ];
 
+export interface EconomicResilienceGrade {
+  min: number;
+  max: number;
+  description: string;
+}
+
+export const HEART_VALUE_RESILIENCE_GRADES: EconomicResilienceGrade[] = [
+  { min: 0.70, max: 1.00, description: 'Superb' },
+  { min: 0.51, max: 0.69, description: 'Excellent' },
+  { min: 0.41, max: 0.50, description: 'Good' },
+  { min: 0.31, max: 0.40, description: 'Satisfactory' },
+  { min: 0.26, max: 0.30, description: 'Moderate' },
+  { min: 0.00, max: 0.25, description: 'Weak' },
+];
+
