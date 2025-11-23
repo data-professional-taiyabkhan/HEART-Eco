@@ -217,7 +217,7 @@ export default function AIPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your question about HEART scores, countries, or economic metrics..."
-                className="flex-1 border-2 border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition-all"
+                className="flex-1 bg-white border-2 border-indigo-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
                 rows={2}
                 disabled={loading}
               />

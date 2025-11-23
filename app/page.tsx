@@ -13,6 +13,38 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
       <div className="container mx-auto px-4 py-12">
+        {/* Navigation Bar */}
+        <div className={`mb-8 ${mounted ? 'animate-fadeIn' : 'opacity-0'}`}>
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 shadow-lg">
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
+              >
+                📊 Dashboard
+              </Link>
+              <Link
+                href="/compare"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
+              >
+                ⚖️ Compare
+              </Link>
+              <Link
+                href="/calculator"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
+              >
+                🧮 Calculator
+              </Link>
+              <Link
+                href="/ai"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
+              >
+                💬 AI Assistant
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <div className={`text-center text-white mb-16 ${mounted ? 'animate-fadeIn' : 'opacity-0'}`}>
           <h1 className="text-6xl md:text-7xl font-black mb-6 drop-shadow-lg">
@@ -107,18 +139,34 @@ export default function LandingPage() {
           </section>
 
           {/* Call to Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
             <Link
               href="/dashboard"
-              className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="group relative px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-center rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
             >
               <span className="relative z-10">🌍 Explore Countries</span>
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
             </Link>
 
             <Link
+              href="/compare"
+              className="group relative px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-center rounded-xl hover:from-blue-700 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
+            >
+              <span className="relative z-10">📊 Compare</span>
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
+            </Link>
+
+            <Link
+              href="/calculator"
+              className="group relative px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-center rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
+            >
+              <span className="relative z-10">🧮 Calculate Score</span>
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
+            </Link>
+
+            <Link
               href="/ai"
-              className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="group relative px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-center rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
             >
               <span className="relative z-10">💬 Ask AI Assistant</span>
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>

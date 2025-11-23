@@ -57,6 +57,12 @@ export default function DashboardPage() {
               🏠 Home
             </Link>
             <Link
+              href="/calculator"
+              className="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors"
+            >
+              🧮 Calculator
+            </Link>
+            <Link
               href="/ai"
               className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
             >
