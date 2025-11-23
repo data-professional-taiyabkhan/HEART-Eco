@@ -195,12 +195,14 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
         <div className="bg-white rounded-lg shadow-md p-6 mb-4">
           <div className="flex justify-between items-center mb-4">
             <h4 className="text-lg font-semibold text-gray-700">View:</h4>
-            <button
-              onClick={() => setShowRawValues(!showRawValues)}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            <select
+              value={showRawValues ? "usd" : "percent"}
+              onChange={(e) => setShowRawValues(e.target.value === "usd")}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
             >
-              {showRawValues ? "Show Percentages" : "Show USD Values"}
-            </button>
+              <option value="percent">Percentages</option>
+              <option value="usd">USD Values</option>
+            </select>
           </div>
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={sectorData} margin={{ left: 20, right: 20, top: 20, bottom: 20 }}>

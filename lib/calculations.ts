@@ -132,13 +132,25 @@ export function formatNumber(value: number): string {
 }
 
 /**
- * Format large numbers with M/B suffixes (for Housing Units, etc.)
+ * Format large numbers with M/B suffixes (for Housing Units, Population, etc.)
+ * - Billions: Always show 2 decimal places (e.g., 1.42B instead of 1B)
+ * - Millions: Show as whole number if 2-3 digits (e.g., 142M), otherwise show decimals
  */
 export function formatLargeNumber(value: number): string {
   if (value >= 1e9) {
-    return `${(value / 1e9).toFixed(0)}B`;
+    // Billions: always show 2 decimal places for accuracy (e.g., 1.42B)
+    return `${(value / 1e9).toFixed(2)}B`;
   } else if (value >= 1e6) {
-    return `${(value / 1e6).toFixed(0)}M`;
+    // Millions: show as whole number if 2-3 digits (10-999M)
+    const millions = value / 1e6;
+    if (millions >= 10 && millions < 1000) {
+      // 2-3 digits: show as whole number (e.g., 142M)
+      return `${Math.round(millions)}M`;
+    } else {
+      // Less than 10M: show as whole number (e.g., 5M)
+      // Note: 1000M+ would be handled as billions above
+      return `${Math.round(millions)}M`;
+    }
   } else if (value >= 1e3) {
     return `${(value / 1e3).toFixed(0)}K`;
   }

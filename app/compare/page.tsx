@@ -52,12 +52,26 @@ export default function ComparePage() {
               Side-by-side analysis of economic metrics
             </p>
           </div>
-          <Link
-            href="/"
-            className="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            ← Back to Dashboard
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/"
+              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              🏠 Home
+            </Link>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              ← Back to Dashboard
+            </Link>
+            <Link
+              href="/ai"
+              className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+            >
+              💬 AI Assistant
+            </Link>
+          </div>
         </div>
       </div>
 
