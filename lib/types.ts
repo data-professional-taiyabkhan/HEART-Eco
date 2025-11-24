@@ -78,18 +78,18 @@ export interface AffordabilityGrade {
 }
 
 export const AFFORDABILITY_GRADES: AffordabilityGrade[] = [
-  { grade: 'A+', min: 50000, max: 100000, description: 'Excellent' },
-  { grade: 'A', min: 40000, max: 50000, description: 'Very Good' },
-  { grade: 'A-', min: 35000, max: 40000, description: 'Good+' },
-  { grade: 'B+', min: 30000, max: 35000, description: 'Good' },
-  { grade: 'B', min: 25000, max: 30000, description: 'Above Average' },
-  { grade: 'B-', min: 20000, max: 25000, description: 'Average+' },
-  { grade: 'C+', min: 15000, max: 20000, description: 'Average' },
-  { grade: 'C', min: 12500, max: 15000, description: 'Below Average' },
-  { grade: 'C-', min: 10000, max: 12500, description: 'Low' },
-  { grade: 'D+', min: 5000, max: 10000, description: 'Very Low' },
-  { grade: 'D', min: 2500, max: 5000, description: 'Poor' },
-  { grade: 'D-', min: 0, max: 2500, description: 'Very Poor' },
+  { grade: 'A+', min: 50001, max: 100000, description: 'Superb' },
+  { grade: 'A', min: 40001, max: 50000, description: 'Excellent' },
+  { grade: 'A-', min: 35001, max: 40000, description: 'High' },
+  { grade: 'B+', min: 30001, max: 35000, description: 'Very Good' },
+  { grade: 'B', min: 25001, max: 30000, description: 'Good' },
+  { grade: 'B-', min: 20001, max: 25000, description: 'Satisfactory' },
+  { grade: 'C+', min: 15001, max: 20000, description: 'Moderate' },
+  { grade: 'C', min: 12501, max: 15000, description: 'Improved' },
+  { grade: 'C-', min: 10001, max: 12500, description: 'Border Line' },
+  { grade: 'D+', min: 5001, max: 10000, description: 'Challenging' },
+  { grade: 'D', min: 2501, max: 5000, description: 'Poor' },
+  { grade: 'D-', min: 0, max: 2500, description: 'Very Weak' },
 ];
 
 export interface EconomicResilienceGrade {
