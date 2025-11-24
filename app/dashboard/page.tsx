@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import CountrySelector from "@/components/CountrySelector";
 import CountryDashboard from "@/components/CountryDashboard";
+import DisclaimerBanner from "@/components/DisclaimerBanner";
 import { CountryData } from "@/lib/types";
 import Link from "next/link";
 
@@ -38,6 +39,12 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
+      {/* Disclaimer Banner */}
+      <DisclaimerBanner />
+      
+      {/* Spacer to account for fixed banner */}
+      <div className="h-12 md:h-10"></div>
+
       {/* Header */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

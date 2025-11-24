@@ -16,6 +16,16 @@ import {
 let cachedData: CountryData[] | null = null;
 
 /**
+ * Helper function to parse currency values that may be formatted with $ and commas
+ */
+function parseCurrencyValue(value: any): number {
+  if (!value) return 0;
+  // Convert to string and remove $, commas, and spaces
+  const cleaned = String(value).replace(/[$,\s]/g, '');
+  return parseFloat(cleaned) || 0;
+}
+
+/**
  * Parse the Excel file and return all country data
  */
 export function parseExcelData(): CountryData[] {
@@ -36,6 +46,39 @@ export function parseExcelData(): CountryData[] {
   const worksheet = workbook.Sheets[sheetName];
   const rawData: any[] = XLSX.utils.sheet_to_json(worksheet);
 
+  // Find WORLD row for global metrics
+  const worldRow = rawData.find((row: any) => row['COUNTRY'] === 'WORLD') || rawData[0];
+  
+  // Debug: Log available column names if WORLD row found
+  if (worldRow && worldRow['COUNTRY'] === 'WORLD') {
+    console.log('WORLD row found. Available columns:', Object.keys(worldRow));
+    console.log('Sample values:', {
+      country: worldRow['COUNTRY'],
+      globalGDP: worldRow[' Global GDP (in USD)'] || worldRow['Global GDP (in USD)'],
+      population: worldRow['Total Global Population']
+    });
+  }
+  
+  // Get global metrics from WORLD row - try multiple column name variations
+  const globalGDPValue = worldRow[' Global GDP (in USD)'] || 
+                         worldRow['Global GDP (in USD)'] || 
+                         worldRow[' Global GDP (in USD) '] ||
+                         worldRow['Global GDP (in USD) '] ||
+                         0;
+  const globalGDP = parseCurrencyValue(globalGDPValue);
+  
+  // Log the parsed value for debugging
+  if (globalGDP === 0 && worldRow) {
+    console.warn('Global GDP is 0. Raw value:', globalGDPValue, 'Type:', typeof globalGDPValue);
+  }
+  
+  const totalGlobalPopulation = parseFloat(String(worldRow['Total Global Population'] || 0).replace(/,/g, '')) || 0;
+  
+  const totalGlobalTradeValue = worldRow['Total Global Trade (in USD)'] || 
+                                 worldRow[' Total Global Trade (in USD)'] ||
+                                 0;
+  const totalGlobalTrade = parseCurrencyValue(totalGlobalTradeValue);
+
   // Filter out WORLD row and parse actual countries
   const filteredData = rawData.filter((row: any) => row['COUNTRY'] && row['COUNTRY'] !== 'WORLD');
   
@@ -44,8 +87,8 @@ export function parseExcelData(): CountryData[] {
     const pci = parseFloat(row['Per Capita income(PCI)'] || 0);
     const inflation = parseFloat(row['Country inflation ( %)'] || 0);
     const interestRate = parseFloat(row['Intrest Rate ( %)'] || 0);
-    const totalDebt = parseFloat(row['  Country Total Debt (in USD)'] || 0);
-    const gdp = parseFloat(row[' Country GDP (in USD)'] || 0);
+    const totalDebt = parseCurrencyValue(row['  Country Total Debt (in USD)'] || row['Country Total Debt (in USD)'] || 0);
+    const gdp = parseCurrencyValue(row[' Country GDP (in USD)'] || row['Country GDP (in USD)'] || 0);
     const hdi = parseFloat(row['HDI(Range: 0-1)'] || 0);
     const gini = parseFloat(row['GINI (Range: 0-1)'] || 0);
 
@@ -57,11 +100,6 @@ export function parseExcelData(): CountryData[] {
     const heartAffordabilityRanking = getAffordabilityGrade(heartAffordabilityValue);
     
     const adjustedDebtToGDPPercent = calculateAdjustedDebtToGDP(totalDebt, interestPayment, gdp);
-
-    // Get global metrics from first row of raw data (WORLD row)
-    const globalGDP = parseFloat(rawData[0][' Global GDP (in USD)'] || 0);
-    const totalGlobalPopulation = parseFloat(rawData[0]['Total Global Population'] || 0);
-    const totalGlobalTrade = parseFloat(rawData[0]['Total Global Trade (in USD)'] || 0);
 
     return {
       sNo: parseInt(row['SR NO.'] || 0),
