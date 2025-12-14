@@ -26,10 +26,19 @@ function parseCurrencyValue(value: any): number {
 }
 
 /**
+ * Clear the cached data (useful when Excel file is updated)
+ */
+export function clearCache(): void {
+  cachedData = null;
+}
+
+/**
  * Parse the Excel file and return all country data
  */
 export function parseExcelData(): CountryData[] {
-  if (cachedData) {
+  // In development, always reload to pick up new countries
+  // In production, use cache for performance
+  if (cachedData && process.env.NODE_ENV === 'production') {
     return cachedData;
   }
 
