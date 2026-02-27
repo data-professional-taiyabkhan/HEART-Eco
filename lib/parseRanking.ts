@@ -109,6 +109,7 @@ export function parseHeartRankingByYear(): {
   const filePath = path.join(
     process.cwd(),
     "data",
+    "Mastersheet",
     "MasterSheet_WithPredictive.xlsx"
   );
 
