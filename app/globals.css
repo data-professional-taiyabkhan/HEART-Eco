@@ -128,3 +128,7 @@ body {
   animation: scroll 30s linear infinite;
 }
 
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+

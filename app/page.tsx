@@ -36,10 +36,22 @@ export default function LandingPage() {
                 🧮 Calculator
               </Link>
               <Link
+                href="/doctrine"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
+              >
+                📘 Doctrine
+              </Link>
+              <Link
                 href="/ai"
                 className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
               >
                 💬 AI Assistant
+              </Link>
+              <Link
+                href="/heart-ai"
+                className="px-4 py-2 bg-gradient-to-r from-emerald-500/40 to-teal-500/40 hover:from-emerald-500/60 hover:to-teal-500/60 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 border border-emerald-400/30"
+              >
+                🤖 HEART AI
               </Link>
             </div>
           </div>
@@ -59,7 +71,7 @@ export default function LandingPage() {
         </div>
 
         {/* Main Content Card */}
-        <div className={`max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-8 md:p-12 mb-12 ${mounted ? 'animate-fadeIn' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+        <div className={`max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-8 md:p-12 mb-12 ${mounted ? 'animate-fadeIn animate-delay-200' : 'opacity-0'}`}>
           {/* What is HEART Score */}
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -69,7 +81,7 @@ export default function LandingPage() {
               <p className="mb-4">
                 The HEART Score is a comprehensive economic indicator that combines two critical dimensions:
               </p>
-              
+
               <div className="grid md:grid-cols-2 gap-6 my-8">
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-indigo-100">
                   <h3 className="text-xl font-bold text-indigo-900 mb-3">
@@ -132,7 +144,7 @@ export default function LandingPage() {
               </div>
 
               <p className="text-gray-700">
-                This model provides a holistic view of a country&apos;s economic health, combining infrastructure 
+                This model provides a holistic view of a country&apos;s economic health, combining infrastructure
                 investment, social development, and affordability metrics to assess overall economic performance.
               </p>
             </div>
@@ -169,6 +181,22 @@ export default function LandingPage() {
               className="group relative px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-center rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
             >
               <span className="relative z-10">💬 Ask AI Assistant</span>
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
+            </Link>
+
+            <Link
+              href="/heart-ai"
+              className="group relative px-6 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold text-center rounded-xl hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px] ring-2 ring-violet-400/30"
+            >
+              <span className="relative z-10">🤖 HEART AI</span>
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
+            </Link>
+
+            <Link
+              href="/doctrine"
+              className="group relative px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-center rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
+            >
+              <span className="relative z-10">📘 HEART Doctrine</span>
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
             </Link>
           </div>
