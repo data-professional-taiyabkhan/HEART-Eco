@@ -116,9 +116,6 @@ export default function DoctrineRankingTable({
             <th className="px-4 py-3">
               {sortLabel("affordabilityRank", "Affordability")}
             </th>
-            <th className="px-4 py-3">
-              {sortLabel("overallRank", "Rank")}
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -147,9 +144,6 @@ export default function DoctrineRankingTable({
               </td>
               <td className="px-4 py-3">{row.resilienceRank}</td>
               <td className="px-4 py-3">{row.affordabilityRank}</td>
-              <td className="px-4 py-3 font-semibold text-gray-800">
-                {row.overallRank}
-              </td>
             </tr>
           ))}
         </tbody>
