@@ -23,6 +23,16 @@ export default function HeartAIPage() {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [sessionId] = useState<string>(() => {
+        if (typeof window !== "undefined") {
+            const existing = sessionStorage.getItem("heart-ai-session");
+            if (existing) return existing;
+            const newId = `heart-ai-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+            sessionStorage.setItem("heart-ai-session", newId);
+            return newId;
+        }
+        return `heart-ai-${Date.now()}`;
+    });
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -50,7 +60,7 @@ export default function HeartAIPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     message: userMessage,
-                    history: messages,
+                    sessionId,
                 }),
             });
 
@@ -185,14 +195,14 @@ export default function HeartAIPage() {
                                     <div
                                         key={index}
                                         className={`flex ${message.role === "user"
-                                                ? "justify-end"
-                                                : "justify-start"
+                                            ? "justify-end"
+                                            : "justify-start"
                                             } animate-fadeIn`}
                                     >
                                         <div
                                             className={`max-w-[85%] ${message.role === "user"
-                                                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl rounded-br-md shadow-lg shadow-indigo-500/20"
-                                                    : "bg-white/[0.06] text-white/90 rounded-2xl rounded-bl-md border border-white/10"
+                                                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl rounded-br-md shadow-lg shadow-indigo-500/20"
+                                                : "bg-white/[0.06] text-white/90 rounded-2xl rounded-bl-md border border-white/10"
                                                 } px-5 py-3`}
                                         >
                                             {message.role === "assistant" && (

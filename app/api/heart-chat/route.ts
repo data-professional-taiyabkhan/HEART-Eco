@@ -7,7 +7,7 @@ const N8N_WEBHOOK_URL =
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { message } = body as { message: string };
+        const { message, sessionId } = body as { message: string; sessionId?: string };
 
         if (!message) {
             return NextResponse.json(
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chatInput: message }),
+            body: JSON.stringify({ chatInput: message, sessionId: sessionId || "heart-ai-default" }),
         });
 
         if (!n8nResponse.ok) {
