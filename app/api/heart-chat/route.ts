@@ -1,21 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { runHeartChat, ChatMessage } from "@/lib/heartAiWorkflow";
+
+const N8N_WEBHOOK_URL =
+    process.env.N8N_WEBHOOK_URL ||
+    "https://taiyabmailbox.app.n8n.cloud/webhook/03364cf8-50ff-4e2c-94e9-048d31bf5d3d/chat";
 
 export async function POST(req: NextRequest) {
     try {
-        const apiKey = process.env.OPENAI_API_KEY;
-        if (!apiKey) {
-            return NextResponse.json(
-                { error: "OPENAI_API_KEY is not set on the server." },
-                { status: 500 }
-            );
-        }
-
         const body = await req.json();
-        const { message, history } = body as {
-            message: string;
-            history?: ChatMessage[];
-        };
+        const { message } = body as { message: string };
 
         if (!message) {
             return NextResponse.json(
@@ -24,24 +16,37 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Build conversation (keep last 6 messages for context window)
-        const conversationHistory: ChatMessage[] = [
-            ...(history || []).slice(-6),
-            { role: "user", content: message },
-        ];
+        const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chatInput: message }),
+        });
 
-        const reply = await runHeartChat(conversationHistory);
+        if (!n8nResponse.ok) {
+            const errText = await n8nResponse.text();
+            console.error("n8n error:", n8nResponse.status, errText);
+            return NextResponse.json(
+                { error: `n8n returned ${n8nResponse.status}: ${errText}` },
+                { status: n8nResponse.status }
+            );
+        }
+
+        const data = await n8nResponse.json();
+
+        // n8n returns { output: "..." } for chat trigger responses
+        const reply =
+            data?.output ||
+            data?.text ||
+            data?.message ||
+            data?.reply ||
+            JSON.stringify(data);
 
         return NextResponse.json({ reply });
     } catch (error: any) {
-        const status = error?.status || error?.response?.status || 500;
-        const message =
-            error?.error?.message ||
-            error?.response?.data?.error?.message ||
-            error?.message ||
-            "Failed to process chat";
-
-        console.error("Error in heart-chat API:", { status, message, raw: error });
-        return NextResponse.json({ error: message }, { status });
+        console.error("Error in heart-chat API:", error);
+        return NextResponse.json(
+            { error: error?.message || "Failed to process chat" },
+            { status: 500 }
+        );
     }
 }
