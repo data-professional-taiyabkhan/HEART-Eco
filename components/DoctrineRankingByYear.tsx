@@ -23,18 +23,18 @@ export default function DoctrineRankingByYear({
 
   return (
     <div>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">
-          HEART Score Rankings
-        </h2>
+      <div className="flex items-center justify-end mb-4">
         <div className="flex items-center gap-2">
-          <label htmlFor="doctrine-year" className="text-sm font-semibold text-gray-700">
+          <label
+            htmlFor="doctrine-year"
+            className="text-sm font-semibold text-gray-700"
+          >
             Year
           </label>
           <select
             id="doctrine-year"
             value={selectedYear}
-            onChange={(event) => setSelectedYear(event.target.value)}
+            onChange={(e) => setSelectedYear(e.target.value)}
             className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           >
             {sortedYears.map((year) => (
@@ -45,11 +45,7 @@ export default function DoctrineRankingByYear({
           </select>
         </div>
       </div>
-      <div className="mt-4">
-        <DoctrineRankingTable ranking={ranking} />
-      </div>
+      <DoctrineRankingTable ranking={ranking} selectedYear={selectedYear} />
     </div>
   );
 }
-
-

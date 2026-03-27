@@ -9,6 +9,8 @@ export interface HeartRankingRow {
   country: string;
   heartScore: string;
   description?: string;
+  briefDescription?: string;
+  futureOutlook?: string;
 }
 
 export interface HeartDoctrineInfo {
@@ -25,6 +27,17 @@ let cachedDoctrine: HeartDoctrineInfo | null = null;
 let cachedYearlyRanking:
   | { years: number[]; rankingsByYear: Record<string, HeartRankingRow[]> }
   | null = null;
+let cachedGdpByYear:
+  | { years: number[]; gdpByYear: Record<string, GdpCountryRow[]> }
+  | null = null;
+
+export interface GdpCountryRow {
+  country: string;
+  iso: string;
+  gdp: number;
+  globalPct: number;
+}
+
 
 function resolveRankingFilePath(): string {
   const candidates = [
@@ -138,6 +151,8 @@ export function parseHeartRankingByYear(): {
   const heartScoreIndex = colIndex("Heart Score");
   const heartValueIndex = colIndex("Heart Value");
   const heartAffordabilityIndex = colIndex("Heart Affordibility Value");
+  const briefDescIndex = colIndex("Brief Description of HEART Scores");
+  const affordRankingIndex = colIndex("Affordbility Ranking");
 
   if (
     countryIndex === -1 ||
@@ -146,6 +161,16 @@ export function parseHeartRankingByYear(): {
   ) {
     throw new Error("Required columns not found in MasterSheet_WithPredictive");
   }
+
+  // Build a lookup map: country+year -> raw row
+  const rawByKey = new Map<string, any>();
+  rows.slice(1).forEach((row) => {
+    const country = String(row[countryIndex] || "").trim();
+    const year = Number(row[yearIndex]);
+    if (country && Number.isFinite(year)) {
+      rawByKey.set(`${country}|${year}`, row);
+    }
+  });
 
   const yearlyMap = new Map<number, HeartRankingRow[]>();
 
@@ -159,23 +184,36 @@ export function parseHeartRankingByYear(): {
     const heartScore = String(row[heartScoreIndex] || "").trim();
     const heartValue = getNumeric(row[heartValueIndex]);
     const heartAffordability = getNumeric(row[heartAffordabilityIndex]);
+    const briefDescription =
+      briefDescIndex !== -1
+        ? String(row[briefDescIndex] || "").trim()
+        : "";
 
-    const entry: HeartRankingRow = {
-      overallRank: 0,
-      resilienceRank: 0,
-      affordabilityRank: 0,
-      country,
-      heartScore,
-      description: "",
-    };
+    // Future outlook: Heart Score + ranks from NEXT year
+    const nextRow = rawByKey.get(`${country}|${year + 1}`);
+    let futureOutlook = "";
+    if (nextRow) {
+      const nextScore = String(nextRow[heartScoreIndex] || "").trim();
+      const nextHV = getNumeric(nextRow[heartValueIndex]);
+      const nextHAV = getNumeric(nextRow[heartAffordabilityIndex]);
+      const nextAffRanking = affordRankingIndex !== -1
+        ? String(nextRow[affordRankingIndex] || "").trim()
+        : "";
+      futureOutlook = `Score: ${nextScore} | HV: ${nextHV.toFixed(2)} | HAV: ${nextHAV.toFixed(2)}${nextAffRanking ? ` | ${nextAffRanking}` : ""}`;
+    }
 
     if (!yearlyMap.has(year)) {
       yearlyMap.set(year, []);
     }
     yearlyMap.get(year)?.push({
-      ...entry,
+      overallRank: 0,
       resilienceRank: heartValue,
       affordabilityRank: heartAffordability,
+      country,
+      heartScore,
+      description: "",
+      briefDescription,
+      futureOutlook,
     });
   });
 
@@ -199,7 +237,6 @@ export function parseHeartRankingByYear(): {
       overallRank: overallRankMap.get(row.country) || 0,
       resilienceRank: resilienceRankMap.get(row.country) || 0,
       affordabilityRank: affordabilityRankMap.get(row.country) || 0,
-      description: "",
     }));
 
     rankingsByYear[String(year)] = normalized;
@@ -284,3 +321,72 @@ export function parseHeartDoctrineInfo(): HeartDoctrineInfo {
   return cachedDoctrine;
 }
 
+const ISO_MAP: Record<string, string> = {
+  ARGENTINA: "ar", AUSTRALIA: "au", BRAZIL: "br", CANADA: "ca",
+  CHINA: "cn", FRANCE: "fr", GERMANY: "de", INDIA: "in",
+  INDONESIA: "id", ITALY: "it", JAPAN: "jp", MEXICO: "mx",
+  NETHERLAND: "nl", NETHERLANDS: "nl", RUSSIA: "ru",
+  "SAUDI ARABIA": "sa", "SOUTH AFRICA": "za", "SOUTH KOREA": "kr",
+  SPAIN: "es", SWITZERLAND: "ch", TURKEY: "tr",
+  "UNITED KINGDOM": "gb", UK: "gb", USA: "us", "UNITED STATES": "us",
+};
+
+export function parseMasterSheetGdpByYear(): {
+  years: number[];
+  gdpByYear: Record<string, GdpCountryRow[]>;
+} {
+  if (cachedGdpByYear && process.env.NODE_ENV === "production") {
+    return cachedGdpByYear;
+  }
+
+  const filePath = path.join(
+    process.cwd(),
+    "data",
+    "Mastersheet",
+    "MasterSheet_WithPredictive.xlsx"
+  );
+
+  if (!fs.existsSync(filePath)) {
+    return { years: [], gdpByYear: {} };
+  }
+
+  const fileBuffer = fs.readFileSync(filePath);
+  const workbook = XLSX.read(fileBuffer, { type: "buffer" });
+  const worksheet =
+    workbook.Sheets["MasterSheet_WithPredictive"] ||
+    workbook.Sheets[workbook.SheetNames[0]];
+  const dataRows: Record<string, unknown>[] = XLSX.utils.sheet_to_json(worksheet, {
+    defval: "",
+  });
+
+  const yearlyMap = new Map<number, GdpCountryRow[]>();
+
+  dataRows.forEach((row) => {
+    const country = String(row["Country"] || "").trim();
+    const year = Number(row["Year"]);
+    if (!country || !Number.isFinite(year)) return;
+
+    const gdp = getNumeric(row["GDP"]);
+    const globalPctRaw = getNumeric(row["Global GDP %"]);
+    // Column is stored as a decimal fraction (e.g. 0.268), convert to %
+    const globalPct = globalPctRaw > 1 ? globalPctRaw : globalPctRaw * 100;
+    const iso = ISO_MAP[country.toUpperCase()] || "";
+
+    if (!yearlyMap.has(year)) yearlyMap.set(year, []);
+    yearlyMap.get(year)!.push({ country, iso, gdp, globalPct });
+  });
+
+  // Sort each year by GDP descending
+  yearlyMap.forEach((rows, year) => {
+    yearlyMap.set(year, rows.sort((a, b) => b.gdp - a.gdp));
+  });
+
+  const years = Array.from(yearlyMap.keys()).sort((a, b) => a - b);
+  const gdpByYear: Record<string, GdpCountryRow[]> = {};
+  years.forEach((y) => {
+    gdpByYear[String(y)] = yearlyMap.get(y) || [];
+  });
+
+  cachedGdpByYear = { years, gdpByYear };
+  return cachedGdpByYear;
+}
