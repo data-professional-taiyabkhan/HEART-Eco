@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
-  LineChart, Line, BarChart, Bar,
+  LineChart, Line, BarChart, Bar, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine
 } from "recharts";
@@ -124,10 +124,11 @@ function BarTimeChart({ data, dataKey, label, color, yFormatter, title }: {
           <XAxis dataKey="name" tick={{ fontSize: 11 }} />
           <YAxis tickFormatter={yFormatter} tick={{ fontSize: 11 }} width={60} />
           <Tooltip formatter={(v: number) => [(yFormatter || String)(v), label]} />
-          <Bar dataKey="value" name={label} fill={color} radius={[4, 4, 0, 0]}
-            label={false}
-            cell={(entry: any) => entry.forecast ? { fill: FORECAST_COLOR } : {}}
-          />
+          <Bar dataKey="value" name={label} radius={[4, 4, 0, 0]}>
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.forecast ? FORECAST_COLOR : color} />
+            ))}
+          </Bar>
           <ReferenceLine x={String(YEAR_2025)} stroke="#a5b4fc" strokeDasharray="4 4" />
         </BarChart>
       </ResponsiveContainer>
@@ -277,8 +278,8 @@ export default function DashboardPage() {
                   key={t.id}
                   onClick={() => setActiveTab(t.id)}
                   className={`flex-1 py-2 px-3 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[80px] ${activeTab === t.id
-                      ? "bg-indigo-600 text-white shadow"
-                      : "text-gray-600 hover:bg-gray-100"
+                    ? "bg-indigo-600 text-white shadow"
+                    : "text-gray-600 hover:bg-gray-100"
                     }`}
                 >
                   {t.label}
