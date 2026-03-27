@@ -184,9 +184,24 @@ export default function DoctrineRankingTable({
                   </td>
                   <td className="px-4 py-3 max-w-xs">
                     {row.futureOutlook ? (
-                      <span className="inline-block text-xs bg-amber-50 text-amber-800 border border-amber-200 rounded-lg px-2 py-1 leading-relaxed">
-                        {row.futureOutlook}
-                      </span>
+                      <div className="flex flex-col gap-1">
+                        {row.futureOutlook.split(" | ").map((part, i) => {
+                          const [label, val] = part.split(": ");
+                          return (
+                            <span
+                              key={i}
+                              className="inline-flex items-center gap-1 text-xs"
+                            >
+                              <span className="text-gray-400 font-medium w-24 shrink-0">
+                                {label}:
+                              </span>
+                              <span className={`font-bold ${i === 0 ? "text-indigo-700" : "text-amber-700"}`}>
+                                {val}
+                              </span>
+                            </span>
+                          );
+                        })}
+                      </div>
                     ) : (
                       <span className="text-gray-300 text-xs">No forecast</span>
                     )}

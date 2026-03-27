@@ -162,87 +162,110 @@ export function parseHeartRankingByYear(): {
     throw new Error("Required columns not found in MasterSheet_WithPredictive");
   }
 
-  // Build a lookup map: country+year -> raw row
-  const rawByKey = new Map<string, any>();
-  rows.slice(1).forEach((row) => {
-    const country = String(row[countryIndex] || "").trim();
-    const year = Number(row[yearIndex]);
-    if (country && Number.isFinite(year)) {
-      rawByKey.set(`${country}|${year}`, row);
-    }
-  });
-
-  const yearlyMap = new Map<number, HeartRankingRow[]>();
+  // ── Pass 1: collect raw data per country/year ──────────────────────────
+  type RawEntry = {
+    country: string;
+    heartScore: string;
+    heartValue: number;
+    heartAffordability: number;
+    briefDescription: string;
+  };
+  const rawYearlyMap = new Map<number, RawEntry[]>();
 
   rows.slice(1).forEach((row) => {
     const country = String(row[countryIndex] || "").trim();
     const year = Number(row[yearIndex]);
-    if (!country || !Number.isFinite(year)) {
-      return;
-    }
+    if (!country || !Number.isFinite(year)) return;
 
     const heartScore = String(row[heartScoreIndex] || "").trim();
     const heartValue = getNumeric(row[heartValueIndex]);
     const heartAffordability = getNumeric(row[heartAffordabilityIndex]);
     const briefDescription =
-      briefDescIndex !== -1
-        ? String(row[briefDescIndex] || "").trim()
-        : "";
+      briefDescIndex !== -1 ? String(row[briefDescIndex] || "").trim() : "";
 
-    // Future outlook: Heart Score + ranks from NEXT year
-    const nextRow = rawByKey.get(`${country}|${year + 1}`);
-    let futureOutlook = "";
-    if (nextRow) {
-      const nextScore = String(nextRow[heartScoreIndex] || "").trim();
-      const nextHV = getNumeric(nextRow[heartValueIndex]);
-      const nextHAV = getNumeric(nextRow[heartAffordabilityIndex]);
-      const nextAffRanking = affordRankingIndex !== -1
-        ? String(nextRow[affordRankingIndex] || "").trim()
-        : "";
-      futureOutlook = `Score: ${nextScore} | HV: ${nextHV.toFixed(2)} | HAV: ${nextHAV.toFixed(2)}${nextAffRanking ? ` | ${nextAffRanking}` : ""}`;
-    }
-
-    if (!yearlyMap.has(year)) {
-      yearlyMap.set(year, []);
-    }
-    yearlyMap.get(year)?.push({
-      overallRank: 0,
-      resilienceRank: heartValue,
-      affordabilityRank: heartAffordability,
+    if (!rawYearlyMap.has(year)) rawYearlyMap.set(year, []);
+    rawYearlyMap.get(year)!.push({
       country,
       heartScore,
-      description: "",
+      heartValue,
+      heartAffordability,
       briefDescription,
-      futureOutlook,
     });
   });
 
-  const rankingsByYear: Record<string, HeartRankingRow[]> = {};
-  const years = Array.from(yearlyMap.keys()).sort((a, b) => a - b);
+  // ── Pass 2: compute ranks for every year ───────────────────────────────
+  const allYears = Array.from(rawYearlyMap.keys()).sort((a, b) => a - b);
 
-  years.forEach((year) => {
-    const rowsForYear = yearlyMap.get(year) || [];
-    const overallRankMap = buildRankMap(rowsForYear, (row) =>
-      getNumeric(row.heartScore)
-    );
-    const resilienceRankMap = buildRankMap(rowsForYear, (row) =>
-      getNumeric(row.resilienceRank)
-    );
-    const affordabilityRankMap = buildRankMap(rowsForYear, (row) =>
-      getNumeric(row.affordabilityRank)
-    );
+  // For each year pre-build rank maps (resilience = heartValue desc, affordability = heartAffordability desc)
+  const resilienceRanksByYear = new Map<number, Map<string, number>>();
+  const affordabilityRanksByYear = new Map<number, Map<string, number>>();
+  const overallRanksByYear = new Map<number, Map<string, number>>();
 
-    const normalized = rowsForYear.map((row) => ({
-      ...row,
-      overallRank: overallRankMap.get(row.country) || 0,
-      resilienceRank: resilienceRankMap.get(row.country) || 0,
-      affordabilityRank: affordabilityRankMap.get(row.country) || 0,
-    }));
+  allYears.forEach((year) => {
+    const entries = rawYearlyMap.get(year) || [];
 
-    rankingsByYear[String(year)] = normalized;
+    const byResilience = [...entries].sort((a, b) => b.heartValue - a.heartValue);
+    const resMap = new Map<string, number>();
+    byResilience.forEach((e, i) => resMap.set(e.country, i + 1));
+
+    const byAffordability = [...entries].sort(
+      (a, b) => b.heartAffordability - a.heartAffordability
+    );
+    const affMap = new Map<string, number>();
+    byAffordability.forEach((e, i) => affMap.set(e.country, i + 1));
+
+    const byOverall = [...entries].sort(
+      (a, b) => getNumeric(b.heartScore) - getNumeric(a.heartScore)
+    );
+    const overallMap = new Map<string, number>();
+    byOverall.forEach((e, i) => overallMap.set(e.country, i + 1));
+
+    resilienceRanksByYear.set(year, resMap);
+    affordabilityRanksByYear.set(year, affMap);
+    overallRanksByYear.set(year, overallMap);
   });
 
-  cachedYearlyRanking = { years, rankingsByYear };
+  // ── Pass 3: build final HeartRankingRow with futureOutlook using NEXT year ranks ──
+  const rankingsByYear: Record<string, HeartRankingRow[]> = {};
+
+  allYears.forEach((year) => {
+    const entries = rawYearlyMap.get(year) || [];
+    const nextYear = year + 1;
+    const nextRawEntries = rawYearlyMap.get(nextYear);
+    const nextResMap = resilienceRanksByYear.get(nextYear);
+    const nextAffMap = affordabilityRanksByYear.get(nextYear);
+    // Build a quick lookup for next-year heartScore by country
+    const nextScoreMap = new Map<string, string>();
+    (nextRawEntries || []).forEach((e) => nextScoreMap.set(e.country, e.heartScore));
+
+    const resMap = resilienceRanksByYear.get(year)!;
+    const affMap = affordabilityRanksByYear.get(year)!;
+    const overallMap = overallRanksByYear.get(year)!;
+
+    rankingsByYear[String(year)] = entries.map((e) => {
+      // Future outlook uses NEXT year's calculated ranks
+      let futureOutlook = "";
+      if (nextScoreMap.has(e.country)) {
+        const nextScore = nextScoreMap.get(e.country) || "";
+        const nextResRank = nextResMap?.get(e.country) ?? "—";
+        const nextAffRank = nextAffMap?.get(e.country) ?? "—";
+        futureOutlook = `Score: ${nextScore} | Resilience: #${nextResRank} | Affordability: #${nextAffRank}`;
+      }
+
+      return {
+        overallRank: overallMap.get(e.country) || 0,
+        resilienceRank: resMap.get(e.country) || 0,
+        affordabilityRank: affMap.get(e.country) || 0,
+        country: e.country,
+        heartScore: e.heartScore,
+        description: "",
+        briefDescription: e.briefDescription,
+        futureOutlook,
+      };
+    });
+  });
+
+  cachedYearlyRanking = { years: allYears, rankingsByYear };
   return cachedYearlyRanking;
 }
 
