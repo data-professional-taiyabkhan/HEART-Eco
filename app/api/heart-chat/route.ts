@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const N8N_WEBHOOK_URL =
     process.env.N8N_WEBHOOK_URL ||
-    "https://taiyabmailbox.app.n8n.cloud/webhook/03364cf8-50ff-4e2c-94e9-048d31bf5d3d/chat";
+    "https://taiyabmailbox.app.n8n.cloud/webhook/718018be-da7a-40cd-b081-8bb9a153407c/chat";
 
 export async function POST(req: NextRequest) {
     try {
