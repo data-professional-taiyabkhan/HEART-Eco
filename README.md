@@ -32,7 +32,6 @@ Create a `.env.local` file in the root directory:
 
 ```
 OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_ASSISTANT_ID=asst_9dMB8z1B2Vzgck7AdXKe3ko9
 ```
 
 4. Ensure the Excel data file is present:
