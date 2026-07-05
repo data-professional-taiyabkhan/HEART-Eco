@@ -1,11 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const N8N_WEBHOOK_URL =
-    process.env.N8N_WEBHOOK_URL ||
-    "https://taiyabmailbox.app.n8n.cloud/webhook/718018be-da7a-40cd-b081-8bb9a153407c/chat";
-
 export async function POST(req: NextRequest) {
     try {
+        const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
+        if (!N8N_WEBHOOK_URL) {
+            console.error("N8N_WEBHOOK_URL is not configured");
+            return NextResponse.json(
+                { error: "N8N_WEBHOOK_URL is not configured" },
+                { status: 500 }
+            );
+        }
+
+        const HEART_WEBHOOK_SECRET = process.env.HEART_WEBHOOK_SECRET;
+        if (!HEART_WEBHOOK_SECRET) {
+            console.error("HEART_WEBHOOK_SECRET is not configured");
+            return NextResponse.json(
+                { error: "HEART_WEBHOOK_SECRET is not configured" },
+                { status: 500 }
+            );
+        }
+
         const body = await req.json();
         const { message, sessionId } = body as { message: string; sessionId?: string };
 
@@ -18,7 +32,10 @@ export async function POST(req: NextRequest) {
 
         const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "x-heart-secret": HEART_WEBHOOK_SECRET,
+            },
             body: JSON.stringify({ chatInput: message, sessionId: sessionId || "heart-ai-default" }),
         });
 
