@@ -11,11 +11,20 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const HEART_WEBHOOK_SECRET = process.env.HEART_WEBHOOK_SECRET;
-        if (!HEART_WEBHOOK_SECRET) {
-            console.error("HEART_WEBHOOK_SECRET is not configured");
+        const N8N_BASIC_AUTH_USER = process.env.N8N_BASIC_AUTH_USER;
+        if (!N8N_BASIC_AUTH_USER) {
+            console.error("N8N_BASIC_AUTH_USER is not configured");
             return NextResponse.json(
-                { error: "HEART_WEBHOOK_SECRET is not configured" },
+                { error: "N8N_BASIC_AUTH_USER is not configured" },
+                { status: 500 }
+            );
+        }
+
+        const N8N_BASIC_AUTH_PASS = process.env.N8N_BASIC_AUTH_PASS;
+        if (!N8N_BASIC_AUTH_PASS) {
+            console.error("N8N_BASIC_AUTH_PASS is not configured");
+            return NextResponse.json(
+                { error: "N8N_BASIC_AUTH_PASS is not configured" },
                 { status: 500 }
             );
         }
@@ -34,7 +43,7 @@ export async function POST(req: NextRequest) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "x-heart-secret": HEART_WEBHOOK_SECRET,
+                "Authorization": "Basic " + Buffer.from(`${N8N_BASIC_AUTH_USER}:${N8N_BASIC_AUTH_PASS}`).toString("base64"),
             },
             body: JSON.stringify({ chatInput: message, sessionId: sessionId || "heart-ai-default" }),
         });
