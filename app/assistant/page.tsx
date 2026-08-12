@@ -23,16 +23,6 @@ export default function AssistantPage() {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [sessionId] = useState<string>(() => {
-        if (typeof window !== "undefined") {
-            const existing = sessionStorage.getItem("assistant-session");
-            if (existing) return existing;
-            const newId = `assistant-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-            sessionStorage.setItem("assistant-session", newId);
-            return newId;
-        }
-        return `assistant-${Date.now()}`;
-    });
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,13 +48,21 @@ export default function AssistantPage() {
             const response = await fetch("/api/heart-chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    message: userMessage,
-                    sessionId,
-                }),
+                body: JSON.stringify({ message: userMessage }),
             });
 
             const data = await response.json().catch(() => ({} as any));
+
+            if (response.status === 429) {
+                setMessages([
+                    ...newMessages,
+                    {
+                        role: "assistant",
+                        content: data?.error || "You've reached your daily message limit. Please try again after midnight UTC.",
+                    },
+                ]);
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error(
