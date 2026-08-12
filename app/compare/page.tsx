@@ -66,7 +66,7 @@ export default function ComparePage() {
               ← Back to Dashboard
             </Link>
             <Link
-              href="/ai"
+              href="/assistant"
               className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
             >
               💬 AI Assistant

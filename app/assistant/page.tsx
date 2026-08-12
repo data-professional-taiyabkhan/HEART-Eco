@@ -17,7 +17,7 @@ const SAMPLE_QUESTIONS = [
     { emoji: "💡", text: "Why does the USA have a high HAR but lower HV?" },
 ];
 
-export default function HeartAIPage() {
+export default function AssistantPage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -25,13 +25,13 @@ export default function HeartAIPage() {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [sessionId] = useState<string>(() => {
         if (typeof window !== "undefined") {
-            const existing = sessionStorage.getItem("heart-ai-session");
+            const existing = sessionStorage.getItem("assistant-session");
             if (existing) return existing;
-            const newId = `heart-ai-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-            sessionStorage.setItem("heart-ai-session", newId);
+            const newId = `assistant-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+            sessionStorage.setItem("assistant-session", newId);
             return newId;
         }
-        return `heart-ai-${Date.now()}`;
+        return `assistant-${Date.now()}`;
     });
 
     const scrollToBottom = () => {

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
                 "Content-Type": "application/json",
                 "Authorization": "Basic " + Buffer.from(`${N8N_BASIC_AUTH_USER}:${N8N_BASIC_AUTH_PASS}`).toString("base64"),
             },
-            body: JSON.stringify({ chatInput: message, sessionId: sessionId || "heart-ai-default" }),
+            body: JSON.stringify({ chatInput: message, sessionId: sessionId || "assistant-default" }),
         });
 
         if (!n8nResponse.ok) {

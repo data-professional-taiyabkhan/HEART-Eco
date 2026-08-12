@@ -189,7 +189,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex gap-2">
             <Link href="/" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors">🏠 Home</Link>
-            <Link href="/heart-ai" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 transition-colors">🤖 HEART AI</Link>
+            <Link href="/assistant" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 transition-colors">🤖 HEART AI</Link>
             <Link href="/compare" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-700 transition-colors">⚖️ Compare</Link>
             <Link href="/doctrine" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 transition-colors">📘 Doctrine</Link>
           </div>

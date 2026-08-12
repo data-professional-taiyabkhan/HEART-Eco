@@ -42,13 +42,7 @@ export default function LandingPage() {
                 📘 Doctrine
               </Link>
               <Link
-                href="/ai"
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
-              >
-                💬 AI Assistant
-              </Link>
-              <Link
-                href="/heart-ai"
+                href="/assistant"
                 className="px-4 py-2 bg-gradient-to-r from-emerald-500/40 to-teal-500/40 hover:from-emerald-500/60 hover:to-teal-500/60 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 border border-emerald-400/30"
               >
                 🤖 HEART AI
@@ -177,15 +171,7 @@ export default function LandingPage() {
             </Link>
 
             <Link
-              href="/ai"
-              className="group relative px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-center rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
-            >
-              <span className="relative z-10">💬 Ask AI Assistant</span>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
-            </Link>
-
-            <Link
-              href="/heart-ai"
+              href="/assistant"
               className="group relative px-6 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold text-center rounded-xl hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px] ring-2 ring-violet-400/30"
             >
               <span className="relative z-10">🤖 HEART AI</span>
