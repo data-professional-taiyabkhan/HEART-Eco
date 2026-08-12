@@ -33,7 +33,7 @@ export default function SignupPage() {
             password,
             options: {
                 data: { full_name: fullName },
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+                emailRedirectTo: `${(process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "")}/auth/callback`,
             },
         });
         setLoading(false);

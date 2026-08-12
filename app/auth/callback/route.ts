@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const rawNext = searchParams.get("next");
   const next = rawNext && rawNext.startsWith("/") ? rawNext : "/dashboard";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
 
   if (code) {
     const supabase = createClient();
