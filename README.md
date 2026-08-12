@@ -73,9 +73,10 @@ The HEART Score is a composite measure combining:
    - Trade balance
 
 2. **Heart Affordability Ranking (HAR)**: Letter grade (A+ to D-) based on:
-   - Adjusted Per Capita Income (APCI = PCI - Inflation)
-   - Adjusted HDI (AHDI = HDI × GINI)
-   - HAR Value = APCI × AHDI
+   - Adjusted Per Capita Income (APCI = PCI*(1 - Inflation))
+   - Adjusted HDI (AHDI = HDI - GINI)
+   - Heart Affordibility Value = APCI × APCI
+   - HAR (Heart Affordability Rank) = Is decided based on the Heart Affordability Value
 
 Final HEART Score format: HV + HAR (e.g., "0.76C")
 
