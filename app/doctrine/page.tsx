@@ -6,6 +6,7 @@ import {
 import DoctrineRankingByYear from "@/components/DoctrineRankingByYear";
 import GdpVisualization from "@/components/GdpVisualization";
 import FlourishEmbed from "@/components/FlourishEmbed";
+import AppNav from "@/components/AppNav";
 
 export default function HeartDoctrinePage() {
   const { years, rankingsByYear } = parseHeartRankingByYear();
@@ -14,6 +15,7 @@ export default function HeartDoctrinePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+      <AppNav />
       <div className="container mx-auto px-4 py-10">
         {/* Heading + Predictive Assumption */}
         <div className="mb-10">

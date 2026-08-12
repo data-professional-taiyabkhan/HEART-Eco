@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import AppNav from "@/components/AppNav";
 
 interface Message {
     role: "user" | "assistant";
@@ -102,6 +102,7 @@ export default function AssistantPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+            <AppNav />
             {/* Ambient Background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
@@ -136,18 +137,6 @@ export default function AssistantPage() {
                                     ✨ New Chat
                                 </button>
                             )}
-                            <Link
-                                href="/"
-                                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white font-medium rounded-xl transition-all duration-300 text-sm border border-white/10"
-                            >
-                                🏠 Home
-                            </Link>
-                            <Link
-                                href="/dashboard"
-                                className="px-4 py-2 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 hover:text-white font-medium rounded-xl transition-all duration-300 text-sm border border-indigo-500/30"
-                            >
-                                📊 Dashboard
-                            </Link>
                         </div>
                     </div>
                 </div>

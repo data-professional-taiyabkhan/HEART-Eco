@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { 
+import AppNav from "@/components/AppNav";
+import {
   calculateAdjustedPCI, 
   calculateAdjustedHDI, 
   calculateHeartAffordabilityValue,
@@ -126,33 +126,16 @@ export default function CalculatorPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+      <AppNav />
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 animate-fadeIn">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                HEART Score Calculator
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Calculate HEART Score using the economic model formula
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/"
-                className="inline-flex items-center px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                🏠 Home
-              </Link>
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
-              >
-                ← Dashboard
-              </Link>
-            </div>
-          </div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            HEART Score Calculator
+          </h1>
+          <p className="text-gray-600 mt-1">
+            Calculate HEART Score using the economic model formula
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

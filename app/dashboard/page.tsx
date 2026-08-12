@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
+import AppNav from "@/components/AppNav";
 import {
   LineChart, Line, BarChart, Bar, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -180,21 +180,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
-      {/* Top Nav */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
-        <div className="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl font-black text-indigo-700">HEART</span>
-            <span className="text-gray-400 text-sm font-medium">Dashboard</span>
-          </div>
-          <div className="flex gap-2">
-            <Link href="/" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors">🏠 Home</Link>
-            <Link href="/assistant" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 transition-colors">🤖 HEART AI</Link>
-            <Link href="/compare" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-700 transition-colors">⚖️ Compare</Link>
-            <Link href="/doctrine" className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 transition-colors">📘 Doctrine</Link>
-          </div>
-        </div>
-      </div>
+      <AppNav />
 
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Country Selector */}

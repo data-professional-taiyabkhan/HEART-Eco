@@ -1,200 +1,221 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
+const PILLARS = [
+    {
+        letter: "H",
+        title: "Housing & Health",
+        description:
+            "Social infrastructure and well-being: housing availability and healthcare investment.",
+    },
+    {
+        letter: "E",
+        title: "Energy & Education",
+        description:
+            "Development of resources and human capital: energy production and usage, education outcomes and expenditure.",
+    },
+    {
+        letter: "A",
+        title: "Affordability",
+        description:
+            "Purchasing power of citizens and general standard of living: income levels, inequality, and cost of living.",
+    },
+    {
+        letter: "R",
+        title: "Rate",
+        description:
+            "Macroeconomic stability via interest rates, inflation rate, and GDP growth rate.",
+    },
+    {
+        letter: "T",
+        title: "Trade",
+        description:
+            "Trade competitiveness: trade balance, tariffs, taxes, and integration into global trade.",
+    },
+];
+
+const FEATURES = [
+    {
+        emoji: "📊",
+        title: "Dashboard",
+        description: "Explore detailed economic metrics for any country in the model.",
+    },
+    {
+        emoji: "⚖️",
+        title: "Compare",
+        description: "Compare two countries side-by-side across every HEART metric.",
+    },
+    {
+        emoji: "🧮",
+        title: "Calculator",
+        description: "Calculate a HEART Score yourself using the model's formula.",
+    },
+    {
+        emoji: "🤖",
+        title: "Assistant",
+        description: "Ask questions about HEART scores, rankings, and forecasts.",
+    },
+];
 
 export default function LandingPage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-      <div className="container mx-auto px-4 py-12">
-        {/* Navigation Bar */}
-        <div className={`mb-8 ${mounted ? 'animate-fadeIn' : 'opacity-0'}`}>
-          <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 shadow-lg">
-            <div className="flex flex-wrap justify-center gap-3">
-              <Link
-                href="/dashboard"
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
-              >
-                📊 Dashboard
-              </Link>
-              <Link
-                href="/compare"
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
-              >
-                ⚖️ Compare
-              </Link>
-              <Link
-                href="/calculator"
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
-              >
-                🧮 Calculator
-              </Link>
-              <Link
-                href="/doctrine"
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
-              >
-                📘 Doctrine
-              </Link>
-              <Link
-                href="/assistant"
-                className="px-4 py-2 bg-gradient-to-r from-emerald-500/40 to-teal-500/40 hover:from-emerald-500/60 hover:to-teal-500/60 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 border border-emerald-400/30"
-              >
-                🤖 HEART AI
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Hero Section */}
-        <div className={`text-center text-white mb-16 ${mounted ? 'animate-fadeIn' : 'opacity-0'}`}>
-          <h1 className="text-6xl md:text-7xl font-black mb-6 drop-shadow-lg">
-            HEART Score
-          </h1>
-          <p className="text-2xl md:text-3xl font-light mb-4 opacity-90">
-            Economic Model Dashboard
-          </p>
-          <p className="text-lg md:text-xl opacity-80">
-            Developed by <span className="font-semibold">Khurshid Imtiyaz</span>
-          </p>
-        </div>
-
-        {/* Main Content Card */}
-        <div className={`max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-8 md:p-12 mb-12 ${mounted ? 'animate-fadeIn animate-delay-200' : 'opacity-0'}`}>
-          {/* What is HEART Score */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              What is the HEART Score?
-            </h2>
-            <div className="prose prose-lg max-w-none text-gray-700">
-              <p className="mb-4">
-                The HEART Score is a comprehensive economic indicator that combines two critical dimensions:
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-6 my-8">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-indigo-100">
-                  <h3 className="text-xl font-bold text-indigo-900 mb-3">
-                    Heart Value (HV)
-                  </h3>
-                  <p className="text-gray-700 mb-3">
-                    A normalized score (0-1) based on:
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-600">
-                    <li>• <strong>Housing</strong> contribution to GDP</li>
-                    <li>• <strong>Health</strong> contribution to GDP</li>
-                    <li>• <strong>Energy</strong> contribution to GDP</li>
-                    <li>• <strong>Education</strong> contribution to GDP</li>
-                    <li>• Global GDP Share (+)</li>
-                    <li>• Interest Payments (-)</li>
-                    <li>• Trade Balance (±)</li>
-                  </ul>
+    return (
+        <div className="min-h-screen bg-white text-slate-900">
+            {/* Header */}
+            <header className="border-b border-slate-200 sticky top-0 z-30 bg-white/90 backdrop-blur-sm">
+                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+                    <span className="text-xl font-black text-blue-700">HEART</span>
+                    <nav className="flex items-center gap-3">
+                        <Link
+                            href="/login"
+                            className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-700 transition-colors"
+                        >
+                            Sign in
+                        </Link>
+                        <Link
+                            href="/signup"
+                            className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                        >
+                            Create free account
+                        </Link>
+                    </nav>
                 </div>
+            </header>
 
-                <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl border border-amber-100">
-                  <h3 className="text-xl font-bold text-amber-900 mb-3">
-                    Heart Affordability Ranking (HAR)
-                  </h3>
-                  <p className="text-gray-700 mb-3">
-                    A letter grade (A+ to D-) based on:
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-600">
-                    <li>• Adjusted Per Capita Income (APCI)</li>
-                    <li>• Human Development Index (HDI)</li>
-                    <li>• Income Inequality (GINI)</li>
-                    <li>• Economic Affordability</li>
-                  </ul>
-                  <p className="text-sm text-gray-600 mt-3">
-                    HAR measures the purchasing power and living standards relative to income inequality.
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-6 rounded-xl border border-purple-200 my-6">
-                <h3 className="text-xl font-bold text-purple-900 mb-3">
-                  Final HEART Score Format
-                </h3>
-                <p className="text-gray-700 mb-4">
-                  The HEART Score combines both components: <strong>HV + HAR</strong>
+            {/* Hero */}
+            <section className="container mx-auto px-4 py-20 md:py-28 text-center">
+                <span className="inline-block text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-100 rounded-full px-3 py-1 mb-6">
+                    Economic Model
+                </span>
+                <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+                    HEART Score Economic Model
+                </h1>
+                <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10">
+                    A multidimensional framework for evaluating economic performance —
+                    combining macroeconomic indicators with human development factors to
+                    measure a nation&apos;s inclusivity, sustainability, and social equity.
                 </p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  <div className="bg-white px-6 py-3 rounded-lg shadow">
-                    <span className="text-sm text-gray-600">Saudi Arabia</span>
-                    <p className="text-2xl font-bold text-indigo-600">0.76C</p>
-                  </div>
-                  <div className="bg-white px-6 py-3 rounded-lg shadow">
-                    <span className="text-sm text-gray-600">China</span>
-                    <p className="text-2xl font-bold text-indigo-600">0.73D+</p>
-                  </div>
-                  <div className="bg-white px-6 py-3 rounded-lg shadow">
-                    <span className="text-sm text-gray-600">United States</span>
-                    <p className="text-2xl font-bold text-indigo-600">0.65A</p>
-                  </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Link
+                        href="/signup"
+                        className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
+                    >
+                        Create free account
+                    </Link>
+                    <Link
+                        href="/login"
+                        className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-blue-300 hover:bg-blue-50 text-slate-700 font-semibold rounded-lg transition-colors"
+                    >
+                        Sign in
+                    </Link>
                 </div>
-              </div>
+            </section>
 
-              <p className="text-gray-700">
-                This model provides a holistic view of a country&apos;s economic health, combining infrastructure
-                investment, social development, and affordability metrics to assess overall economic performance.
-              </p>
-            </div>
-          </section>
+            {/* Pillars */}
+            <section className="bg-slate-50 border-y border-slate-200">
+                <div className="container mx-auto px-4 py-16 md:py-20">
+                    <div className="text-center max-w-2xl mx-auto mb-12">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                            The five HEART pillars
+                        </h2>
+                        <p className="text-slate-600">
+                            &ldquo;HEART&rdquo; is an acronym representing five pillars of
+                            economic performance.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        {PILLARS.map((pillar) => (
+                            <div
+                                key={pillar.letter}
+                                className="bg-white rounded-xl border border-slate-200 p-6"
+                            >
+                                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-600 text-white font-bold text-lg mb-4">
+                                    {pillar.letter}
+                                </div>
+                                <h3 className="font-bold text-slate-900 mb-2">{pillar.title}</h3>
+                                <p className="text-sm text-slate-600">{pillar.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-          {/* Call to Action Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
-            <Link
-              href="/dashboard"
-              className="group relative px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-center rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
-            >
-              <span className="relative z-10">🌍 Explore Countries</span>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
-            </Link>
+            {/* What the HEART Score is */}
+            <section className="container mx-auto px-4 py-16 md:py-20">
+                <div className="text-center max-w-2xl mx-auto mb-12">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                        What the HEART Score is
+                    </h2>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <div className="rounded-xl border border-slate-200 p-6">
+                        <h3 className="font-bold text-blue-700 mb-2">Heart Value (HV)</h3>
+                        <p className="text-sm text-slate-600">
+                            A numerical score from 0 to 1, combining the contributions of
+                            Housing, Health, Energy, and Education to GDP, together with
+                            global GDP share, trade balance, and interest payments on debt.
+                            A higher HV reflects stronger economic resilience.
+                        </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 p-6">
+                        <h3 className="font-bold text-blue-700 mb-2">
+                            Heart Affordability Ranking (HAR)
+                        </h3>
+                        <p className="text-sm text-slate-600">
+                            A letter grade from A+ to D-, based on Adjusted Per Capita
+                            Income and an inequality-adjusted Human Development Index. HAR
+                            reflects how well economic prosperity translates into citizens&apos;
+                            well-being.
+                        </p>
+                    </div>
+                </div>
+                <p className="text-center text-slate-600 mt-8">
+                    The final HEART Score combines both: HV + HAR — for example,{" "}
+                    <span className="font-semibold text-slate-900">0.76C</span>.
+                </p>
+            </section>
 
-            <Link
-              href="/compare"
-              className="group relative px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-center rounded-xl hover:from-blue-700 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
-            >
-              <span className="relative z-10">📊 Compare</span>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
-            </Link>
+            {/* What you get */}
+            <section className="bg-slate-50 border-y border-slate-200">
+                <div className="container mx-auto px-4 py-16 md:py-20">
+                    <div className="text-center max-w-2xl mx-auto mb-12">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3">What you get</h2>
+                        <p className="text-slate-600">
+                            Create a free account to access the full HEART platform.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {FEATURES.map((feature) => (
+                            <div
+                                key={feature.title}
+                                className="bg-white rounded-xl border border-slate-200 p-6 text-center"
+                            >
+                                <div className="text-3xl mb-3">{feature.emoji}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-sm text-slate-600">{feature.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="text-center mt-10">
+                        <Link
+                            href="/signup"
+                            className="inline-block px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
+                        >
+                            Create free account
+                        </Link>
+                    </div>
+                </div>
+            </section>
 
-            <Link
-              href="/calculator"
-              className="group relative px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-center rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
-            >
-              <span className="relative z-10">🧮 Calculate Score</span>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
-            </Link>
-
-            <Link
-              href="/assistant"
-              className="group relative px-6 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold text-center rounded-xl hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px] ring-2 ring-violet-400/30"
-            >
-              <span className="relative z-10">🤖 HEART AI</span>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
-            </Link>
-
-            <Link
-              href="/doctrine"
-              className="group relative px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-center rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center min-h-[72px]"
-            >
-              <span className="relative z-10">📘 HEART Doctrine</span>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-xl transition-opacity"></div>
-            </Link>
-          </div>
+            {/* Footer */}
+            <footer className="container mx-auto px-4 py-10 text-center">
+                <p className="text-sm text-slate-500">
+                    Developed by Khurshid Imtiaz Ul Haque
+                </p>
+                <p className="text-xs text-slate-400 mt-1">
+                    © 2026 HEART Score Economic Model. All rights reserved.
+                </p>
+            </footer>
         </div>
-
-        {/* Footer */}
-        <div className="text-center text-white opacity-75">
-          <p className="text-sm">
-            © 2025 HEART Score Economic Model. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
