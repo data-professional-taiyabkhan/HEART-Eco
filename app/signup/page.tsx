@@ -48,7 +48,7 @@ export default function SignupPage() {
 
     if (submitted) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50 px-4">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-brand-50 px-4">
                 <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center">
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">Check your email</h1>
                     <p className="text-sm text-gray-600">
@@ -57,7 +57,7 @@ export default function SignupPage() {
                     </p>
                     <Link
                         href="/login"
-                        className="inline-block mt-6 text-indigo-600 font-semibold hover:underline text-sm"
+                        className="inline-block mt-6 text-brand-600 font-semibold hover:underline text-sm"
                     >
                         Back to sign in
                     </Link>
@@ -67,7 +67,7 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-brand-50 px-4">
             <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
                 <h1 className="text-2xl font-bold text-gray-900 mb-1">Create an account</h1>
                 <p className="text-sm text-gray-500 mb-6">
@@ -84,7 +84,7 @@ export default function SignupPage() {
                             required
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                             autoComplete="name"
                         />
                     </div>
@@ -98,7 +98,7 @@ export default function SignupPage() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                             autoComplete="email"
                         />
                     </div>
@@ -112,7 +112,7 @@ export default function SignupPage() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                             autoComplete="new-password"
                         />
                     </div>
@@ -126,7 +126,7 @@ export default function SignupPage() {
                             required
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                             autoComplete="new-password"
                         />
                     </div>
@@ -140,7 +140,7 @@ export default function SignupPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-semibold rounded-lg transition-colors"
+                        className="w-full py-2.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-semibold rounded-lg transition-colors"
                     >
                         {loading ? "Creating account..." : "Create free account"}
                     </button>
@@ -148,7 +148,7 @@ export default function SignupPage() {
 
                 <p className="text-sm text-gray-500 mt-6 text-center">
                     Already have an account?{" "}
-                    <Link href="/login" className="text-indigo-600 font-semibold hover:underline">
+                    <Link href="/login" className="text-brand-600 font-semibold hover:underline">
                         Sign in
                     </Link>
                 </p>

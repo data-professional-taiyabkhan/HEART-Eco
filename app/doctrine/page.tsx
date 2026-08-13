@@ -14,7 +14,7 @@ export default function HeartDoctrinePage() {
   const { years: gdpYears, gdpByYear } = parseMasterSheetGdpByYear();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
       <AppNav />
       <div className="container mx-auto px-4 py-10">
         {/* Heading + Predictive Assumption */}
@@ -32,20 +32,20 @@ export default function HeartDoctrinePage() {
         <GdpVisualization years={gdpYears} gdpByYear={gdpByYear} />
 
         {/* Rankings Table */}
-        <div className="bg-white rounded-2xl shadow-md p-6 border border-indigo-100 mb-10">
+        <div className="bg-white rounded-2xl shadow-md p-6 border border-brand-100 mb-10">
           <DoctrineRankingByYear years={years} rankingsByYear={rankingsByYear} />
         </div>
 
         {/* Flourish Charts */}
         <div className="grid gap-8 md:grid-cols-1">
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-indigo-100">
+          <div className="bg-white rounded-2xl shadow-md p-6 border border-brand-100">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               HEART Resilience — Country Rankings
             </h2>
             <FlourishEmbed visualisationId="27376519" title="HEART Resilience" />
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-indigo-100">
+          <div className="bg-white rounded-2xl shadow-md p-6 border border-brand-100">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               HEART Affordability — Country Rankings
             </h2>

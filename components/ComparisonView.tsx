@@ -198,7 +198,7 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
     <div className="space-y-8 animate-fadeIn">
       {/* HEART Score Comparison */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-lg p-8 text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-brand-600 rounded-lg shadow-lg p-8 text-white">
           <h3 className="text-xl font-semibold mb-4">{country1.country}</h3>
           <div className="text-6xl font-black mb-2">{country1.heartScore}</div>
           <div className="text-lg opacity-90">
@@ -216,12 +216,12 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
 
       {/* HV, HAV, HAR Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 border-t-4 border-indigo-500">
+        <div className="bg-white rounded-lg shadow-md p-6 border-t-4 border-brand-500">
           <h4 className="text-sm font-semibold text-gray-600 mb-3">Heart Value (HV)</h4>
           <div className="space-y-2">
             <div>
               <p className="text-xs text-gray-500">{country1.country}</p>
-              <p className="text-2xl font-bold text-indigo-600">{country1.heartValue.toFixed(3)}</p>
+              <p className="text-2xl font-bold text-brand-600">{country1.heartValue.toFixed(3)}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500">{country2.country}</p>
@@ -235,7 +235,7 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
           <div className="space-y-2">
             <div>
               <p className="text-xs text-gray-500">{country1.country}</p>
-              <p className="text-2xl font-bold text-indigo-600">{formatCurrency(country1.heartAffordabilityValue)}</p>
+              <p className="text-2xl font-bold text-brand-600">{formatCurrency(country1.heartAffordabilityValue)}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500">{country2.country}</p>
@@ -249,7 +249,7 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
           <div className="space-y-2">
             <div>
               <p className="text-xs text-gray-500">{country1.country}</p>
-              <p className="text-3xl font-bold text-indigo-600">{harComparison.country1}</p>
+              <p className="text-3xl font-bold text-brand-600">{harComparison.country1}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500">{country2.country}</p>

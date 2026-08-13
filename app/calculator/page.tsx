@@ -125,7 +125,7 @@ export default function CalculatorPage() {
   const results = calculateResults();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
       <AppNav />
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
@@ -152,7 +152,7 @@ export default function CalculatorPage() {
                   <select
                     value={inputMode}
                     onChange={(e) => setInputMode(e.target.value as InputMode)}
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium"
                   >
                     <option value="percentage">Percentage (%)</option>
                     <option value="absolute">Absolute Values</option>
@@ -165,7 +165,7 @@ export default function CalculatorPage() {
                   <select
                     value={unit}
                     onChange={(e) => setUnit(e.target.value as Unit)}
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium"
                   >
                     <option value="K">Thousand (K)</option>
                     <option value="M">Million (M)</option>
@@ -182,14 +182,14 @@ export default function CalculatorPage() {
                     value={countryGDP}
                     onChange={(e) => setCountryGDP(e.target.value)}
                     placeholder="Enter GDP"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
               </div>
             </div>
 
             {/* Formula Reference */}
-            <div className="bg-indigo-50 rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
+            <div className="bg-brand-50 rounded-lg shadow-md p-6 border-l-4 border-brand-500">
               <h2 className="text-lg font-bold text-gray-900 mb-3">HEART Score Formula</h2>
               <div className="space-y-2 text-sm text-gray-700">
                 <p><strong>Heart Value (HV):</strong></p>
@@ -224,7 +224,7 @@ export default function CalculatorPage() {
                       value={housingGDP}
                       onChange={(e) => setHousingGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 5.2" : "e.g., 100"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -236,7 +236,7 @@ export default function CalculatorPage() {
                       value={healthGDP}
                       onChange={(e) => setHealthGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 6.5" : "e.g., 150"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -248,7 +248,7 @@ export default function CalculatorPage() {
                       value={energyGDP}
                       onChange={(e) => setEnergyGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 3.8" : "e.g., 80"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -260,7 +260,7 @@ export default function CalculatorPage() {
                       value={educationGDP}
                       onChange={(e) => setEducationGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 4.2" : "e.g., 90"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -272,7 +272,7 @@ export default function CalculatorPage() {
                       value={globalGDPShare}
                       onChange={(e) => setGlobalGDPShare(e.target.value)}
                       placeholder="e.g., 15.5"
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -284,7 +284,7 @@ export default function CalculatorPage() {
                       value={interestPaymentGDP}
                       onChange={(e) => setInterestPaymentGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 2.1" : "e.g., 50"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -296,7 +296,7 @@ export default function CalculatorPage() {
                       value={tradeGDP}
                       onChange={(e) => setTradeGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 1.5 or -0.8" : "e.g., 30 or -20"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                     <p className="text-xs text-gray-500 mt-1">Positive for surplus, negative for deficit</p>
                   </div>
@@ -317,7 +317,7 @@ export default function CalculatorPage() {
                     value={pci}
                     onChange={(e) => setPCI(e.target.value)}
                     placeholder="e.g., 50000"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
                 <div>
@@ -329,7 +329,7 @@ export default function CalculatorPage() {
                     value={inflation}
                     onChange={(e) => setInflation(e.target.value)}
                     placeholder="e.g., 2.5"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
                 <div>
@@ -344,7 +344,7 @@ export default function CalculatorPage() {
                     value={hdi}
                     onChange={(e) => setHDI(e.target.value)}
                     placeholder="e.g., 0.850"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
                 <div>
@@ -359,7 +359,7 @@ export default function CalculatorPage() {
                     value={gini}
                     onChange={(e) => setGINI(e.target.value)}
                     placeholder="e.g., 0.350"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -402,9 +402,9 @@ export default function CalculatorPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <div className="bg-indigo-50 rounded-lg p-4">
+                    <div className="bg-brand-50 rounded-lg p-4">
                       <h4 className="text-sm font-semibold text-gray-700 mb-2">Heart Value (HV)</h4>
-                      <div className="text-2xl font-bold text-indigo-600">{results.normalizedHV.toFixed(3)}</div>
+                      <div className="text-2xl font-bold text-brand-600">{results.normalizedHV.toFixed(3)}</div>
                       <p className="text-xs text-gray-600 mt-1">Raw HV: {results.rawHV.toFixed(2)}</p>
                       <p className="text-xs text-gray-500 mt-1">Normalized to 0-1 scale</p>
                     </div>

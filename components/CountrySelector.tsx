@@ -23,7 +23,7 @@ export default function CountrySelector({
         id="country-select"
         value={selectedCountry}
         onChange={(e) => onSelectCountry(e.target.value)}
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg font-medium text-gray-900"
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent text-lg font-medium text-gray-900"
       >
         {countries.map((country) => (
           <option key={country.country} value={country.country}>

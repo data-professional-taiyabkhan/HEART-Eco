@@ -101,7 +101,7 @@ export default function AssistantPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
             <AppNav />
 
             <div className="relative container mx-auto px-4 py-6 max-w-5xl flex flex-col min-h-screen">
@@ -110,14 +110,14 @@ export default function AssistantPage() {
                     <div className="flex items-center justify-between flex-wrap gap-4">
                         <div className="flex items-center gap-4">
                             <div className="relative">
-                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/25">
                                     <span className="text-white text-xl">🤖</span>
                                 </div>
                                 <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-slate-50 animate-pulse" />
                             </div>
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-900">HEART AI</h1>
-                                <p className="text-sm text-indigo-600">
+                                <p className="text-sm text-brand-600">
                                     Powered by HEART Score Economic Model
                                 </p>
                             </div>
@@ -142,7 +142,7 @@ export default function AssistantPage() {
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-center">
                                 <div className="mb-8">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-indigo-200">
+                                    <div className="w-20 h-20 bg-gradient-to-br from-brand-100 to-purple-100 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-brand-200">
                                         <span className="text-4xl">💬</span>
                                     </div>
                                     <h2 className="text-xl font-semibold text-gray-900 mb-2">
@@ -160,7 +160,7 @@ export default function AssistantPage() {
                                         <button
                                             key={i}
                                             onClick={() => sendMessage(q.text)}
-                                            className="group text-left p-4 bg-gray-50 hover:bg-indigo-50 rounded-xl border border-gray-200 hover:border-indigo-300 transition-all duration-300"
+                                            className="group text-left p-4 bg-gray-50 hover:bg-brand-50 rounded-xl border border-gray-200 hover:border-brand-300 transition-all duration-300"
                                         >
                                             <span className="text-lg mr-2">{q.emoji}</span>
                                             <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
@@ -182,16 +182,16 @@ export default function AssistantPage() {
                                     >
                                         <div
                                             className={`max-w-[85%] ${message.role === "user"
-                                                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl rounded-br-md shadow-lg shadow-indigo-500/20"
+                                                ? "bg-gradient-to-r from-brand-600 to-purple-600 text-white rounded-2xl rounded-br-md shadow-lg shadow-brand-500/20"
                                                 : "bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md border border-gray-200"
                                                 } px-5 py-3`}
                                         >
                                             {message.role === "assistant" && (
                                                 <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
-                                                    <div className="w-5 h-5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                                                    <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-purple-500 rounded-full flex items-center justify-center">
                                                         <span className="text-white text-[10px] font-bold">H</span>
                                                     </div>
-                                                    <span className="text-xs font-medium text-indigo-600">
+                                                    <span className="text-xs font-medium text-brand-600">
                                                         HEART AI
                                                     </span>
                                                 </div>
@@ -207,21 +207,21 @@ export default function AssistantPage() {
                                     <div className="flex justify-start animate-fadeIn">
                                         <div className="bg-gray-100 rounded-2xl rounded-bl-md px-5 py-4 border border-gray-200">
                                             <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
-                                                <div className="w-5 h-5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                                                <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-purple-500 rounded-full flex items-center justify-center">
                                                     <span className="text-white text-[10px] font-bold">H</span>
                                                 </div>
-                                                <span className="text-xs font-medium text-indigo-600">
+                                                <span className="text-xs font-medium text-brand-600">
                                                     HEART AI is thinking...
                                                 </span>
                                             </div>
                                             <div className="flex gap-1.5">
-                                                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce-dot" />
+                                                <div className="w-2 h-2 bg-brand-400 rounded-full animate-bounce-dot" />
                                                 <div
-                                                    className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce-dot"
+                                                    className="w-2 h-2 bg-brand-400 rounded-full animate-bounce-dot"
                                                     style={{ animationDelay: "0.2s" }}
                                                 />
                                                 <div
-                                                    className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce-dot"
+                                                    className="w-2 h-2 bg-brand-400 rounded-full animate-bounce-dot"
                                                     style={{ animationDelay: "0.4s" }}
                                                 />
                                             </div>
@@ -243,7 +243,7 @@ export default function AssistantPage() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={handleKeyPress}
                                 placeholder="Ask about HEART scores, countries, rankings, or methodology..."
-                                className="flex-1 bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none transition-all text-sm"
+                                className="flex-1 bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/50 resize-none transition-all text-sm"
                                 rows={2}
                                 disabled={loading}
                             />
@@ -251,7 +251,7 @@ export default function AssistantPage() {
                                 onClick={() => sendMessage()}
                                 disabled={loading || !input.trim()}
                                 aria-label="Send message"
-                                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl px-5 py-3 hover:from-indigo-500 hover:to-purple-500 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transform hover:scale-105 disabled:transform-none disabled:shadow-none"
+                                className="bg-gradient-to-r from-brand-600 to-purple-600 text-white rounded-xl px-5 py-3 hover:from-brand-500 hover:to-purple-500 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 transform hover:scale-105 disabled:transform-none disabled:shadow-none"
                             >
                                 <svg
                                     className="w-5 h-5"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeroCarousel from "@/components/HeroCarousel";
 
 const PILLARS = [
     {
@@ -75,29 +76,32 @@ export default function LandingPage() {
         <div className="min-h-screen bg-white text-slate-900">
             {/* Header */}
             <header className="border-b border-slate-200 sticky top-0 z-30 bg-white/90 backdrop-blur-sm">
-                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                    <span className="text-xl font-black text-indigo-700">HEART</span>
+                <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+                    <Link href="/" className="flex items-center gap-2">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/brand/eco-logo.png" alt="ECO HEART AI" className="h-11 w-auto" />
+                    </Link>
                     <nav className="hidden sm:flex items-center gap-6 text-sm font-semibold text-slate-600">
-                        <Link href="/" className="hover:text-indigo-700 transition-colors">
+                        <Link href="/" className="hover:text-brand-700 transition-colors">
                             Home
                         </Link>
-                        <a href="#about" className="hover:text-indigo-700 transition-colors">
+                        <a href="#about" className="hover:text-brand-700 transition-colors">
                             About Us
                         </a>
-                        <a href="#contact" className="hover:text-indigo-700 transition-colors">
+                        <a href="#contact" className="hover:text-brand-700 transition-colors">
                             Contact Us
                         </a>
                     </nav>
                     <div className="flex items-center gap-3">
                         <Link
                             href="/login"
-                            className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-indigo-700 transition-colors"
+                            className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-brand-700 transition-colors"
                         >
                             Sign in
                         </Link>
                         <Link
                             href="/signup"
-                            className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
+                            className="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors"
                         >
                             Create free account
                         </Link>
@@ -106,53 +110,66 @@ export default function LandingPage() {
             </header>
 
             {/* Hero */}
-            <section className="container mx-auto px-4 py-20 md:py-28 text-center">
-                <span className="inline-block text-xs font-semibold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 mb-6">
-                    Economic Model
-                </span>
-                <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
-                    ECO-HEART AI Heart Economic Model
-                </h1>
-                <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10">
-                    New innovative global economic performance analysis system.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a
-                        href="#about"
-                        className="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
-                    >
-                        Learn More
-                    </a>
-                    <Link
-                        href="/signup"
-                        className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-indigo-300 hover:bg-indigo-50 text-slate-700 font-semibold rounded-lg transition-colors"
-                    >
-                        Create free account
-                    </Link>
+            <section className="container mx-auto px-4 py-16 md:py-20">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="text-center md:text-left">
+                        <span className="inline-block text-xs font-semibold uppercase tracking-wider text-brand-700 bg-brand-50 border border-brand-100 rounded-full px-3 py-1 mb-6">
+                            Economic Model
+                        </span>
+                        <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
+                            ECO-HEART AI Heart Economic Model
+                        </h1>
+                        <p className="text-lg md:text-xl text-slate-600 max-w-xl mx-auto md:mx-0 mb-10">
+                            New innovative global economic performance analysis system.
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                            <a
+                                href="#about"
+                                className="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
+                            >
+                                Learn More
+                            </a>
+                            <Link
+                                href="/signup"
+                                className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-brand-300 hover:bg-brand-50 text-slate-700 font-semibold rounded-lg transition-colors"
+                            >
+                                Create free account
+                            </Link>
+                        </div>
+                    </div>
+                    <HeroCarousel />
                 </div>
             </section>
 
             {/* Welcome / About */}
             <section id="about" className="bg-slate-50 border-y border-slate-200">
                 <div className="container mx-auto px-4 py-16 md:py-20">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                            Welcome to ECO HEART AI
-                        </h2>
-                        <p className="text-sm font-semibold uppercase tracking-wide text-indigo-700 mb-6">
-                            Global Economic Analysis &amp; Scoring AI Model
-                        </p>
-                        <p className="text-slate-600 mb-4">
-                            An innovative economic model qualitative and quantified AI assessment
-                            and scoring application — the digital product that delivers the model
-                            dashboard, web app, and AI assistant.
-                        </p>
-                        <p className="text-slate-600">
-                            ECO HEART AI scores the dataset, visualizes comparisons, and generates
-                            explanations of the global economic performance and positioning of
-                            countries for real-time users — sovereign, commercial, and financial
-                            institutions.
-                        </p>
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/brand/innovative-economic-1.jpg"
+                            alt="Global economic performance"
+                            className="rounded-2xl shadow-lg w-full h-auto order-2 md:order-1"
+                        />
+                        <div className="order-1 md:order-2">
+                            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                                Welcome to ECO HEART AI
+                            </h2>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-brand-700 mb-6">
+                                Global Economic Analysis &amp; Scoring AI Model
+                            </p>
+                            <p className="text-slate-600 mb-4">
+                                An innovative economic model qualitative and quantified AI assessment
+                                and scoring application — the digital product that delivers the model
+                                dashboard, web app, and AI assistant.
+                            </p>
+                            <p className="text-slate-600">
+                                ECO HEART AI scores the dataset, visualizes comparisons, and generates
+                                explanations of the global economic performance and positioning of
+                                countries for real-time users — sovereign, commercial, and financial
+                                institutions.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -168,13 +185,21 @@ export default function LandingPage() {
                         generative economic value indicators.
                     </p>
                 </div>
+
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src="/brand/heart-model.png"
+                    alt="HEART Economic Model diagram"
+                    className="mx-auto w-full max-w-md h-auto mb-12"
+                />
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
                     {PILLARS.map((pillar) => (
                         <div
                             key={pillar.letter}
                             className="bg-white rounded-xl border border-slate-200 p-6"
                         >
-                            <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-indigo-600 text-white font-bold text-lg mb-4">
+                            <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-brand-600 text-white font-bold text-lg mb-4">
                                 {pillar.letter}
                             </div>
                             <h3 className="font-bold text-slate-900 mb-2">{pillar.title}</h3>
@@ -187,7 +212,7 @@ export default function LandingPage() {
                         {VALUE_PILLARS.map((item) => (
                             <li
                                 key={item}
-                                className="text-sm font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-lg px-4 py-3 text-center"
+                                className="text-sm font-semibold text-brand-700 bg-brand-50 border border-brand-100 rounded-lg px-4 py-3 text-center"
                             >
                                 {item}
                             </li>
@@ -204,47 +229,55 @@ export default function LandingPage() {
             {/* Heart Ranking Economic Model / Introduction */}
             <section className="bg-slate-50 border-y border-slate-200">
                 <div className="container mx-auto px-4 py-16 md:py-20">
-                    <div className="max-w-3xl mx-auto">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                            Heart Ranking Economic Model
-                        </h2>
-                        <p className="text-sm font-semibold uppercase tracking-wide text-indigo-700 mb-6">
-                            Introduction
-                        </p>
-                        <p className="text-slate-600 mb-4">
-                            The author, Khurshid Imtiaz Haque, has created and developed an economic
-                            model named the &ldquo;HEART SCORE&rdquo; Economic Model.
-                        </p>
-                        <p className="text-slate-600 mb-8">
-                            The model presents a qualitative and quantitative approach that focuses
-                            on fundamental factors influencing global economies — Housing &amp;
-                            Health (H), Energy &amp; Education (E), Affordability (A), Rate (R),
-                            and Trade (T). It is designed to be applicable to all economies,
-                            whether developed, developing, or emerging, and aims to provide
-                            practical solutions for economic stability and growth. By emphasizing
-                            root causes of economic instability rather than just quantitative
-                            indicators, it provides a more comprehensive and adaptable perspective
-                            for policy-making and economic planning.
-                        </p>
+                    <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 items-start">
+                        <div>
+                            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                                Heart Ranking Economic Model
+                            </h2>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-brand-700 mb-6">
+                                Introduction
+                            </p>
+                            <p className="text-slate-600 mb-4">
+                                The author, Khurshid Imtiaz Haque, has created and developed an economic
+                                model named the &ldquo;HEART SCORE&rdquo; Economic Model.
+                            </p>
+                            <p className="text-slate-600 mb-8">
+                                The model presents a qualitative and quantitative approach that focuses
+                                on fundamental factors influencing global economies — Housing &amp;
+                                Health (H), Energy &amp; Education (E), Affordability (A), Rate (R),
+                                and Trade (T). It is designed to be applicable to all economies,
+                                whether developed, developing, or emerging, and aims to provide
+                                practical solutions for economic stability and growth. By emphasizing
+                                root causes of economic instability rather than just quantitative
+                                indicators, it provides a more comprehensive and adaptable perspective
+                                for policy-making and economic planning.
+                            </p>
 
-                        <h3 className="font-bold text-slate-900 mb-4">Heart overview:</h3>
-                        <ul className="space-y-3 mb-8">
-                            {HEART_OVERVIEW.map((item) => (
-                                <li key={item.letter} className="flex gap-3 items-start">
-                                    <span className="w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-md bg-indigo-600 text-white font-bold text-xs">
-                                        {item.letter}
-                                    </span>
-                                    <span className="text-sm text-slate-600 pt-0.5">{item.text}</span>
-                                </li>
-                            ))}
-                        </ul>
+                            <h3 className="font-bold text-slate-900 mb-4">Heart overview:</h3>
+                            <ul className="space-y-3 mb-8">
+                                {HEART_OVERVIEW.map((item) => (
+                                    <li key={item.letter} className="flex gap-3 items-start">
+                                        <span className="w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-md bg-brand-600 text-white font-bold text-xs">
+                                            {item.letter}
+                                        </span>
+                                        <span className="text-sm text-slate-600 pt-0.5">{item.text}</span>
+                                    </li>
+                                ))}
+                            </ul>
 
-                        <a
-                            href="#contact"
-                            className="inline-block text-indigo-700 font-semibold hover:underline"
-                        >
-                            Learn More &rarr;
-                        </a>
+                            <a
+                                href="#contact"
+                                className="inline-block text-brand-700 font-semibold hover:underline"
+                            >
+                                Learn More &rarr;
+                            </a>
+                        </div>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/brand/blue-heart.png"
+                            alt="HEART pillars pyramid"
+                            className="w-full max-w-sm mx-auto h-auto"
+                        />
                     </div>
                 </div>
             </section>
@@ -310,13 +343,13 @@ export default function LandingPage() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/signup"
-                        className="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
+                        className="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
                     >
                         Learn More
                     </Link>
                     <a
                         href="mailto:info@ecoheartai.com"
-                        className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-indigo-300 hover:bg-indigo-50 text-slate-700 font-semibold rounded-lg transition-colors"
+                        className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-brand-300 hover:bg-brand-50 text-slate-700 font-semibold rounded-lg transition-colors"
                     >
                         Contact Us Now
                     </a>
@@ -324,23 +357,28 @@ export default function LandingPage() {
             </section>
 
             {/* Footer */}
-            <footer id="contact" className="border-t border-slate-200">
+            <footer id="contact" className="border-t border-slate-200 bg-slate-50">
                 <div className="container mx-auto px-4 py-12">
                     <div className="max-w-2xl mx-auto text-center">
-                        <span className="text-xl font-black text-indigo-700">HEART</span>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/brand/heart-footer-logo.png"
+                            alt="HEART Economic Model"
+                            className="h-24 w-auto mx-auto"
+                        />
                         <p className="text-sm text-slate-600 mt-4">
                             ECO HEART AI is an innovative artificial intelligence global economic
                             performance and ranking platform designed to analyze global economic
                             performance and provide structured economic rankings.
                         </p>
                         <nav className="flex items-center justify-center gap-6 text-sm font-semibold text-slate-600 mt-6">
-                            <Link href="/" className="hover:text-indigo-700 transition-colors">
+                            <Link href="/" className="hover:text-brand-700 transition-colors">
                                 Home
                             </Link>
-                            <a href="#about" className="hover:text-indigo-700 transition-colors">
+                            <a href="#about" className="hover:text-brand-700 transition-colors">
                                 About Us
                             </a>
-                            <a href="#contact" className="hover:text-indigo-700 transition-colors">
+                            <a href="#contact" className="hover:text-brand-700 transition-colors">
                                 Contact Us
                             </a>
                         </nav>
@@ -348,7 +386,7 @@ export default function LandingPage() {
                             Email:{" "}
                             <a
                                 href="mailto:info@ecoheartai.com"
-                                className="text-indigo-700 hover:underline"
+                                className="text-brand-700 hover:underline"
                             >
                                 info@ecoheartai.com
                             </a>

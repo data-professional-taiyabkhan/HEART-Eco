@@ -38,7 +38,7 @@ function LoginForm() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-brand-50 px-4">
             <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
                 <h1 className="text-2xl font-bold text-gray-900 mb-1">Sign in</h1>
                 <p className="text-sm text-gray-500 mb-6">
@@ -55,7 +55,7 @@ function LoginForm() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                             autoComplete="email"
                         />
                     </div>
@@ -69,7 +69,7 @@ function LoginForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                             autoComplete="current-password"
                         />
                     </div>
@@ -83,7 +83,7 @@ function LoginForm() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-semibold rounded-lg transition-colors"
+                        className="w-full py-2.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-semibold rounded-lg transition-colors"
                     >
                         {loading ? "Signing in..." : "Sign in"}
                     </button>
@@ -91,7 +91,7 @@ function LoginForm() {
 
                 <p className="text-sm text-gray-500 mt-6 text-center">
                     Don&apos;t have an account?{" "}
-                    <Link href="/signup" className="text-indigo-600 font-semibold hover:underline">
+                    <Link href="/signup" className="text-brand-600 font-semibold hover:underline">
                         Create one
                     </Link>
                 </p>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import AppNav from "@/components/AppNav";
+import { createClient } from "@/lib/supabase/client";
 import {
   LineChart, Line, BarChart, Bar, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -31,16 +32,16 @@ function fmtNum(v: number) {
   return v.toLocaleString();
 }
 
-const FORECAST_COLOR = "#a5b4fc";
+const FORECAST_COLOR = "#71C0FF";
 const YEAR_2025 = 2025;
 
 // ── StatCard ──────────────────────────────────────────────────────────────────
 
-function StatCard({ label, value, sub, color = "indigo" }: {
+function StatCard({ label, value, sub, color = "brand" }: {
   label: string; value: string; sub?: string; color?: string;
 }) {
   const colors: Record<string, string> = {
-    indigo: "border-indigo-400 bg-indigo-50 text-indigo-700",
+    brand: "border-brand-400 bg-brand-50 text-brand-700",
     emerald: "border-emerald-400 bg-emerald-50 text-emerald-700",
     amber: "border-amber-400  bg-amber-50  text-amber-700",
     red: "border-red-400    bg-red-50    text-red-700",
@@ -48,7 +49,7 @@ function StatCard({ label, value, sub, color = "indigo" }: {
     sky: "border-sky-400    bg-sky-50    text-sky-700",
   };
   return (
-    <div className={`rounded-xl border-l-4 p-4 ${colors[color] || colors.indigo}`}>
+    <div className={`rounded-xl border-l-4 p-4 ${colors[color] || colors.brand}`}>
       <p className="text-xs font-semibold uppercase tracking-wide opacity-70">{label}</p>
       <p className="text-xl font-black mt-1">{value}</p>
       {sub && <p className="text-xs mt-0.5 opacity-60">{sub}</p>}
@@ -69,7 +70,7 @@ function TimeChart({
   yFormatter?: (v: number) => string;
 }) {
   const chartData = data.map(r => ({ ...r, name: String(r.year) }));
-  const COLORS = ["#6366f1", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
+  const COLORS = ["#0089F7", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-5 border border-gray-100">
@@ -84,7 +85,7 @@ function TimeChart({
             return [(s?.formatter || yFormatter || String)(v), name];
           }} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
-          <ReferenceLine x={String(YEAR_2025)} stroke="#a5b4fc" strokeDasharray="4 4" label={{ value: "Forecast →", fontSize: 10, fill: "#818cf8" }} />
+          <ReferenceLine x={String(YEAR_2025)} stroke="#71C0FF" strokeDasharray="4 4" label={{ value: "Forecast →", fontSize: 10, fill: "#3DA6FF" }} />
           {series.map((s, i) => (
             <Line
               key={s.key as string}
@@ -129,7 +130,7 @@ function BarTimeChart({ data, dataKey, label, color, yFormatter, title }: {
               <Cell key={`cell-${index}`} fill={entry.forecast ? FORECAST_COLOR : color} />
             ))}
           </Bar>
-          <ReferenceLine x={String(YEAR_2025)} stroke="#a5b4fc" strokeDasharray="4 4" />
+          <ReferenceLine x={String(YEAR_2025)} stroke="#71C0FF" strokeDasharray="4 4" />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -145,6 +146,15 @@ export default function DashboardPage() {
   const [loadingList, setLoadingList] = useState(true);
   const [loadingData, setLoadingData] = useState(false);
   const [activeTab, setActiveTab] = useState<"economy" | "debt" | "trade" | "social" | "heart">("heart");
+  const [firstName, setFirstName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      const fullName = data.user?.user_metadata?.full_name as string | undefined;
+      setFirstName(fullName ? fullName.trim().split(/\s+/)[0] : null);
+    });
+  }, []);
 
   useEffect(() => {
     fetch("/api/country-timeseries")
@@ -179,10 +189,16 @@ export default function DashboardPage() {
   const flag = ISO_FLAGS[countries.find(c => c.country === selectedCountry)?.iso || ""] || "🏳️";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
       <AppNav />
 
       <div className="container mx-auto px-4 py-6 max-w-7xl">
+        {firstName && (
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Welcome back, {firstName} 👋
+          </h1>
+        )}
+
         {/* Country Selector */}
         <div className="bg-white rounded-2xl shadow-md p-5 mb-6 border border-gray-100">
           <div className="flex flex-wrap items-center gap-4">
@@ -194,7 +210,7 @@ export default function DashboardPage() {
                 <select
                   value={selectedCountry}
                   onChange={e => setSelectedCountry(e.target.value)}
-                  className="border border-gray-200 rounded-xl px-4 py-2 text-sm font-semibold text-gray-800 bg-white shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none min-w-[200px]"
+                  className="border border-gray-200 rounded-xl px-4 py-2 text-sm font-semibold text-gray-800 bg-white shadow-sm focus:ring-2 focus:ring-brand-400 focus:outline-none min-w-[200px]"
                 >
                   {countries.map(c => (
                     <option key={c.country} value={c.country}>
@@ -206,7 +222,7 @@ export default function DashboardPage() {
             </div>
             {latest && (
               <div className="flex flex-wrap gap-3 ml-auto items-center">
-                <div className="text-center px-4 py-2 bg-indigo-600 text-white rounded-xl shadow">
+                <div className="text-center px-4 py-2 bg-brand-600 text-white rounded-xl shadow">
                   <p className="text-xs opacity-80">HEART Score {latest.year}</p>
                   <p className="text-2xl font-black">{latest.heartScore}</p>
                 </div>
@@ -226,8 +242,8 @@ export default function DashboardPage() {
             )}
           </div>
           {latest?.briefDescription && (
-            <p className="text-sm text-gray-600 mt-4 p-3 bg-indigo-50 rounded-xl leading-relaxed border border-indigo-100">
-              <span className="font-semibold text-indigo-700">📋 {latest.year} Brief: </span>
+            <p className="text-sm text-gray-600 mt-4 p-3 bg-brand-50 rounded-xl leading-relaxed border border-brand-100">
+              <span className="font-semibold text-brand-700">📋 {latest.year} Brief: </span>
               {latest.briefDescription}
             </p>
           )}
@@ -248,7 +264,7 @@ export default function DashboardPage() {
             {/* KPI Strip */}
             {latest && (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-                <StatCard label="GDP" value={fmt$T(latest.gdp)} sub={`${latest.globalGdpPct.toFixed(1)}% of world`} color="indigo" />
+                <StatCard label="GDP" value={fmt$T(latest.gdp)} sub={`${latest.globalGdpPct.toFixed(1)}% of world`} color="brand" />
                 <StatCard label="Per Capita Income" value={fmt$T(latest.pci)} sub={`Adj: ${fmt$T(latest.adjustedPci)}`} color="emerald" />
                 <StatCard label="Inflation" value={fmtPct(latest.inflation)} color={latest.inflation > 5 ? "red" : "sky"} />
                 <StatCard label="Debt / GDP" value={fmtPct(latest.debtToGdp)} color={latest.debtToGdp > 100 ? "red" : "amber"} />
@@ -264,7 +280,7 @@ export default function DashboardPage() {
                   key={t.id}
                   onClick={() => setActiveTab(t.id)}
                   className={`flex-1 py-2 px-3 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[80px] ${activeTab === t.id
-                    ? "bg-indigo-600 text-white shadow"
+                    ? "bg-brand-600 text-white shadow"
                     : "text-gray-600 hover:bg-gray-100"
                     }`}
                 >
@@ -280,13 +296,13 @@ export default function DashboardPage() {
                   data={data.rows}
                   title="HEART Score Over Time"
                   series={[
-                    { key: "heartValue", label: "Heart Value (HV)", color: "#6366f1", formatter: (v) => v.toFixed(3) },
+                    { key: "heartValue", label: "Heart Value (HV)", color: "#0089F7", formatter: (v) => v.toFixed(3) },
                     { key: "heartAffordabilityValue", label: "HAV (Affordability Value)", color: "#10b981", formatter: fmt$T },
                   ]}
                   yFormatter={(v) => v.toFixed ? v.toFixed(2) : String(v)}
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <BarTimeChart data={data.rows} dataKey="heartValue" label="Heart Value" color="#6366f1" title="Heart Value (HV) by Year" yFormatter={v => v.toFixed(3)} />
+                  <BarTimeChart data={data.rows} dataKey="heartValue" label="Heart Value" color="#0089F7" title="Heart Value (HV) by Year" yFormatter={v => v.toFixed(3)} />
                   <BarTimeChart data={data.rows} dataKey="heartAffordabilityValue" label="HAV" color="#10b981" title="Heart Affordability Value (HAV)" yFormatter={fmt$T} />
                 </div>
                 {/* Score timeline cards */}
@@ -294,10 +310,10 @@ export default function DashboardPage() {
                   <h4 className="text-sm font-bold text-gray-700 mb-4 uppercase tracking-wide">HEART Score Timeline</h4>
                   <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-2">
                     {data.rows.map(r => (
-                      <div key={r.year} className={`text-center rounded-xl p-2 ${r.isPredicted ? "bg-indigo-50 border border-indigo-200" : "bg-gray-50 border border-gray-200"}`}>
+                      <div key={r.year} className={`text-center rounded-xl p-2 ${r.isPredicted ? "bg-brand-50 border border-brand-200" : "bg-gray-50 border border-gray-200"}`}>
                         <p className="text-[10px] text-gray-500 font-medium">{r.year}</p>
-                        <p className="text-sm font-black text-indigo-700 leading-tight">{r.heartScore}</p>
-                        {r.isPredicted && <p className="text-[8px] text-indigo-400">Fcst</p>}
+                        <p className="text-sm font-black text-brand-700 leading-tight">{r.heartScore}</p>
+                        {r.isPredicted && <p className="text-[8px] text-brand-400">Fcst</p>}
                       </div>
                     ))}
                   </div>
@@ -311,7 +327,7 @@ export default function DashboardPage() {
                 <TimeChart
                   data={data.rows}
                   title="GDP Over Time"
-                  series={[{ key: "gdp", label: "GDP (USD)", color: "#6366f1", formatter: fmt$T }]}
+                  series={[{ key: "gdp", label: "GDP (USD)", color: "#0089F7", formatter: fmt$T }]}
                   yFormatter={fmt$T}
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -344,7 +360,7 @@ export default function DashboardPage() {
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <BarTimeChart data={data.rows} dataKey="housing" label="Housing (USD)" color="#6366f1" title="Housing Sector" yFormatter={fmt$T} />
+                  <BarTimeChart data={data.rows} dataKey="housing" label="Housing (USD)" color="#0089F7" title="Housing Sector" yFormatter={fmt$T} />
                   <BarTimeChart data={data.rows} dataKey="health" label="Health (USD)" color="#10b981" title="Health Sector" yFormatter={fmt$T} />
                   <BarTimeChart data={data.rows} dataKey="energy" label="Energy (USD)" color="#f59e0b" title="Energy Sector" yFormatter={fmt$T} />
                   <BarTimeChart data={data.rows} dataKey="education" label="Education (USD)" color="#8b5cf6" title="Education Sector" yFormatter={fmt$T} />
@@ -399,7 +415,7 @@ export default function DashboardPage() {
                   <TimeChart
                     data={data.rows}
                     title="Trade Balance Over Time"
-                    series={[{ key: "tradeBalance", label: "Trade Balance", color: "#6366f1", formatter: fmt$T }]}
+                    series={[{ key: "tradeBalance", label: "Trade Balance", color: "#0089F7", formatter: fmt$T }]}
                     yFormatter={fmt$T}
                   />
                   <TimeChart
@@ -421,7 +437,7 @@ export default function DashboardPage() {
                   data={data.rows}
                   title="HDI & Adjusted HDI Over Time"
                   series={[
-                    { key: "hdi", label: "HDI", color: "#6366f1", formatter: (v) => v.toFixed(3) },
+                    { key: "hdi", label: "HDI", color: "#0089F7", formatter: (v) => v.toFixed(3) },
                     { key: "adjustedHdi", label: "Adjusted HDI", color: "#10b981", formatter: (v) => v.toFixed(3) },
                   ]}
                   yFormatter={(v) => v.toFixed(3)}
@@ -445,7 +461,7 @@ export default function DashboardPage() {
 
             {/* Forecast notice */}
             <div className="mt-6 text-xs text-gray-400 flex items-center gap-2 bg-white rounded-xl px-4 py-2 border border-gray-100 w-fit">
-              <span className="w-4 h-0.5 bg-indigo-300 inline-block" /> Dashed line = start of forecast data (2026–2030)
+              <span className="w-4 h-0.5 bg-brand-300 inline-block" /> Dashed line = start of forecast data (2026–2030)
             </div>
           </>
         )}

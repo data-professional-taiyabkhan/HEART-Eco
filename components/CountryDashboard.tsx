@@ -56,23 +56,23 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
   return (
     <div className="space-y-8">
       {/* Country Header */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg shadow-lg p-8">
+      <div className="bg-gradient-to-r from-brand-500 to-purple-600 text-white rounded-lg shadow-lg p-8">
         <h2 className="text-4xl font-bold mb-2">{country.country}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
           <div>
-            <p className="text-indigo-100 text-sm">GDP Ranking</p>
+            <p className="text-brand-100 text-sm">GDP Ranking</p>
             <p className="text-2xl font-bold">#{country.countryGDPRanking}</p>
           </div>
           <div>
-            <p className="text-indigo-100 text-sm">GDP</p>
+            <p className="text-brand-100 text-sm">GDP</p>
             <p className="text-2xl font-bold">{formatCurrency(country.countryGDP)}</p>
           </div>
           <div>
-            <p className="text-indigo-100 text-sm">Population</p>
+            <p className="text-brand-100 text-sm">Population</p>
             <p className="text-2xl font-bold">{formatLargeNumber(country.countryPopulation)}</p>
           </div>
           <div>
-            <p className="text-indigo-100 text-sm">Per Capita Income</p>
+            <p className="text-brand-100 text-sm">Per Capita Income</p>
             <p className="text-2xl font-bold">{formatCurrency(country.perCapitaIncome)}</p>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
             <select
               value={showRawValues ? "usd" : "percent"}
               onChange={(e) => setShowRawValues(e.target.value === "usd")}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent text-gray-900 bg-white"
             >
               <option value="percent">Percentages</option>
               <option value="usd">USD Values</option>
@@ -353,13 +353,13 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
               <span className="text-lg font-semibold text-gray-700">Heart Value (HV)</span>
-              <span className="text-3xl font-bold text-indigo-600">
+              <span className="text-3xl font-bold text-brand-600">
                 {country.heartValue.toFixed(2)}
               </span>
             </div>
           </div>
 
-          <div className="mb-6 bg-indigo-50 rounded-lg p-4">
+          <div className="mb-6 bg-brand-50 rounded-lg p-4">
             <h5 className="font-semibold text-gray-900 mb-2">Calculation Formula:</h5>
             <p className="text-sm font-mono text-gray-700">
               HV_raw = Housing%GDP + Health%GDP + Energy%GDP + Education%GDP + Global_GDP_Share − Interest_Payments%GDP ± Trade%GDP
@@ -395,7 +395,7 @@ export default function CountryDashboard({ country }: CountryDashboardProps) {
                       key={idx}
                       className={
                         isCurrentGrade
-                          ? "bg-indigo-100 font-semibold"
+                          ? "bg-brand-100 font-semibold"
                           : ""
                       }
                     >

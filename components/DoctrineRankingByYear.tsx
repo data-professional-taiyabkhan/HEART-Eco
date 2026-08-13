@@ -35,7 +35,7 @@ export default function DoctrineRankingByYear({
             id="doctrine-year"
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
-            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
           >
             {sortedYears.map((year) => (
               <option key={year} value={String(year)}>

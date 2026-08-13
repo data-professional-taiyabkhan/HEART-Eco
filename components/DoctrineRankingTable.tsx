@@ -81,10 +81,10 @@ export default function DoctrineRankingTable({
       <button
         type="button"
         onClick={() => toggleSort(col)}
-        className="inline-flex items-center gap-1 font-semibold text-gray-800 hover:text-indigo-700 transition-colors whitespace-nowrap"
+        className="inline-flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-700 transition-colors whitespace-nowrap"
       >
         {label}
-        <span className="text-xs text-indigo-600">
+        <span className="text-xs text-brand-600">
           {active ? (sortDirection === "asc" ? "▲" : "▼") : ""}
         </span>
       </button>
@@ -97,9 +97,9 @@ export default function DoctrineRankingTable({
     <div>
       <h2 className="text-xl font-bold text-gray-900 mb-1 leading-snug">
         HEART SCORE RANKING OF G-20+3 COUNTRIES IN TERMS OF{" "}
-        <span className="text-indigo-700">&ldquo;ECONOMIC RESILIENCE&rdquo;</span>{" "}
+        <span className="text-brand-700">&ldquo;ECONOMIC RESILIENCE&rdquo;</span>{" "}
         &amp;{" "}
-        <span className="text-indigo-700">&ldquo;AFFORDABILITY&rdquo;</span>{" "}
+        <span className="text-brand-700">&ldquo;AFFORDABILITY&rdquo;</span>{" "}
         ({selectedYear})
       </h2>
       <p className="text-xs text-gray-400 mb-4">
@@ -108,7 +108,7 @@ export default function DoctrineRankingTable({
 
       <div className="overflow-x-auto rounded-xl">
         <table className="min-w-full text-sm text-left text-gray-700">
-          <thead className="bg-indigo-50 text-gray-800">
+          <thead className="bg-brand-50 text-gray-800">
             <tr>
               <th className="px-4 py-3 w-8 text-center text-gray-500">#</th>
               <th className="px-4 py-3">
@@ -134,7 +134,7 @@ export default function DoctrineRankingTable({
               return (
                 <tr
                   key={`${row.country}-${row.overallRank}`}
-                  className="border-b last:border-b-0 hover:bg-indigo-50/40 transition-colors"
+                  className="border-b last:border-b-0 hover:bg-brand-50/40 transition-colors"
                 >
                   <td className="px-4 py-3 text-center text-gray-400 text-xs font-mono">
                     {idx + 1}
@@ -154,7 +154,7 @@ export default function DoctrineRankingTable({
                       <span className="font-medium">{row.country}</span>
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-bold text-indigo-700 text-base">
+                  <td className="px-4 py-3 font-bold text-brand-700 text-base">
                     {row.heartScore}
                   </td>
                   <td className="px-4 py-3 text-center font-semibold">
@@ -172,7 +172,7 @@ export default function DoctrineRankingTable({
                         {row.briefDescription.length > 120 && (
                           <button
                             onClick={() => setExpandedRow(isExpanded ? null : row.country)}
-                            className="text-xs text-indigo-500 hover:text-indigo-700 mt-1"
+                            className="text-xs text-brand-500 hover:text-brand-700 mt-1"
                           >
                             {isExpanded ? "Show less" : "Read more"}
                           </button>
@@ -195,7 +195,7 @@ export default function DoctrineRankingTable({
                               <span className="text-gray-400 font-medium w-24 shrink-0">
                                 {label}:
                               </span>
-                              <span className={`font-bold ${i === 0 ? "text-indigo-700" : "text-amber-700"}`}>
+                              <span className={`font-bold ${i === 0 ? "text-brand-700" : "text-amber-700"}`}>
                                 {val}
                               </span>
                             </span>
