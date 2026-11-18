@@ -410,9 +410,9 @@ export default function CalculatorPage() {
                     </p>
                     </div>
 
-                    <div className="bg-purple-50 rounded-lg p-4">
+                    <div className="bg-sky-50 rounded-lg p-4">
                       <h4 className="text-sm font-semibold text-gray-700 mb-2">Adjusted PCI</h4>
-                      <div className="text-lg font-bold text-purple-600">{formatCurrency(results.adjustedPCI)}</div>
+                      <div className="text-lg font-bold text-brand-800">{formatCurrency(results.adjustedPCI)}</div>
                     </div>
 
                     <div className="bg-blue-50 rounded-lg p-4">

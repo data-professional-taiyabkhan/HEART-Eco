@@ -111,7 +111,7 @@ export default function AssistantPage() {
                     <div className="flex items-center justify-between flex-wrap gap-4">
                         <div className="flex items-center gap-4">
                             <div className="relative">
-                                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/25">
+                                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-800 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/25">
                                     <span className="text-white text-xl">🤖</span>
                                 </div>
                                 <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-slate-50 animate-pulse" />
@@ -143,7 +143,7 @@ export default function AssistantPage() {
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-center">
                                 <div className="mb-8">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-brand-100 to-purple-100 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-brand-200">
+                                    <div className="w-20 h-20 bg-gradient-to-br from-brand-100 to-sky-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-brand-200">
                                         <span className="text-4xl">💬</span>
                                     </div>
                                     <h2 className="text-xl font-semibold text-gray-900 mb-2">
@@ -183,13 +183,13 @@ export default function AssistantPage() {
                                     >
                                         <div
                                             className={`max-w-[85%] ${message.role === "user"
-                                                ? "bg-gradient-to-r from-brand-600 to-purple-600 text-white rounded-2xl rounded-br-md shadow-lg shadow-brand-500/20"
+                                                ? "bg-gradient-to-r from-brand-600 to-brand-800 text-white rounded-2xl rounded-br-md shadow-lg shadow-brand-500/20"
                                                 : "bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md border border-gray-200"
                                                 } px-5 py-3`}
                                         >
                                             {message.role === "assistant" && (
                                                 <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
-                                                    <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-purple-500 rounded-full flex items-center justify-center">
+                                                    <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-brand-700 rounded-full flex items-center justify-center">
                                                         <span className="text-white text-[10px] font-bold">H</span>
                                                     </div>
                                                     <span className="text-xs font-medium text-brand-600">
@@ -208,7 +208,7 @@ export default function AssistantPage() {
                                     <div className="flex justify-start animate-fadeIn">
                                         <div className="bg-gray-100 rounded-2xl rounded-bl-md px-5 py-4 border border-gray-200">
                                             <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
-                                                <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-purple-500 rounded-full flex items-center justify-center">
+                                                <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-brand-700 rounded-full flex items-center justify-center">
                                                     <span className="text-white text-[10px] font-bold">H</span>
                                                 </div>
                                                 <span className="text-xs font-medium text-brand-600">
@@ -252,7 +252,7 @@ export default function AssistantPage() {
                                 onClick={() => sendMessage()}
                                 disabled={loading || !input.trim()}
                                 aria-label="Send message"
-                                className="bg-gradient-to-r from-brand-600 to-purple-600 text-white rounded-xl px-5 py-3 hover:from-brand-500 hover:to-purple-500 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 transform hover:scale-105 disabled:transform-none disabled:shadow-none"
+                                className="bg-gradient-to-r from-brand-600 to-brand-800 text-white rounded-xl px-5 py-3 hover:from-brand-500 hover:to-brand-700 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 transform hover:scale-105 disabled:transform-none disabled:shadow-none"
                             >
                                 <svg
                                     className="w-5 h-5"

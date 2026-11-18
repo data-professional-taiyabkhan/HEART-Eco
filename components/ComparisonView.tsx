@@ -198,14 +198,14 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
     <div className="space-y-8 animate-fadeIn">
       {/* HEART Score Comparison */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-r from-blue-500 to-brand-600 rounded-lg shadow-lg p-8 text-white">
+        <div className="bg-gradient-to-r from-brand-600 to-brand-400 rounded-lg shadow-lg p-8 text-white">
           <h3 className="text-xl font-semibold mb-4">{country1.country}</h3>
           <div className="text-6xl font-black mb-2">{country1.heartScore}</div>
           <div className="text-lg opacity-90">
             HS = HV: {country1.heartValue.toFixed(2)} × HAR: {country1.heartAffordabilityRanking}
           </div>
         </div>
-        <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg shadow-lg p-8 text-white">
+        <div className="bg-gradient-to-r from-brand-900 to-brand-700 rounded-lg shadow-lg p-8 text-white">
           <h3 className="text-xl font-semibold mb-4">{country2.country}</h3>
           <div className="text-6xl font-black mb-2">{country2.heartScore}</div>
           <div className="text-lg opacity-90">
@@ -225,7 +225,7 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
             </div>
             <div>
               <p className="text-xs text-gray-500">{country2.country}</p>
-              <p className="text-2xl font-bold text-purple-600">{country2.heartValue.toFixed(3)}</p>
+              <p className="text-2xl font-bold text-brand-900">{country2.heartValue.toFixed(3)}</p>
             </div>
           </div>
         </div>
@@ -239,7 +239,7 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
             </div>
             <div>
               <p className="text-xs text-gray-500">{country2.country}</p>
-              <p className="text-2xl font-bold text-purple-600">{formatCurrency(country2.heartAffordabilityValue)}</p>
+              <p className="text-2xl font-bold text-brand-900">{formatCurrency(country2.heartAffordabilityValue)}</p>
             </div>
           </div>
         </div>
@@ -253,7 +253,7 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
             </div>
             <div>
               <p className="text-xs text-gray-500">{country2.country}</p>
-              <p className="text-3xl font-bold text-purple-600">{harComparison.country2}</p>
+              <p className="text-3xl font-bold text-brand-900">{harComparison.country2}</p>
             </div>
           </div>
         </div>
@@ -273,15 +273,15 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
             <Radar
               name={country1.country}
               dataKey={country1.country}
-              stroke="#4F46E5"
-              fill="#4F46E5"
+              stroke="#0089F7"
+              fill="#0089F7"
               fillOpacity={0.6}
             />
             <Radar
               name={country2.country}
               dataKey={country2.country}
-              stroke="#EC4899"
-              fill="#EC4899"
+              stroke="#0F2F63"
+              fill="#0F2F63"
               fillOpacity={0.6}
             />
             <Legend />
@@ -299,8 +299,8 @@ export default function ComparisonView({ country1, country2 }: ComparisonViewPro
             <YAxis />
             <Tooltip formatter={(value: number) => `${value.toFixed(2)}%`} />
             <Legend />
-            <Bar dataKey={country1.country} fill="#4F46E5" />
-            <Bar dataKey={country2.country} fill="#EC4899" />
+            <Bar dataKey={country1.country} fill="#0089F7" />
+            <Bar dataKey={country2.country} fill="#0F2F63" />
           </BarChart>
         </ResponsiveContainer>
       </div>
