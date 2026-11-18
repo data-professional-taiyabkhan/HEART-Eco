@@ -292,9 +292,11 @@ export function parseHeartDoctrineInfo(): HeartDoctrineInfo {
     defval: "",
   });
 
-  const predictiveAssumption =
-    rows.find((row) => String(row[2] || "").includes("increase by"))?.[2] ||
-    "";
+  // Typo fix for the source sheet ("futre" -> "future"); harmless once the
+  // client corrects the workbook.
+  const predictiveAssumption = String(
+    rows.find((row) => String(row[2] || "").includes("increase by"))?.[2] || ""
+  ).replace(/\bfutre\b/gi, (m) => (m[0] === "F" ? "Future" : "future"));
 
   const heartValueComponents: string[] = [];
   const heartAffordabilityComponents: string[] = [];
