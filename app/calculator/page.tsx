@@ -90,12 +90,11 @@ export default function CalculatorPage() {
       tradePercent
     );
 
-    // Normalize to 0-1 scale using a reference range
-    // Typical raw HV ranges from approximately -10 to +60 based on real-world data
-    // Using min-max normalization with reference bounds
-    const minHV = -10;
-    const maxHV = 60;
-    const normalizedHV = Math.max(0, Math.min(1, (rawHV - minHV) / (maxHV - minHV)));
+    // HV is the plain sum of the seven components as fractions of GDP, which is
+    // how the MasterSheet computes it (e.g. USA 2025: 0.6533). Inputs are in
+    // percent, so divide by 100. Per the Source of Truth, HV is clamped to 0-1:
+    // above 1 = "Exceeds Expectation", below 0 = "Worst Performance".
+    const normalizedHV = Math.max(0, Math.min(1, rawHV / 100));
 
     // Calculate HAR components
     const pciValue = parseFloat(pci) || 0;
@@ -406,7 +405,9 @@ export default function CalculatorPage() {
                       <h4 className="text-sm font-semibold text-gray-700 mb-2">Heart Value (HV)</h4>
                       <div className="text-2xl font-bold text-brand-600">{results.normalizedHV.toFixed(3)}</div>
                       <p className="text-xs text-gray-600 mt-1">Raw HV: {results.rawHV.toFixed(2)}</p>
-                      <p className="text-xs text-gray-500 mt-1">Normalized to 0-1 scale</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                      {results.rawHV > 100 ? "Capped at 1 — Exceeds Expectation" : results.rawHV < 0 ? "Floored at 0 — Worst Performance" : "Sum of components ÷ 100 (scale 0–1)"}
+                    </p>
                     </div>
 
                     <div className="bg-purple-50 rounded-lg p-4">
