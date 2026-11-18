@@ -29,13 +29,13 @@ export default function MetricCard({
             <p className="text-sm text-gray-500 mt-1">{subValue}</p>
           )}
           {calculation && (
-            <p className="text-xs text-indigo-600 mt-2 font-mono bg-indigo-50 px-2 py-1 rounded">
+            <p className="text-xs text-brand-600 mt-2 font-mono bg-brand-50 px-2 py-1 rounded">
               {calculation}
             </p>
           )}
         </div>
         {icon && (
-          <div className="ml-4 text-indigo-500 opacity-50">{icon}</div>
+          <div className="ml-4 text-brand-500 opacity-50">{icon}</div>
         )}
       </div>
     </div>

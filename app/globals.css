@@ -2,22 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The app is designed light-only. A dark-mode override here used to turn
+   body text #ededed for visitors whose OS is in dark mode, which made typed
+   text in inputs light-gray-on-white and unreadable. Keep it light. */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  color-scheme: light;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Form fields never inherit body colour: always dark text, visible placeholder. */
+@layer base {
+  input,
+  textarea,
+  select {
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+  }
+}
+
+/* Auth page background motion */
+@keyframes floatA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.08); }
+}
+
+@keyframes floatB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 35px) scale(1.12); }
+}
+
+@keyframes letterRise {
+  from { opacity: 0; transform: translateY(18px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to { background-position: 48px 48px; }
+}
+
+.animate-floatA { animation: floatA 14s ease-in-out infinite; }
+.animate-floatB { animation: floatB 18s ease-in-out infinite; }
+.animate-letterRise { opacity: 0; animation: letterRise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.animate-gridDrift { animation: gridDrift 20s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-floatA,
+  .animate-floatB,
+  .animate-gridDrift,
+  .animate-letterRise,
+  .animate-fadeIn {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 @layer utilities {

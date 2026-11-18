@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { CountryData } from "@/lib/types";
 import CountrySelector from "@/components/CountrySelector";
 import ComparisonView from "@/components/ComparisonView";
-import Link from "next/link";
+import AppNav from "@/components/AppNav";
 
 export default function ComparePage() {
   const [countries, setCountries] = useState<CountryData[]>([]);
@@ -41,43 +41,23 @@ export default function ComparePage() {
 
   return (
     <div className="space-y-6">
+      <AppNav />
+
       {/* Header */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Compare Countries
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Side-by-side analysis of economic metrics
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/"
-              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              🏠 Home
-            </Link>
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-              ← Back to Dashboard
-            </Link>
-            <Link
-              href="/ai"
-              className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-            >
-              💬 AI Assistant
-            </Link>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Compare Countries
+          </h1>
+          <p className="text-gray-600 mt-1">
+            Side-by-side analysis of economic metrics
+          </p>
         </div>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
         </div>
       ) : error ? (
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">

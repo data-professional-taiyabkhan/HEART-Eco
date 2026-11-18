@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import AppNav from "@/components/AppNav";
+import ChatText from "@/components/ChatText";
 
 interface Message {
     role: "user" | "assistant";
@@ -17,22 +18,12 @@ const SAMPLE_QUESTIONS = [
     { emoji: "💡", text: "Why does the USA have a high HAR but lower HV?" },
 ];
 
-export default function HeartAIPage() {
+export default function AssistantPage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [sessionId] = useState<string>(() => {
-        if (typeof window !== "undefined") {
-            const existing = sessionStorage.getItem("heart-ai-session");
-            if (existing) return existing;
-            const newId = `heart-ai-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-            sessionStorage.setItem("heart-ai-session", newId);
-            return newId;
-        }
-        return `heart-ai-${Date.now()}`;
-    });
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,13 +49,21 @@ export default function HeartAIPage() {
             const response = await fetch("/api/heart-chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    message: userMessage,
-                    sessionId,
-                }),
+                body: JSON.stringify({ message: userMessage }),
             });
 
             const data = await response.json().catch(() => ({} as any));
+
+            if (response.status === 429) {
+                setMessages([
+                    ...newMessages,
+                    {
+                        role: "assistant",
+                        content: data?.error || "You've reached your daily message limit. Please try again after midnight UTC.",
+                    },
+                ]);
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error(
@@ -103,13 +102,8 @@ export default function HeartAIPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
-            {/* Ambient Background */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl" />
-            </div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
+            <AppNav />
 
             <div className="relative container mx-auto px-4 py-6 max-w-5xl flex flex-col min-h-screen">
                 {/* Header */}
@@ -117,14 +111,14 @@ export default function HeartAIPage() {
                     <div className="flex items-center justify-between flex-wrap gap-4">
                         <div className="flex items-center gap-4">
                             <div className="relative">
-                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-800 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/25">
                                     <span className="text-white text-xl">🤖</span>
                                 </div>
-                                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-slate-900 animate-pulse" />
+                                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-slate-50 animate-pulse" />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold text-white">HEART AI</h1>
-                                <p className="text-sm text-indigo-300">
+                                <h1 className="text-2xl font-bold text-gray-900">HEART AI</h1>
+                                <p className="text-sm text-brand-600">
                                     Powered by HEART Score Economic Model
                                 </p>
                             </div>
@@ -133,41 +127,29 @@ export default function HeartAIPage() {
                             {messages.length > 0 && (
                                 <button
                                     onClick={clearChat}
-                                    className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white font-medium rounded-xl transition-all duration-300 text-sm border border-white/10"
+                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 text-sm border border-gray-200"
                                 >
                                     ✨ New Chat
                                 </button>
                             )}
-                            <Link
-                                href="/"
-                                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white font-medium rounded-xl transition-all duration-300 text-sm border border-white/10"
-                            >
-                                🏠 Home
-                            </Link>
-                            <Link
-                                href="/dashboard"
-                                className="px-4 py-2 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 hover:text-white font-medium rounded-xl transition-all duration-300 text-sm border border-indigo-500/30"
-                            >
-                                📊 Dashboard
-                            </Link>
                         </div>
                     </div>
                 </div>
 
                 {/* Chat Container */}
-                <div className="flex-1 flex flex-col bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl shadow-black/20 overflow-hidden animate-fadeIn" style={{ animationDelay: "0.1s", minHeight: "0" }}>
+                <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden animate-fadeIn" style={{ animationDelay: "0.1s", minHeight: "0" }}>
                     {/* Messages Area */}
                     <div className="flex-1 overflow-y-auto p-6" style={{ minHeight: "400px", maxHeight: "calc(100vh - 320px)" }}>
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-center">
                                 <div className="mb-8">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
+                                    <div className="w-20 h-20 bg-gradient-to-br from-brand-100 to-sky-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-brand-200">
                                         <span className="text-4xl">💬</span>
                                     </div>
-                                    <h2 className="text-xl font-semibold text-white mb-2">
+                                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
                                         Hi there! 👋
                                     </h2>
-                                    <p className="text-indigo-300/70 max-w-md">
+                                    <p className="text-gray-500 max-w-md">
                                         I&apos;m HEART AI, your assistant for the HEART Score Economic
                                         Model. Ask me about countries, rankings, forecasts, or
                                         methodology.
@@ -179,10 +161,10 @@ export default function HeartAIPage() {
                                         <button
                                             key={i}
                                             onClick={() => sendMessage(q.text)}
-                                            className="group text-left p-4 bg-white/[0.03] hover:bg-white/[0.08] rounded-xl border border-white/5 hover:border-indigo-500/30 transition-all duration-300"
+                                            className="group text-left p-4 bg-gray-50 hover:bg-brand-50 rounded-xl border border-gray-200 hover:border-brand-300 transition-all duration-300"
                                         >
                                             <span className="text-lg mr-2">{q.emoji}</span>
-                                            <span className="text-sm text-white/60 group-hover:text-white/90 transition-colors">
+                                            <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
                                                 {q.text}
                                             </span>
                                         </button>
@@ -201,22 +183,22 @@ export default function HeartAIPage() {
                                     >
                                         <div
                                             className={`max-w-[85%] ${message.role === "user"
-                                                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl rounded-br-md shadow-lg shadow-indigo-500/20"
-                                                : "bg-white/[0.06] text-white/90 rounded-2xl rounded-bl-md border border-white/10"
+                                                ? "bg-gradient-to-r from-brand-600 to-brand-800 text-white rounded-2xl rounded-br-md shadow-lg shadow-brand-500/20"
+                                                : "bg-gray-100 text-gray-800 rounded-2xl rounded-bl-md border border-gray-200"
                                                 } px-5 py-3`}
                                         >
                                             {message.role === "assistant" && (
-                                                <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/5">
-                                                    <div className="w-5 h-5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                                                <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
+                                                    <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-brand-700 rounded-full flex items-center justify-center">
                                                         <span className="text-white text-[10px] font-bold">H</span>
                                                     </div>
-                                                    <span className="text-xs font-medium text-indigo-300">
+                                                    <span className="text-xs font-medium text-brand-600">
                                                         HEART AI
                                                     </span>
                                                 </div>
                                             )}
                                             <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                                                {message.content}
+                                                {message.role === "assistant" ? <ChatText content={message.content} /> : message.content}
                                             </p>
                                         </div>
                                     </div>
@@ -224,23 +206,23 @@ export default function HeartAIPage() {
 
                                 {loading && (
                                     <div className="flex justify-start animate-fadeIn">
-                                        <div className="bg-white/[0.06] rounded-2xl rounded-bl-md px-5 py-4 border border-white/10">
-                                            <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/5">
-                                                <div className="w-5 h-5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                                        <div className="bg-gray-100 rounded-2xl rounded-bl-md px-5 py-4 border border-gray-200">
+                                            <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
+                                                <div className="w-5 h-5 bg-gradient-to-r from-brand-500 to-brand-700 rounded-full flex items-center justify-center">
                                                     <span className="text-white text-[10px] font-bold">H</span>
                                                 </div>
-                                                <span className="text-xs font-medium text-indigo-300">
+                                                <span className="text-xs font-medium text-brand-600">
                                                     HEART AI is thinking...
                                                 </span>
                                             </div>
                                             <div className="flex gap-1.5">
-                                                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce-dot" />
+                                                <div className="w-2 h-2 bg-brand-400 rounded-full animate-bounce-dot" />
                                                 <div
-                                                    className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce-dot"
+                                                    className="w-2 h-2 bg-brand-400 rounded-full animate-bounce-dot"
                                                     style={{ animationDelay: "0.2s" }}
                                                 />
                                                 <div
-                                                    className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce-dot"
+                                                    className="w-2 h-2 bg-brand-400 rounded-full animate-bounce-dot"
                                                     style={{ animationDelay: "0.4s" }}
                                                 />
                                             </div>
@@ -254,7 +236,7 @@ export default function HeartAIPage() {
                     </div>
 
                     {/* Input Area */}
-                    <div className="border-t border-white/10 p-4 bg-white/[0.02]">
+                    <div className="border-t border-gray-200 p-4 bg-gray-50">
                         <div className="flex gap-3 items-end">
                             <textarea
                                 ref={textareaRef}
@@ -262,7 +244,7 @@ export default function HeartAIPage() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={handleKeyPress}
                                 placeholder="Ask about HEART scores, countries, rankings, or methodology..."
-                                className="flex-1 bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 resize-none transition-all text-sm"
+                                className="flex-1 bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/50 resize-none transition-all text-sm"
                                 rows={2}
                                 disabled={loading}
                             />
@@ -270,7 +252,7 @@ export default function HeartAIPage() {
                                 onClick={() => sendMessage()}
                                 disabled={loading || !input.trim()}
                                 aria-label="Send message"
-                                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl px-5 py-3 hover:from-indigo-500 hover:to-purple-500 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transform hover:scale-105 disabled:transform-none disabled:shadow-none"
+                                className="bg-gradient-to-r from-brand-600 to-brand-800 text-white rounded-xl px-5 py-3 hover:from-brand-500 hover:to-brand-700 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40 transform hover:scale-105 disabled:transform-none disabled:shadow-none"
                             >
                                 <svg
                                     className="w-5 h-5"
@@ -288,8 +270,8 @@ export default function HeartAIPage() {
                                 </svg>
                             </button>
                         </div>
-                        <p className="text-xs text-white/20 mt-2 ml-1">
-                            Press Enter to send · Shift+Enter for new line · Data sourced from local HEART Model files
+                        <p className="text-xs text-gray-400 mt-2 ml-1">
+                            Press Enter to send · Shift+Enter for new line · Answers come from the HEART Model data
                         </p>
                     </div>
                 </div>

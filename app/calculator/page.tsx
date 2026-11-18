@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { 
+import AppNav from "@/components/AppNav";
+import {
   calculateAdjustedPCI, 
   calculateAdjustedHDI, 
   calculateHeartAffordabilityValue,
@@ -90,12 +90,11 @@ export default function CalculatorPage() {
       tradePercent
     );
 
-    // Normalize to 0-1 scale using a reference range
-    // Typical raw HV ranges from approximately -10 to +60 based on real-world data
-    // Using min-max normalization with reference bounds
-    const minHV = -10;
-    const maxHV = 60;
-    const normalizedHV = Math.max(0, Math.min(1, (rawHV - minHV) / (maxHV - minHV)));
+    // HV is the plain sum of the seven components as fractions of GDP, which is
+    // how the MasterSheet computes it (e.g. USA 2025: 0.6533). Inputs are in
+    // percent, so divide by 100. Per the Source of Truth, HV is clamped to 0-1:
+    // above 1 = "Exceeds Expectation", below 0 = "Worst Performance".
+    const normalizedHV = Math.max(0, Math.min(1, rawHV / 100));
 
     // Calculate HAR components
     const pciValue = parseFloat(pci) || 0;
@@ -125,34 +124,17 @@ export default function CalculatorPage() {
   const results = calculateResults();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
+      <AppNav />
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 animate-fadeIn">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                HEART Score Calculator
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Calculate HEART Score using the economic model formula
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/"
-                className="inline-flex items-center px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                🏠 Home
-              </Link>
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
-              >
-                ← Dashboard
-              </Link>
-            </div>
-          </div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            HEART Score Calculator
+          </h1>
+          <p className="text-gray-600 mt-1">
+            Calculate HEART Score using the economic model formula
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -169,7 +151,7 @@ export default function CalculatorPage() {
                   <select
                     value={inputMode}
                     onChange={(e) => setInputMode(e.target.value as InputMode)}
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium"
                   >
                     <option value="percentage">Percentage (%)</option>
                     <option value="absolute">Absolute Values</option>
@@ -182,7 +164,7 @@ export default function CalculatorPage() {
                   <select
                     value={unit}
                     onChange={(e) => setUnit(e.target.value as Unit)}
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium"
                   >
                     <option value="K">Thousand (K)</option>
                     <option value="M">Million (M)</option>
@@ -199,14 +181,14 @@ export default function CalculatorPage() {
                     value={countryGDP}
                     onChange={(e) => setCountryGDP(e.target.value)}
                     placeholder="Enter GDP"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
               </div>
             </div>
 
             {/* Formula Reference */}
-            <div className="bg-indigo-50 rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
+            <div className="bg-brand-50 rounded-lg shadow-md p-6 border-l-4 border-brand-500">
               <h2 className="text-lg font-bold text-gray-900 mb-3">HEART Score Formula</h2>
               <div className="space-y-2 text-sm text-gray-700">
                 <p><strong>Heart Value (HV):</strong></p>
@@ -241,7 +223,7 @@ export default function CalculatorPage() {
                       value={housingGDP}
                       onChange={(e) => setHousingGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 5.2" : "e.g., 100"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -253,7 +235,7 @@ export default function CalculatorPage() {
                       value={healthGDP}
                       onChange={(e) => setHealthGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 6.5" : "e.g., 150"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -265,7 +247,7 @@ export default function CalculatorPage() {
                       value={energyGDP}
                       onChange={(e) => setEnergyGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 3.8" : "e.g., 80"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -277,7 +259,7 @@ export default function CalculatorPage() {
                       value={educationGDP}
                       onChange={(e) => setEducationGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 4.2" : "e.g., 90"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -289,7 +271,7 @@ export default function CalculatorPage() {
                       value={globalGDPShare}
                       onChange={(e) => setGlobalGDPShare(e.target.value)}
                       placeholder="e.g., 15.5"
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -301,7 +283,7 @@ export default function CalculatorPage() {
                       value={interestPaymentGDP}
                       onChange={(e) => setInterestPaymentGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 2.1" : "e.g., 50"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                   </div>
                   <div>
@@ -313,7 +295,7 @@ export default function CalculatorPage() {
                       value={tradeGDP}
                       onChange={(e) => setTradeGDP(e.target.value)}
                       placeholder={inputMode === "percentage" ? "e.g., 1.5 or -0.8" : "e.g., 30 or -20"}
-                      className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                     />
                     <p className="text-xs text-gray-500 mt-1">Positive for surplus, negative for deficit</p>
                   </div>
@@ -334,7 +316,7 @@ export default function CalculatorPage() {
                     value={pci}
                     onChange={(e) => setPCI(e.target.value)}
                     placeholder="e.g., 50000"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
                 <div>
@@ -346,7 +328,7 @@ export default function CalculatorPage() {
                     value={inflation}
                     onChange={(e) => setInflation(e.target.value)}
                     placeholder="e.g., 2.5"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
                 <div>
@@ -361,7 +343,7 @@ export default function CalculatorPage() {
                     value={hdi}
                     onChange={(e) => setHDI(e.target.value)}
                     placeholder="e.g., 0.850"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
                 <div>
@@ -376,7 +358,7 @@ export default function CalculatorPage() {
                     value={gini}
                     onChange={(e) => setGINI(e.target.value)}
                     placeholder="e.g., 0.350"
-                    className="w-full px-4 py-3 bg-white border-2 border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-sm hover:border-indigo-300 text-gray-900 font-medium placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -419,16 +401,18 @@ export default function CalculatorPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <div className="bg-indigo-50 rounded-lg p-4">
+                    <div className="bg-brand-50 rounded-lg p-4">
                       <h4 className="text-sm font-semibold text-gray-700 mb-2">Heart Value (HV)</h4>
-                      <div className="text-2xl font-bold text-indigo-600">{results.normalizedHV.toFixed(3)}</div>
+                      <div className="text-2xl font-bold text-brand-600">{results.normalizedHV.toFixed(3)}</div>
                       <p className="text-xs text-gray-600 mt-1">Raw HV: {results.rawHV.toFixed(2)}</p>
-                      <p className="text-xs text-gray-500 mt-1">Normalized to 0-1 scale</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                      {results.rawHV > 100 ? "Capped at 1 — Exceeds Expectation" : results.rawHV < 0 ? "Floored at 0 — Worst Performance" : "Sum of components ÷ 100 (scale 0–1)"}
+                    </p>
                     </div>
 
-                    <div className="bg-purple-50 rounded-lg p-4">
+                    <div className="bg-sky-50 rounded-lg p-4">
                       <h4 className="text-sm font-semibold text-gray-700 mb-2">Adjusted PCI</h4>
-                      <div className="text-lg font-bold text-purple-600">{formatCurrency(results.adjustedPCI)}</div>
+                      <div className="text-lg font-bold text-brand-800">{formatCurrency(results.adjustedPCI)}</div>
                     </div>
 
                     <div className="bg-blue-50 rounded-lg p-4">

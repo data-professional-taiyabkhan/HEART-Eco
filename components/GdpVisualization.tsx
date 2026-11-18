@@ -43,7 +43,7 @@ export default function GdpVisualization({
     const rightCol = rows.slice(half);
 
     return (
-        <div className="bg-white rounded-2xl shadow-md border border-indigo-100 p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-md border border-brand-100 p-6 mb-8">
             {/* Title + Year Selector */}
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                 <div>
@@ -51,7 +51,7 @@ export default function GdpVisualization({
                         HEART SCORE RANKING OF G-20+3 COUNTRIES IN TERMS OF &ldquo;ECONOMIC
                         RESILIENCE&rdquo; &amp; &ldquo;AFFORDABILITY&rdquo; ({selectedYear})
                     </h2>
-                    <p className="text-indigo-600 text-sm font-semibold mt-1">
+                    <p className="text-brand-600 text-sm font-semibold mt-1">
                         USC (US–China) HEART Doctrine
                     </p>
                 </div>
@@ -66,7 +66,7 @@ export default function GdpVisualization({
                         id="gdp-year"
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(e.target.value)}
-                        className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                        className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
                     >
                         {sortedYears.map((y) => (
                             <option key={y} value={String(y)}>
