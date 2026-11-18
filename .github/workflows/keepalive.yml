@@ -1,0 +1,24 @@
+# Keeps the HEART-Eco Supabase project (free tier) from auto-pausing.
+# Supabase pauses free projects after 7 days without activity. This calls the
+# public /api/health endpoint, which runs a real query against the database.
+# Runs daily; also runnable by hand from the Actions tab.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # 06:17 UTC every day
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping /api/health (retries on cold start)
+        run: |
+          for i in 1 2 3; do
+            body=$(curl -fsS --max-time 30 https://www.ecoheartai.com/api/health) && echo "$body" && echo "$body" | grep -q '"ok":true' && exit 0
+            echo "Attempt $i failed, retrying in 20s"; sleep 20
+          done
+          echo "Health check failed after 3 attempts" >&2
+          exit 1
