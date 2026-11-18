@@ -60,6 +60,11 @@ function LoginForm() {
                 <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                     <AuthField label="Email" type="email" value={email} onChange={setEmail} autoComplete="email" placeholder="you@example.com" />
                     <AuthField label="Password" type="password" value={password} onChange={setPassword} autoComplete="current-password" placeholder="Your password" />
+                    <div className="-mt-2 text-right">
+                        <Link href="/forgot-password" className="text-sm font-semibold text-brand-600 hover:underline">
+                            Forgot password?
+                        </Link>
+                    </div>
 
                     {error && (
                         <p role="alert" className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
