@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import AppNav from "@/components/AppNav";
+import ChatText from "@/components/ChatText";
 
 interface Message {
     role: "user" | "assistant";
@@ -197,7 +198,7 @@ export default function AssistantPage() {
                                                 </div>
                                             )}
                                             <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                                                {message.content}
+                                                {message.role === "assistant" ? <ChatText content={message.content} /> : message.content}
                                             </p>
                                         </div>
                                     </div>
@@ -270,7 +271,7 @@ export default function AssistantPage() {
                             </button>
                         </div>
                         <p className="text-xs text-gray-400 mt-2 ml-1">
-                            Press Enter to send · Shift+Enter for new line · Data sourced from local HEART Model files
+                            Press Enter to send · Shift+Enter for new line · Answers come from the HEART Model data
                         </p>
                     </div>
                 </div>
