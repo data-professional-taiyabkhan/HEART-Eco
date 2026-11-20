@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatCurrency, formatNumber } from "@/lib/calculations";
+import { formatCurrency, formatNumber } from "@/lib/format";
 
 interface GlobalMetrics {
   globalGDP: number;

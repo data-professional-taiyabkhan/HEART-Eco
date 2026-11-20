@@ -15,6 +15,7 @@ const PROTECTED_API_PATHS = [
   "/api/countries",
   "/api/country-timeseries",
   "/api/heart-chat",
+  "/api/calculate",
 ];
 
 export async function middleware(request: NextRequest) {

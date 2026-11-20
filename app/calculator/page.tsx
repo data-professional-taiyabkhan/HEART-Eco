@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppNav from "@/components/AppNav";
-import {
-  calculateAdjustedPCI, 
-  calculateAdjustedHDI, 
-  calculateHeartAffordabilityValue,
-  getAffordabilityGrade,
-  calculateHeartValueRaw,
-  formatCurrency
-} from "@/lib/calculations";
+
+// The HEART formulas run on the server (/api/calculate); only the result comes back.
+interface CalcResult {
+  heartScore: string;
+  heartValue: number;
+  har: string;
+  note: "exceeds" | "worst" | null;
+}
 
 type Unit = "K" | "M" | "B" | "T";
 type InputMode = "percentage" | "absolute";
@@ -58,13 +58,8 @@ export default function CalculatorPage() {
     }
   };
 
-  // Helper function to convert percentage to absolute
-  const convertToAbsolute = (percentage: number, gdp: number): number => {
-    return (percentage / 100) * gdp;
-  };
-
-  // Calculate results
-  const calculateResults = () => {
+  // Convert the form into the numbers the server needs (unit conversion only)
+  const buildPayload = () => {
     const gdp = parseFloat(countryGDP) * UNIT_MULTIPLIERS[unit] || 0;
     
     if (gdp === 0) return null;
@@ -79,49 +74,54 @@ export default function CalculatorPage() {
     const interestPercent = convertToPercentage(interestPaymentGDP, gdp);
     const tradePercent = convertToPercentage(tradeGDP, gdp);
 
-    // Calculate raw Heart Value
-    const rawHV = calculateHeartValueRaw(
-      housingPercent,
-      healthPercent,
-      energyPercent,
-      educationPercent,
-      globalSharePercent,
-      interestPercent,
-      tradePercent
-    );
-
-    // HV is the plain sum of the seven components as fractions of GDP, which is
-    // how the MasterSheet computes it (e.g. USA 2025: 0.6533). Inputs are in
-    // percent, so divide by 100. Per the Source of Truth, HV is clamped to 0-1:
-    // above 1 = "Exceeds Expectation", below 0 = "Worst Performance".
-    const normalizedHV = Math.max(0, Math.min(1, rawHV / 100));
-
-    // Calculate HAR components
-    const pciValue = parseFloat(pci) || 0;
-    const inflationValue = parseFloat(inflation) / 100 || 0; // Convert percentage to decimal
-    const hdiValue = parseFloat(hdi) || 0;
-    const giniValue = parseFloat(gini) || 0;
-
-    const adjustedPCI = calculateAdjustedPCI(pciValue, inflationValue);
-    const adjustedHDI = calculateAdjustedHDI(hdiValue, giniValue);
-    const hav = calculateHeartAffordabilityValue(adjustedPCI, adjustedHDI);
-    const har = getAffordabilityGrade(hav);
-
-    // Final HEART Score
-    const heartScore = `${normalizedHV.toFixed(2)}${har}`;
-
     return {
-      rawHV,
-      normalizedHV,
-      adjustedPCI,
-      adjustedHDI,
-      hav,
-      har,
-      heartScore,
+      housing: housingPercent,
+      health: healthPercent,
+      energy: energyPercent,
+      education: educationPercent,
+      globalShare: globalSharePercent,
+      interest: interestPercent,
+      trade: tradePercent,
+      pci: parseFloat(pci) || 0,
+      inflation: parseFloat(inflation) || 0,
+      hdi: parseFloat(hdi) || 0,
+      gini: parseFloat(gini) || 0,
     };
   };
 
-  const results = calculateResults();
+  const payload = buildPayload();
+  const payloadKey = payload ? JSON.stringify(payload) : "";
+
+  const [results, setResults] = useState<CalcResult | null>(null);
+  const [calcError, setCalcError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!payloadKey) {
+      setResults(null);
+      setCalcError(null);
+      return;
+    }
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/calculate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payloadKey,
+          signal: controller.signal,
+        });
+        if (!res.ok) throw new Error(res.status === 401 ? "Please sign in again." : "Could not calculate. Check your inputs.");
+        setResults(await res.json());
+        setCalcError(null);
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") setCalcError((err as Error).message);
+      }
+    }, 350);
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
+  }, [payloadKey]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50">
@@ -133,7 +133,7 @@ export default function CalculatorPage() {
             HEART Score Calculator
           </h1>
           <p className="text-gray-600 mt-1">
-            Calculate HEART Score using the economic model formula
+            Enter a country&apos;s figures to get its HEART Score
           </p>
         </div>
 
@@ -184,28 +184,6 @@ export default function CalculatorPage() {
                     className="w-full px-4 py-3 bg-white border-2 border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-sm hover:border-brand-300 text-gray-900 font-medium placeholder:text-gray-400"
                   />
                 </div>
-              </div>
-            </div>
-
-            {/* Formula Reference */}
-            <div className="bg-brand-50 rounded-lg shadow-md p-6 border-l-4 border-brand-500">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">HEART Score Formula</h2>
-              <div className="space-y-2 text-sm text-gray-700">
-                <p><strong>Heart Value (HV):</strong></p>
-                <p className="font-mono bg-white p-3 rounded border">
-                  HV = Housing%GDP + Health%GDP + Energy%GDP + Education%GDP + Global_GDP_Share − Interest_Payments%GDP ± Trade%GDP
-                </p>
-                <p className="mt-3"><strong>Heart Affordability Ranking (HAR):</strong></p>
-                <p className="font-mono bg-white p-3 rounded border">
-                  APCI = PCI × (1 - Inflation)<br/>
-                  AHDI = HDI - GINI<br/>
-                  HAV = APCI × AHDI<br/>
-                  HAR = Letter grade based on HAV
-                </p>
-                <p className="mt-3"><strong>Final HEART Score:</strong></p>
-                <p className="font-mono bg-white p-3 rounded border">
-                  HEART Score = HV × HAR
-                </p>
               </div>
             </div>
 
@@ -390,43 +368,31 @@ export default function CalculatorPage() {
                   Reset
                 </button>
               </div>
+              {calcError && (
+                <p role="alert" className="mb-4 text-sm text-red-700 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+                  {calcError}
+                </p>
+              )}
               {results ? (
                 <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg p-6 text-white">
+                  <div className="bg-gradient-to-br from-brand-700 to-brand-500 rounded-lg p-6 text-white">
                     <h3 className="text-sm font-semibold mb-2">HEART Score</h3>
                     <div className="text-4xl font-black">{results.heartScore}</div>
-                    <div className="text-sm mt-2 opacity-90">
-                      HV: {results.normalizedHV.toFixed(3)} × HAR: {results.har}
-                    </div>
                   </div>
 
                   <div className="space-y-3">
                     <div className="bg-brand-50 rounded-lg p-4">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Heart Value (HV)</h4>
-                      <div className="text-2xl font-bold text-brand-600">{results.normalizedHV.toFixed(3)}</div>
-                      <p className="text-xs text-gray-600 mt-1">Raw HV: {results.rawHV.toFixed(2)}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                      {results.rawHV > 100 ? "Capped at 1 — Exceeds Expectation" : results.rawHV < 0 ? "Floored at 0 — Worst Performance" : "Sum of components ÷ 100 (scale 0–1)"}
-                    </p>
-                    </div>
-
-                    <div className="bg-sky-50 rounded-lg p-4">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Adjusted PCI</h4>
-                      <div className="text-lg font-bold text-brand-800">{formatCurrency(results.adjustedPCI)}</div>
-                    </div>
-
-                    <div className="bg-blue-50 rounded-lg p-4">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Adjusted HDI</h4>
-                      <div className="text-lg font-bold text-blue-600">{results.adjustedHDI.toFixed(3)}</div>
-                    </div>
-
-                    <div className="bg-emerald-50 rounded-lg p-4">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">HAV</h4>
-                      <div className="text-lg font-bold text-emerald-600">{formatCurrency(results.hav)}</div>
+                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Heart Value (Resilience)</h4>
+                      <div className="text-2xl font-bold text-brand-600">{results.heartValue.toFixed(2)}</div>
+                      {results.note && (
+                        <p className="text-xs text-gray-500 mt-1">
+                          {results.note === "exceeds" ? "Exceeds Expectation" : "Worst Performance"}
+                        </p>
+                      )}
                     </div>
 
                     <div className="bg-amber-50 rounded-lg p-4">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">HAR</h4>
+                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Affordability Ranking</h4>
                       <div className="text-2xl font-bold text-amber-600">{results.har}</div>
                     </div>
                   </div>

@@ -62,7 +62,7 @@ const FEATURES = [
     {
         emoji: "🧮",
         title: "Calculator",
-        description: "Calculate a HEART Score yourself using the model's formula.",
+        description: "Enter a country's figures and get its HEART Score instantly.",
     },
     {
         emoji: "🤖",

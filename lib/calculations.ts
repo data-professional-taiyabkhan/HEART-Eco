@@ -1,71 +1,62 @@
-import { AFFORDABILITY_GRADES } from './types';
+// HEART model formulas and grade bands. CONFIDENTIAL — server-only.
+// Importing this file from a browser ("use client") component fails the build,
+// so the formulas never ship to visitors. The calculator page calls
+// /api/calculate instead. Display helpers live in lib/format.ts.
+import "server-only";
 
-/**
- * Calculate Adjusted PCI
- * APCI = PCI * (1 - Inflation)
- * Inflation is stored as decimal (0.0235 = 2.35%)
- */
+interface AffordabilityGrade {
+  grade: string;
+  min: number;
+  max: number;
+  description: string;
+}
+
+const AFFORDABILITY_GRADES: AffordabilityGrade[] = [
+  { grade: "A+", min: 50001, max: 100000, description: "Superb" },
+  { grade: "A", min: 40001, max: 50000, description: "Excellent" },
+  { grade: "A-", min: 35001, max: 40000, description: "High" },
+  { grade: "B+", min: 30001, max: 35000, description: "Very Good" },
+  { grade: "B", min: 25001, max: 30000, description: "Good" },
+  { grade: "B-", min: 20001, max: 25000, description: "Satisfactory" },
+  { grade: "C+", min: 15001, max: 20000, description: "Moderate" },
+  { grade: "C", min: 12501, max: 15000, description: "Improved" },
+  { grade: "C-", min: 10001, max: 12500, description: "Border Line" },
+  { grade: "D+", min: 5001, max: 10000, description: "Challenging" },
+  { grade: "D", min: 2501, max: 5000, description: "Poor" },
+  { grade: "D-", min: 0, max: 2500, description: "Very Weak" },
+];
+
+/** Inflation as a decimal (0.0235 = 2.35%). */
 export function calculateAdjustedPCI(pci: number, inflation: number): number {
   return pci * (1 - inflation);
 }
 
-/**
- * Calculate Country Interest Payment
- * Interest Payment = Interest Rate × Country Total Debt
- */
 export function calculateInterestPayment(interestRate: number, totalDebt: number): number {
   return (interestRate / 100) * totalDebt;
 }
 
-/**
- * Calculate Adjusted Debt to GDP
- * Adjusted Debt to GDP = (Country's Debt + Interest Payment) / GDP
- */
-export function calculateAdjustedDebtToGDP(
-  debt: number,
-  interestPayment: number,
-  gdp: number
-): number {
+export function calculateAdjustedDebtToGDP(debt: number, interestPayment: number, gdp: number): number {
   return ((debt + interestPayment) / gdp) * 100;
 }
 
-/**
- * Calculate Adjusted HDI
- * AHDI = HDI - GINI
- */
 export function calculateAdjustedHDI(hdi: number, gini: number): number {
   return hdi - gini;
 }
 
-/**
- * Calculate Heart Affordability Value
- * HAV = Adjusted_PCI × Adjusted_HDI
- */
 export function calculateHeartAffordabilityValue(adjustedPCI: number, adjustedHDI: number): number {
   return adjustedPCI * adjustedHDI;
 }
 
-/**
- * Map Heart Affordability Value to letter grade
- */
 export function getAffordabilityGrade(hav: number): string {
-  // Find the appropriate grade based on HAV value
   for (const grade of AFFORDABILITY_GRADES) {
     if (hav >= grade.min && hav < grade.max) {
       return grade.grade;
     }
   }
-  // Handle edge case for maximum value
-  if (hav >= 100000) {
-    return 'A+';
-  }
-  return 'D-';
+  if (hav >= 100000) return "A+";
+  return "D-";
 }
 
-/**
- * Calculate Heart Value (HV) - Raw calculation
- * HV_raw = H%GDP + Health%GDP + Energy%GDP + Education%GDP + Global_GDP_Share − Interest_Payments%GDP + Trade%GDP
- */
 export function calculateHeartValueRaw(
   housingPercent: number,
   healthPercent: number,
@@ -86,74 +77,47 @@ export function calculateHeartValueRaw(
   );
 }
 
-/**
- * Normalize Heart Value to 0-1 scale using min-max normalization
- */
 export function normalizeHeartValue(rawHV: number, minHV: number, maxHV: number): number {
-  if (maxHV === minHV) return 0.5; // Handle edge case
+  if (maxHV === minHV) return 0.5;
   return (rawHV - minHV) / (maxHV - minHV);
 }
 
-/**
- * Format currency to readable string
- * Handles negative values correctly
- */
-export function formatCurrency(value: number): string {
-  const absValue = Math.abs(value);
-  const sign = value < 0 ? '-' : '';
-  
-  if (absValue >= 1e12) {
-    return `${sign}$${(absValue / 1e12).toFixed(2)}T`;
-  } else if (absValue >= 1e9) {
-    return `${sign}$${(absValue / 1e9).toFixed(2)}B`;
-  } else if (absValue >= 1e6) {
-    return `${sign}$${(absValue / 1e6).toFixed(2)}M`;
-  } else if (absValue >= 1e3) {
-    return `${sign}$${(absValue / 1e3).toFixed(2)}K`;
-  }
-  return `${sign}$${absValue.toFixed(2)}`;
+export interface HeartScoreInputs {
+  housing: number; // % of GDP
+  health: number; // % of GDP
+  energy: number; // % of GDP
+  education: number; // % of GDP
+  globalShare: number; // %
+  interest: number; // % of GDP
+  trade: number; // % of GDP, negative for deficit
+  pci: number; // USD
+  inflation: number; // %
+  hdi: number; // 0-1
+  gini: number; // 0-1
 }
 
-/**
- * Format percentage
- * Handles both decimal format (0.0235) and percentage format (2.35)
- * Excel stores as decimals, so we multiply by 100
- */
-export function formatPercent(value: number, isAlreadyPercent: boolean = false): string {
-  const percentValue = isAlreadyPercent ? value : value * 100;
-  return `${percentValue.toFixed(2)}%`;
+export interface HeartScoreResult {
+  heartScore: string;
+  heartValue: number;
+  har: string;
+  note: "exceeds" | "worst" | null;
 }
 
-/**
- * Format large numbers
- */
-export function formatNumber(value: number): string {
-  return value.toLocaleString('en-US');
+/** Calculator entry point: returns only the final score, HV and grade. */
+export function computeHeartScore(i: HeartScoreInputs): HeartScoreResult {
+  const rawHV = calculateHeartValueRaw(i.housing, i.health, i.energy, i.education, i.globalShare, i.interest, i.trade);
+  const heartValue = Math.max(0, Math.min(1, rawHV / 100));
+  const hav = calculateHeartAffordabilityValue(
+    calculateAdjustedPCI(i.pci, i.inflation / 100),
+    calculateAdjustedHDI(i.hdi, i.gini)
+  );
+  const har = getAffordabilityGrade(hav);
+  return {
+    heartScore: `${heartValue.toFixed(2)}${har}`,
+    heartValue,
+    har,
+    note: rawHV > 100 ? "exceeds" : rawHV < 0 ? "worst" : null,
+  };
 }
 
-/**
- * Format large numbers with M/B suffixes (for Housing Units, Population, etc.)
- * - Billions: Always show 2 decimal places (e.g., 1.42B instead of 1B)
- * - Millions: Show as whole number if 2-3 digits (e.g., 142M), otherwise show decimals
- */
-export function formatLargeNumber(value: number): string {
-  if (value >= 1e9) {
-    // Billions: always show 2 decimal places for accuracy (e.g., 1.42B)
-    return `${(value / 1e9).toFixed(2)}B`;
-  } else if (value >= 1e6) {
-    // Millions: show as whole number if 2-3 digits (10-999M)
-    const millions = value / 1e6;
-    if (millions >= 10 && millions < 1000) {
-      // 2-3 digits: show as whole number (e.g., 142M)
-      return `${Math.round(millions)}M`;
-    } else {
-      // Less than 10M: show as whole number (e.g., 5M)
-      // Note: 1000M+ would be handled as billions above
-      return `${Math.round(millions)}M`;
-    }
-  } else if (value >= 1e3) {
-    return `${(value / 1e3).toFixed(0)}K`;
-  }
-  return value.toLocaleString('en-US');
-}
-
+export { formatCurrency, formatPercent, formatNumber, formatLargeNumber } from "./format";
