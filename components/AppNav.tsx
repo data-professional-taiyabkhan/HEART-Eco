@@ -53,7 +53,7 @@ export default function AppNav() {
                     })}
                 </div>
 
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex items-center gap-3 shrink-0" data-clarity-mask="true">
                     {firstName ? (
                         <span className="text-xs text-gray-600 hidden sm:inline">
                             Hello, <span className="font-semibold text-gray-800">{firstName}</span> 👋

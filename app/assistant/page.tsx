@@ -139,7 +139,7 @@ export default function AssistantPage() {
                 {/* Chat Container */}
                 <div className="flex-1 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden animate-fadeIn" style={{ animationDelay: "0.1s", minHeight: "0" }}>
                     {/* Messages Area */}
-                    <div className="flex-1 overflow-y-auto p-6" style={{ minHeight: "400px", maxHeight: "calc(100vh - 320px)" }}>
+                    <div className="flex-1 overflow-y-auto p-6" data-clarity-mask="true" style={{ minHeight: "400px", maxHeight: "calc(100vh - 320px)" }}>
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-center">
                                 <div className="mb-8">
