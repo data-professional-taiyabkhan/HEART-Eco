@@ -47,9 +47,32 @@ function previewGate(request: NextRequest): NextResponse | null {
   });
 }
 
+// Landing-only preview: when LANDING_ONLY is set, only the homepage (and its
+// images) is reachable; every other page redirects home and APIs are closed.
+const LANDING_ALLOWED = ["/", "/api/health", "/favicon.ico"];
+
+function landingOnly(request: NextRequest): NextResponse | null {
+  if (!process.env.LANDING_ONLY) return null;
+  const { pathname } = request.nextUrl;
+  if (LANDING_ALLOWED.includes(pathname) || pathname.startsWith("/brand/")) return null;
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.json({ error: "Not available in preview" }, { status: 403 });
+  }
+  const url = request.nextUrl.clone();
+  url.pathname = "/";
+  url.search = "";
+  return NextResponse.redirect(url);
+}
+
 export async function middleware(request: NextRequest) {
   const denied = previewGate(request);
   if (denied) return denied;
+
+  const landing = landingOnly(request);
+  if (landing) {
+    landing.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return landing;
+  }
 
   const { pathname } = request.nextUrl;
   if (ASSET_RE.test(pathname)) {
