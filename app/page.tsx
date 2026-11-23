@@ -1,204 +1,145 @@
 import Link from "next/link";
-import HeroCarousel from "@/components/HeroCarousel";
+import SiteFooter, { LinkedInIcon } from "@/components/SiteFooter";
+import { BRAND, CONTACT, FOUNDER } from "@/lib/brand";
 
 const PILLARS = [
+    { letter: "H", title: "Housing & Health", description: "Social infrastructure and well-being: housing availability and healthcare investment." },
+    { letter: "E", title: "Energy & Education", description: "Resources and human capital: energy production and use, education outcomes and expenditure." },
+    { letter: "A", title: "Affordability", description: "Household purchasing power and the cost of living: income levels, inequality and prices." },
+    { letter: "R", title: "Rate", description: "Macroeconomic stability: interest rates, inflation, debt and growth." },
+    { letter: "T", title: "Trade", description: "Trade competitiveness: trade balance, tariffs, taxes and global integration." },
+];
+
+const FRAMEWORKS = [
     {
-        letter: "H",
-        title: "Housing & Health",
-        description:
-            "Social infrastructure and well-being: housing availability and healthcare investment.",
+        title: "HEART Score Economic Model",
+        tag: "Proprietary · Closed-source",
+        description: "Country resilience and affordability index, ranking the G-20+3 economies on economic resilience and household affordability.",
     },
     {
-        letter: "E",
-        title: "Energy & Education",
-        description:
-            "Development of resources and human capital: energy production and usage, education outcomes and expenditure.",
+        title: "HEART Equity Quality & Price Valuation Framework",
+        tag: "Open-source",
+        description: "Five-layer equity assessment: US Macro, USC Geopolitics, Sector Alignment, Industry Dynamics and Company Performance.",
     },
     {
-        letter: "A",
-        title: "Affordability",
-        description:
-            "Purchasing power of citizens and general standard of living: income levels, inequality, and cost of living.",
-    },
-    {
-        letter: "R",
-        title: "Rate",
-        description:
-            "Macroeconomic stability via interest rates, inflation rate, and GDP growth rate.",
-    },
-    {
-        letter: "T",
-        title: "Trade",
-        description:
-            "Trade competitiveness: trade balance, tariffs, taxes, and integration into global trade.",
+        title: "HEART USC Economic Doctrine",
+        tag: "Doctrine",
+        description: "Positions the United States and China as the System Leaders whose choices shape global trade, capital flows and technology.",
     },
 ];
 
-const VALUE_PILLARS = [
-    "HEART Value as economic resilience",
-    "HEART Affordability Value",
-    "Heart Affordability Ranking",
+// Recent publications on LinkedIn. The curated flagship list from the founder will replace these.
+const PUBLICATIONS = [
+    { type: "Global Ranking", title: "Launch and Release of the HEART Score Economic Model: Country Global Ranking 2025 and 2026 Outlook" },
+    { type: "Market Commentary", title: "November 5, 2026 Market Shock: US$2.5 Trillion Wiped Out – How HEART Identified NVIDIA’s Geopolitical Risk Months Earlier" },
+    { type: "Equity Valuation", title: "Anthropic’s $1.4 Trillion IPO: How the HEART Equity Quality Price Valuation Framework Prices Geopolitical Risk" },
+    { type: "Doctrine Essay", title: "From Roxas Boulevard, Manila to the “Big Two”: How a 1989 ADB Library Moment Became the HEART USC Economic Doctrine" },
+    { type: "Equity Valuation", title: "HEART Equity Framework – Repricing Apple (AAPL) in Five Layers" },
+    { type: "Country Reports", title: "Six deep-dive HEART Country Reports: USA, China, India, Saudi Arabia, Germany and Canada" },
 ];
 
-const HEART_OVERVIEW = [
-    { letter: "H", text: "Housing & Health" },
-    { letter: "E", text: "Energy + Education" },
-    { letter: "A", text: "Affordability" },
-    { letter: "R", text: "Rate (interest rate, inflation rate, Debt to GDP Ratio and GDP growth rate)" },
-    { letter: "T", text: "Trade (trade, tariffs, taxes & trade balance)" },
+const MEMBER_ACCESS = [
+    { title: "HEART-AI Assistant", description: "Ask questions on HEART scores, rankings and forecasts, with a capped daily query allowance." },
+    { title: "Country Dashboard", description: "HEART Scores, resilience and affordability rankings for every country in the model." },
+    { title: "Country Comparison", description: "Compare two economies side by side across the HEART pillars." },
+    { title: "Rankings by Year", description: "Historical rankings and the model’s forecast outlook." },
 ];
 
-const FEATURES = [
-    {
-        emoji: "📊",
-        title: "Dashboard",
-        description: "Explore detailed economic metrics for any country in the model.",
-    },
-    {
-        emoji: "⚖️",
-        title: "Compare",
-        description: "Compare two countries side-by-side across every HEART metric.",
-    },
-    {
-        emoji: "🧮",
-        title: "Calculator",
-        description: "Enter a country's figures and get its HEART Score instantly.",
-    },
-    {
-        emoji: "🤖",
-        title: "Assistant",
-        description: "Ask questions about HEART scores, rankings, and forecasts.",
-    },
+const FOUNDER_HIGHLIGHTS = [
+    "27+ years in commercial and investment banking",
+    "Nearly a decade at Emirates NBD, Dubai",
+    "Credit & risk, loan syndication and structured finance",
+    "MBA (Manila); Graduate Diploma in Business Management (Canada)",
+    "3+ years teaching Business Management in Canada",
+    "Author of six deep-dive HEART Country Reports",
 ];
+
+const LINKEDIN_ACTIVITY = `${FOUNDER.linkedin}/recent-activity/all/`;
 
 export default function LandingPage() {
     return (
         <div className="min-h-screen bg-white text-slate-900">
             {/* Header */}
             <header className="border-b border-slate-200 sticky top-0 z-30 bg-white/90 backdrop-blur-sm">
-                <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2">
+                <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
+                    <Link href="/" className="flex items-center gap-3 min-w-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/brand/eco-logo.png" alt="ECO HEART AI" className="h-11 w-auto" />
+                        <img src={BRAND.emblem} alt={BRAND.fullName} className="h-11 w-11 rounded-xl shrink-0" />
+                        <span className="leading-tight hidden sm:block">
+                            <span className="block font-bold text-brand-800 text-sm md:text-base">{BRAND.name}</span>
+                            <span className="block text-xs text-slate-500">{BRAND.shortTag}</span>
+                        </span>
                     </Link>
-                    <nav className="hidden sm:flex items-center gap-6 text-sm font-semibold text-slate-600">
-                        <Link href="/" className="hover:text-brand-700 transition-colors">
-                            Home
-                        </Link>
-                        <a href="#about" className="hover:text-brand-700 transition-colors">
-                            About Us
-                        </a>
-                        <a href="#contact" className="hover:text-brand-700 transition-colors">
-                            Contact Us
-                        </a>
+                    <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
+                        <a href="#about" className="hover:text-brand-700 transition-colors">The Model</a>
+                        <a href="#founder" className="hover:text-brand-700 transition-colors">Founder</a>
+                        <a href="#publications" className="hover:text-brand-700 transition-colors">Publications</a>
+                        <a href="#contact" className="hover:text-brand-700 transition-colors">Contact</a>
                     </nav>
-                    <div className="flex items-center gap-3">
-                        <Link
-                            href="/login"
-                            className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-brand-700 transition-colors"
-                        >
-                            Sign in
+                    <div className="flex items-center gap-2 shrink-0">
+                        <Link href="/login" className="px-3 py-2 text-sm font-semibold text-slate-600 hover:text-brand-700 transition-colors">
+                            Member sign in
                         </Link>
-                        <Link
-                            href="/signup"
-                            className="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors"
-                        >
-                            Create free account
+                        <Link href="/signup" className="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors">
+                            Member Registration
                         </Link>
                     </div>
                 </div>
             </header>
 
             {/* Hero */}
-            <section className="container mx-auto px-4 py-16 md:py-20">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div className="text-center md:text-left">
-                        <span className="inline-block text-xs font-semibold uppercase tracking-wider text-brand-700 bg-brand-50 border border-brand-100 rounded-full px-3 py-1 mb-6">
-                            Economic Model
-                        </span>
-                        <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
-                            ECO-HEART AI Heart Economic Model
-                        </h1>
-                        <p className="text-lg md:text-xl text-slate-600 max-w-xl mx-auto md:mx-0 mb-10">
-                            New innovative global economic performance analysis system.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-                            <a
-                                href="#about"
-                                className="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
-                            >
-                                Learn More
-                            </a>
-                            <Link
-                                href="/signup"
-                                className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-brand-300 hover:bg-brand-50 text-slate-700 font-semibold rounded-lg transition-colors"
-                            >
-                                Create free account
-                            </Link>
-                        </div>
-                    </div>
-                    <HeroCarousel />
-                </div>
-            </section>
-
-            {/* Welcome / About */}
-            <section id="about" className="bg-slate-50 border-y border-slate-200">
+            <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/70 to-white">
                 <div className="container mx-auto px-4 py-16 md:py-20">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
+                        <div className="text-center md:text-left">
+                            <span className="inline-block text-xs font-semibold uppercase tracking-wider text-brand-700 bg-white border border-brand-100 rounded-full px-3 py-1 mb-6">
+                                Proprietary IP &middot; Registered with the Government of Canada
+                            </span>
+                            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-brand-900">
+                                {BRAND.name}
+                            </h1>
+                            <p className="mt-2 text-xl md:text-2xl font-semibold text-brand-600">{BRAND.shortTag}</p>
+                            <p className="mt-6 text-lg text-slate-600 max-w-xl mx-auto md:mx-0">
+                                A human-centred country index that ranks the G-20+3 economies on two lenses at once:
+                                economic resilience and household affordability.
+                            </p>
+                            <blockquote className="mt-8 border-l-4 border-brand-500 pl-4 text-left max-w-xl mx-auto md:mx-0">
+                                <p className="text-xl md:text-2xl font-semibold italic text-brand-800">&ldquo;{BRAND.motto}&rdquo;</p>
+                            </blockquote>
+                            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                                <Link href="/signup" className="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition-colors shadow-sm">
+                                    Member Registration
+                                </Link>
+                                <a href="#about" className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-brand-300 hover:bg-brand-50 text-slate-700 font-semibold rounded-lg transition-colors">
+                                    Explore the Model
+                                </a>
+                            </div>
+                        </div>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src="/brand/innovative-economic-1.jpg"
-                            alt="Global economic performance"
-                            className="rounded-2xl shadow-lg w-full h-auto order-2 md:order-1"
+                            src={BRAND.pyramid}
+                            alt="HEART Five-Pillar Pyramid: Housing-Health, Energy-Education, Affordability, Rate, Trade"
+                            className="w-full max-w-md mx-auto h-auto rounded-2xl shadow-xl shadow-brand-900/10"
                         />
-                        <div className="order-1 md:order-2">
-                            <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                                Welcome to ECO HEART AI
-                            </h2>
-                            <p className="text-sm font-semibold uppercase tracking-wide text-brand-700 mb-6">
-                                Global Economic Analysis &amp; Scoring AI Model
-                            </p>
-                            <p className="text-slate-600 mb-4">
-                                An innovative economic model qualitative and quantified AI assessment
-                                and scoring application — the digital product that delivers the model
-                                dashboard, web app, and AI assistant.
-                            </p>
-                            <p className="text-slate-600">
-                                ECO HEART AI scores the dataset, visualizes comparisons, and generates
-                                explanations of the global economic performance and positioning of
-                                countries for real-time users — sovereign, commercial, and financial
-                                institutions.
-                            </p>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Pillars */}
-            <section className="container mx-auto px-4 py-16 md:py-20">
-                <div className="text-center max-w-2xl mx-auto mb-12">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-3">
-                        The five HEART pillars
-                    </h2>
-                    <p className="text-slate-600">
-                        HEART is a new economic concept, assessed as a HEART Score computed by
-                        generative economic value indicators.
+            {/* The Model */}
+            <section id="about" className="container mx-auto px-4 py-16 md:py-20 scroll-mt-20">
+                <div className="text-center max-w-3xl mx-auto mb-12">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 mb-3">The Model</p>
+                    <h2 className="text-2xl md:text-4xl font-bold text-brand-900">Five pillars. Two lenses.</h2>
+                    <p className="mt-4 text-slate-600">
+                        HEART starts with household affordability and works up to the macro picture. Each economy is assessed
+                        on its economic resilience and on how that performance lands in people&apos;s lives, across five pillars
+                        that apply equally to developed, developing and emerging economies.
                     </p>
                 </div>
 
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src="/brand/heart-model.png"
-                    alt="HEART Economic Model diagram"
-                    className="mx-auto w-full max-w-md h-auto mb-12"
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                     {PILLARS.map((pillar) => (
-                        <div
-                            key={pillar.letter}
-                            className="bg-white rounded-xl border border-slate-200 p-6"
-                        >
+                        <div key={pillar.letter} className="bg-white rounded-xl border border-slate-200 p-6 hover:border-brand-200 hover:shadow-md transition">
                             <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-brand-600 text-white font-bold text-lg mb-4">
                                 {pillar.letter}
                             </div>
@@ -207,203 +148,169 @@ export default function LandingPage() {
                         </div>
                     ))}
                 </div>
-                <div className="max-w-2xl mx-auto">
-                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                        {VALUE_PILLARS.map((item) => (
-                            <li
-                                key={item}
-                                className="text-sm font-semibold text-brand-700 bg-brand-50 border border-brand-100 rounded-lg px-4 py-3 text-center"
-                            >
-                                {item}
-                            </li>
-                        ))}
-                    </ul>
-                    <p className="text-slate-600 text-center">
-                        HEART Score merges hard mathematical and statistically based coded models
-                        to produce a new country ranking, applying AI as a way to analyze a
-                        country&apos;s present economic performance.
-                    </p>
+
+                <div className="mt-14 grid gap-4 md:grid-cols-3">
+                    {FRAMEWORKS.map((f) => (
+                        <div key={f.title} className="rounded-2xl bg-slate-50 border border-slate-200 p-6">
+                            <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">{f.tag}</span>
+                            <h3 className="mt-2 font-bold text-slate-900">{f.title}</h3>
+                            <p className="mt-2 text-sm text-slate-600">{f.description}</p>
+                        </div>
+                    ))}
                 </div>
             </section>
 
-            {/* Heart Ranking Economic Model / Introduction */}
-            <section className="bg-slate-50 border-y border-slate-200">
+            {/* Founder & Chief Economist */}
+            <section id="founder" className="bg-slate-50 border-y border-slate-200 scroll-mt-20">
                 <div className="container mx-auto px-4 py-16 md:py-20">
-                    <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 items-start">
+                    <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 items-start">
                         <div>
-                            <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                                Heart Ranking Economic Model
-                            </h2>
-                            <p className="text-sm font-semibold uppercase tracking-wide text-brand-700 mb-6">
-                                Introduction
+                            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 mb-3">Founder &amp; Chief Economist</p>
+                            <h2 className="text-3xl md:text-4xl font-bold text-brand-900">{FOUNDER.name}</h2>
+                            <p className="mt-3 text-base font-semibold text-brand-700">{FOUNDER.title}</p>
+                            <p className="mt-6 text-slate-600">
+                                {FOUNDER.name} is the creator, owner and author of the HEART Score Economic Model. A
+                                practitioner-scholar, he brings more than 27 years of commercial and investment banking
+                                experience to the study of economic resilience, shocks and affordability.
                             </p>
-                            <p className="text-slate-600 mb-4">
-                                The author, Khurshid Imtiaz Haque, has created and developed an economic
-                                model named the &ldquo;HEART SCORE&rdquo; Economic Model.
-                            </p>
-                            <p className="text-slate-600 mb-8">
-                                The model presents a qualitative and quantitative approach that focuses
-                                on fundamental factors influencing global economies — Housing &amp;
-                                Health (H), Energy &amp; Education (E), Affordability (A), Rate (R),
-                                and Trade (T). It is designed to be applicable to all economies,
-                                whether developed, developing, or emerging, and aims to provide
-                                practical solutions for economic stability and growth. By emphasizing
-                                root causes of economic instability rather than just quantitative
-                                indicators, it provides a more comprehensive and adaptable perspective
-                                for policy-making and economic planning.
-                            </p>
-
-                            <h3 className="font-bold text-slate-900 mb-4">Heart overview:</h3>
-                            <ul className="space-y-3 mb-8">
-                                {HEART_OVERVIEW.map((item) => (
-                                    <li key={item.letter} className="flex gap-3 items-start">
-                                        <span className="w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-md bg-brand-600 text-white font-bold text-xs">
-                                            {item.letter}
-                                        </span>
-                                        <span className="text-sm text-slate-600 pt-0.5">{item.text}</span>
+                            <ul className="mt-6 grid sm:grid-cols-2 gap-3">
+                                {FOUNDER_HIGHLIGHTS.map((h) => (
+                                    <li key={h} className="flex gap-3 items-start text-sm text-slate-700">
+                                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-500" />
+                                        <span>{h}</span>
                                     </li>
                                 ))}
                             </ul>
-
                             <a
-                                href="#contact"
-                                className="inline-block text-brand-700 font-semibold hover:underline"
+                                href={FOUNDER.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#0A66C2] hover:bg-[#004182] text-white font-semibold transition-colors"
                             >
-                                Learn More &rarr;
+                                <LinkedInIcon className="h-5 w-5" /> Follow on LinkedIn
                             </a>
                         </div>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src="/brand/blue-heart.png"
-                            alt="HEART pillars pyramid"
-                            className="w-full max-w-sm mx-auto h-auto"
-                        />
+                        <a href={BRAND.founderBio} target="_blank" rel="noopener noreferrer" className="block group" title="Open the full biography">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={BRAND.founderBio}
+                                alt={`Executive biography of ${FOUNDER.name}`}
+                                className="w-full max-w-lg mx-auto h-auto rounded-2xl shadow-xl shadow-brand-900/15 ring-1 ring-slate-200 group-hover:shadow-2xl transition"
+                            />
+                            <span className="block text-center text-xs text-slate-500 mt-3">Click to view full size</span>
+                        </a>
                     </div>
                 </div>
             </section>
 
-            {/* Conclusion */}
-            <section className="container mx-auto px-4 py-16 md:py-20">
-                <div className="max-w-3xl mx-auto">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-6">Conclusion</h2>
-                    <p className="text-slate-600 mb-4">
-                        The HEART Economic Model is an AI-integrated, innovative framework that
-                        offers a holistic and interconnected view of the global economy. By
-                        focusing on Housing, Energy, Affordability, Rate, and Trade — and
-                        expanding to include Health and Education — the model provides a more
-                        realistic, inclusive, and applicable alternative to traditional economic
-                        models that often overlook socio-economic interdependencies.
-                    </p>
-                    <p className="text-slate-600">
-                        The model&apos;s interdisciplinary approach makes it a powerful tool for
-                        economists, analysts, and policymakers seeking to drive long-term
-                        stability, resilience, and equitable growth. Its strength lies in
-                        connecting economic indicators with quality-of-life outcomes, ensuring
-                        that macroeconomic success does not come at the expense of human
-                        development.
-                    </p>
-                </div>
-            </section>
-
-            {/* What you get */}
-            <section className="bg-slate-50 border-y border-slate-200">
-                <div className="container mx-auto px-4 py-16 md:py-20">
-                    <div className="text-center max-w-2xl mx-auto mb-12">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-3">What you get</h2>
-                        <p className="text-slate-600">
-                            Create a free account to access the full HEART platform.
+            {/* Research & Publications */}
+            <section id="publications" className="container mx-auto px-4 py-16 md:py-20 scroll-mt-20">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+                    <div className="max-w-2xl">
+                        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 mb-3">Research &amp; Publications</p>
+                        <h2 className="text-2xl md:text-4xl font-bold text-brand-900">125+ institutional deliverables</h2>
+                        <p className="mt-4 text-slate-600">
+                            Deep-dive country reports, research monographs and market commentaries, published on LinkedIn.
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {FEATURES.map((feature) => (
-                            <div
-                                key={feature.title}
-                                className="bg-white rounded-xl border border-slate-200 p-6 text-center"
-                            >
-                                <div className="text-3xl mb-3">{feature.emoji}</div>
-                                <h3 className="font-bold text-slate-900 mb-2">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-sm text-slate-600">{feature.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Final CTA */}
-            <section className="container mx-auto px-4 py-16 md:py-20 text-center">
-                <h2 className="text-2xl md:text-3xl font-bold mb-3">
-                    Heart Score Economic Model
-                </h2>
-                <p className="text-slate-600 max-w-2xl mx-auto mb-10">
-                    Addressing Housing, Health, Energy, Education, Affordability, Rate, and
-                    Trade impacts.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Link
-                        href="/signup"
-                        className="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
-                    >
-                        Learn More
-                    </Link>
                     <a
-                        href="mailto:info@ecoheartai.com"
-                        className="w-full sm:w-auto px-8 py-3.5 border border-slate-300 hover:border-brand-300 hover:bg-brand-50 text-slate-700 font-semibold rounded-lg transition-colors"
+                        href={LINKEDIN_ACTIVITY}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 self-start md:self-auto px-5 py-3 rounded-lg border border-slate-300 hover:border-brand-300 hover:bg-brand-50 text-slate-700 font-semibold transition-colors"
                     >
-                        Contact Us Now
+                        <LinkedInIcon className="h-4 w-4 text-[#0A66C2]" /> View all on LinkedIn
                     </a>
                 </div>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {PUBLICATIONS.map((p) => (
+                        <a
+                            key={p.title}
+                            href={LINKEDIN_ACTIVITY}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 hover:border-brand-300 hover:shadow-lg transition"
+                        >
+                            <span className="text-xs font-semibold uppercase tracking-wide text-brand-600">{p.type}</span>
+                            <h3 className="mt-3 font-semibold text-slate-900 leading-snug group-hover:text-brand-700">{p.title}</h3>
+                            <span className="mt-auto pt-6 text-sm font-semibold text-brand-600">Read on LinkedIn &rarr;</span>
+                        </a>
+                    ))}
+                </div>
             </section>
 
-            {/* Footer */}
-            <footer id="contact" className="border-t border-slate-200 bg-slate-50">
-                <div className="container mx-auto px-4 py-12">
-                    <div className="max-w-2xl mx-auto text-center">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src="/brand/heart-footer-logo.png"
-                            alt="HEART Economic Model"
-                            className="h-24 w-auto mx-auto"
-                        />
-                        <p className="text-sm text-slate-600 mt-4">
-                            ECO HEART AI is an innovative artificial intelligence global economic
-                            performance and ranking platform designed to analyze global economic
-                            performance and provide structured economic rankings.
-                        </p>
-                        <nav className="flex items-center justify-center gap-6 text-sm font-semibold text-slate-600 mt-6">
-                            <Link href="/" className="hover:text-brand-700 transition-colors">
-                                Home
-                            </Link>
-                            <a href="#about" className="hover:text-brand-700 transition-colors">
-                                About Us
-                            </a>
-                            <a href="#contact" className="hover:text-brand-700 transition-colors">
-                                Contact Us
-                            </a>
-                        </nav>
-                        <p className="text-sm text-slate-500 mt-6">
-                            Email:{" "}
-                            <a
-                                href="mailto:info@ecoheartai.com"
-                                className="text-brand-700 hover:underline"
-                            >
-                                info@ecoheartai.com
-                            </a>
-                        </p>
+            {/* Freemium Member Registration */}
+            <section id="membership" className="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white scroll-mt-20">
+                <div className="container mx-auto px-4 py-16 md:py-20">
+                    <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-200 mb-3">Freemium Member Registration</p>
+                            <h2 className="text-3xl md:text-4xl font-bold">Complimentary access for registered members</h2>
+                            <p className="mt-4 text-brand-50/90">
+                                Register to explore HEART Scores and rankings and to put questions to the HEART-AI Assistant.
+                                The HEART methodology is proprietary and closed-source: members see scores, grades and rankings,
+                                not the model behind them.
+                            </p>
+                            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                                <Link href="/signup" className="px-8 py-3.5 bg-white text-brand-800 hover:bg-brand-50 font-semibold rounded-lg text-center transition-colors">
+                                    Register as a Member
+                                </Link>
+                                <Link href="/login" className="px-8 py-3.5 border border-white/40 hover:bg-white/10 font-semibold rounded-lg text-center transition-colors">
+                                    Member sign in
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                            {MEMBER_ACCESS.map((m) => (
+                                <div key={m.title} className="rounded-2xl bg-white/10 border border-white/15 p-6 backdrop-blur">
+                                    <h3 className="font-bold">{m.title}</h3>
+                                    <p className="mt-2 text-sm text-brand-50/85">{m.description}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-                <div className="border-t border-slate-200">
-                    <div className="container mx-auto px-4 py-6 text-center">
-                        <p className="text-sm text-slate-500">
-                            Developed by Khurshid Imtiaz Ul Haque
+            </section>
+
+            {/* Two-tier contact */}
+            <section id="contact" className="container mx-auto px-4 py-16 md:py-20 scroll-mt-20">
+                <div className="text-center max-w-2xl mx-auto mb-10">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 mb-3">Contact</p>
+                    <h2 className="text-2xl md:text-4xl font-bold text-brand-900">How to reach us</h2>
+                </div>
+                <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+                    <div className="rounded-2xl border border-slate-200 p-8 flex flex-col">
+                        <h3 className="text-lg font-bold text-slate-900">Institutional Collaboration, Licensing &amp; Acquisition</h3>
+                        <p className="mt-3 text-sm text-slate-600">
+                            For banks, asset managers, sovereign funds and institutional partners. Please contact the Founder
+                            directly by LinkedIn Direct Message.
                         </p>
-                        <p className="text-xs text-slate-400 mt-1">
-                            © 2026 ECO HEART AI | All rights reserved.
+                        <a
+                            href={FOUNDER.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-auto pt-6 inline-flex"
+                        >
+                            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#0A66C2] hover:bg-[#004182] text-white font-semibold transition-colors">
+                                <LinkedInIcon className="h-5 w-5" /> Message on LinkedIn
+                            </span>
+                        </a>
+                    </div>
+                    <div className="rounded-2xl border border-slate-200 p-8 flex flex-col">
+                        <h3 className="text-lg font-bold text-slate-900">All Other General Inquiries</h3>
+                        <p className="mt-3 text-sm text-slate-600">
+                            For member support, media and every other question, email us and we will respond.
                         </p>
+                        <a href={`mailto:${CONTACT.generalEmail}`} className="mt-auto pt-6 inline-flex">
+                            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold transition-colors">
+                                {CONTACT.generalEmail}
+                            </span>
+                        </a>
                     </div>
                 </div>
-            </footer>
+            </section>
+
+            <SiteFooter />
         </div>
     );
 }

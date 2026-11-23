@@ -80,8 +80,8 @@ export default function SignupPage() {
     return (
         <AuthShell>
             <div className={card}>
-                <h1 className="text-3xl font-bold text-slate-900">Create your account</h1>
-                <p className="mt-2 text-sm text-slate-500">Free access to the HEART Score dashboard, comparisons and assistant.</p>
+                <h1 className="text-3xl font-bold text-slate-900">Member Registration</h1>
+                <p className="mt-2 text-sm text-slate-500">Complimentary member access to HEART Scores, rankings and the HEART-AI Assistant (capped daily queries).</p>
 
                 <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                     <AuthField label="Full name" type="text" value={fullName} onChange={setFullName} autoComplete="name" placeholder="Jane Smith" />
@@ -100,7 +100,7 @@ export default function SignupPage() {
                         disabled={loading}
                         className="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-700 active:scale-[0.99] disabled:opacity-60 text-white font-semibold shadow-lg shadow-brand-600/25 transition"
                     >
-                        {loading ? "Creating account..." : "Create free account"}
+                        {loading ? "Registering..." : "Register as a Member"}
                     </button>
                 </form>
 

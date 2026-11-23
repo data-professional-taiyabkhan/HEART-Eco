@@ -11,14 +11,15 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "HEART Score Economic Model Dashboard",
-  description: "Analyze and compare countries using the HEART economic model",
+  title: "HEART Score Economic Model (HEART, HEART-AI)",
+  description:
+    "HEART Score Economic Model (HEART, HEART-AI): a human-centred country index ranking economies on economic resilience and household affordability. Humans Lead With Dignity, Systems Power The Decisions.",
   icons: {
     icon: [
       { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
       { url: "/brand/favicon-192.png", sizes: "192x192", type: "image/png" },
     ],
-    apple: "/brand/favicon-192.png",
+    apple: "/brand/favicon-180.png",
   },
 };
 

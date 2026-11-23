@@ -54,8 +54,8 @@ function LoginForm() {
     return (
         <AuthShell>
             <div className="bg-white rounded-3xl shadow-xl shadow-brand-900/5 border border-slate-100 p-8 sm:p-10">
-                <h1 className="text-3xl font-bold text-slate-900">Welcome back</h1>
-                <p className="mt-2 text-sm text-slate-500">Sign in to the HEART Score dashboard and assistant.</p>
+                <h1 className="text-3xl font-bold text-slate-900">Member sign in</h1>
+                <p className="mt-2 text-sm text-slate-500">Sign in to HEART Scores, rankings and the HEART-AI Assistant.</p>
 
                 <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                     <AuthField label="Email" type="email" value={email} onChange={setEmail} autoComplete="email" placeholder="you@example.com" />
@@ -84,7 +84,7 @@ function LoginForm() {
                 <p className="text-sm text-slate-500 mt-8 text-center">
                     New here?{" "}
                     <Link href="/signup" className="text-brand-600 font-semibold hover:underline">
-                        Create a free account
+                        Register as a Member
                     </Link>
                 </p>
             </div>

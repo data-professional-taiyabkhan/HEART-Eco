@@ -32,7 +32,11 @@ export default function AppNav() {
             <div className="container mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
                 <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/brand/eco-logo.png" alt="ECO HEART AI" className="h-9 w-auto" />
+                    <img src="/brand/heart-emblem.jpg" alt="HEART Score Economic Model (HEART, HEART-AI)" className="h-9 w-9 rounded-lg" />
+                    <span className="hidden md:block leading-tight">
+                        <span className="block text-sm font-bold text-brand-800">HEART Score Economic Model</span>
+                        <span className="block text-[11px] text-gray-500">(HEART, HEART-AI)</span>
+                    </span>
                 </Link>
 
                 <div className="flex flex-wrap items-center gap-1">

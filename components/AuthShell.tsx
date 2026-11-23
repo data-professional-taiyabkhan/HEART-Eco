@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { LegalNotice } from "@/components/SiteFooter";
+import { BRAND } from "@/lib/brand";
 
 const PILLARS = [
     { letter: "H", label: "Housing & Health" },
@@ -26,16 +28,15 @@ export default function AuthShell({ children }: { children: React.ReactNode }) {
                 <div aria-hidden className="absolute -bottom-28 -right-16 h-96 w-96 rounded-full bg-sky-300/30 blur-3xl animate-floatB" />
 
                 <Link href="/" className="relative z-10 inline-flex items-center gap-3 w-fit">
-                    <span className="bg-white rounded-xl p-1.5 shadow-sm">
-                        <img src="/brand/eco-logo.png" alt="ECO HEART AI" className="h-8 w-auto" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={BRAND.emblem} alt={BRAND.fullName} className="h-12 w-12 rounded-xl ring-1 ring-white/30 shadow-lg" />
+                    <span className="leading-tight">
+                        <span className="block font-semibold tracking-wide">{BRAND.name}</span>
+                        <span className="block text-xs text-brand-100">{BRAND.shortTag}</span>
                     </span>
-                    <span className="font-semibold tracking-wide">ECO HEART AI</span>
                 </Link>
 
                 <div className="relative z-10 mt-8 lg:mt-auto lg:mb-auto">
-                    <p className="hidden lg:block text-sm uppercase tracking-[0.2em] text-brand-100 mb-4">
-                        HEART Economic Model
-                    </p>
                     <div className="flex gap-2 sm:gap-3">
                         {PILLARS.map((p, i) => (
                             <div
@@ -48,29 +49,32 @@ export default function AuthShell({ children }: { children: React.ReactNode }) {
                             </div>
                         ))}
                     </div>
-                    <h2 className="hidden lg:block mt-8 text-3xl xl:text-4xl font-bold leading-tight max-w-md">
-                        New innovative global economic performance analysis system.
+                    <h2 className="hidden lg:block mt-8 text-3xl xl:text-4xl font-bold leading-tight max-w-md italic">
+                        &ldquo;{BRAND.motto}&rdquo;
                     </h2>
                     <ul className="hidden lg:grid mt-8 grid-cols-2 gap-x-6 gap-y-2 text-sm text-brand-50/90 max-w-md">
                         {PILLARS.map((p) => (
                             <li key={p.letter} className="flex items-center gap-2">
                                 <span className="h-1.5 w-1.5 rounded-full bg-sky-300" />
                                 <span>
-                                    <span className="font-semibold text-white">{p.letter}</span> · {p.label}
+                                    <span className="font-semibold text-white">{p.letter}</span> &middot; {p.label}
                                 </span>
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                <p className="relative z-10 hidden lg:block text-xs text-brand-100/80">
-                    HEART Score Economic Model by Khurshid Imtiaz Ul Haque
-                </p>
+                <div className="relative z-10 hidden lg:block">
+                    <LegalNotice dark />
+                </div>
             </aside>
 
             {/* Form panel */}
-            <main className="flex items-center justify-center px-4 py-10 sm:px-8">
+            <main className="flex flex-col items-center justify-center px-4 py-10 sm:px-8">
                 <div className="w-full max-w-md animate-fadeIn">{children}</div>
+                <div className="lg:hidden mt-10 max-w-md">
+                    <LegalNotice />
+                </div>
             </main>
         </div>
     );
