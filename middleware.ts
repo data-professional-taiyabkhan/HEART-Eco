@@ -18,9 +18,48 @@ const PROTECTED_API_PATHS = [
   "/api/calculate",
 ];
 
+// Private-preview gate. Active only when SITE_PASSWORD is set (e.g. on the
+// temporary review deployment); unset it to make the site public.
+const GATE_EXEMPT = ["/api/health"]; // keepalive cron must still reach the DB
+const ASSET_RE = /\.(?:svg|png|jpg|jpeg|gif|webp|ico)$/;
+
+function previewGate(request: NextRequest): NextResponse | null {
+  const password = process.env.SITE_PASSWORD;
+  if (!password) return null;
+  if (GATE_EXEMPT.includes(request.nextUrl.pathname)) return null;
+
+  const user = process.env.SITE_USER || "heart";
+  const header = request.headers.get("authorization") || "";
+  if (header.startsWith("Basic ")) {
+    try {
+      const [u, ...rest] = atob(header.slice(6)).split(":");
+      if (u === user && rest.join(":") === password) return null;
+    } catch {
+      /* malformed header: fall through to challenge */
+    }
+  }
+  return new NextResponse("This site is in private review.", {
+    status: 401,
+    headers: {
+      "WWW-Authenticate": 'Basic realm="HEART private review", charset="UTF-8"',
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
+}
+
 export async function middleware(request: NextRequest) {
-  const { response, user } = await updateSession(request);
+  const denied = previewGate(request);
+  if (denied) return denied;
+
   const { pathname } = request.nextUrl;
+  if (ASSET_RE.test(pathname)) {
+    const res = NextResponse.next();
+    if (process.env.SITE_PASSWORD) res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return res;
+  }
+
+  const { response, user } = await updateSession(request);
+  if (process.env.SITE_PASSWORD) response.headers.set("X-Robots-Tag", "noindex, nofollow");
 
   const isProtectedApi = PROTECTED_API_PATHS.some((p) =>
     pathname.startsWith(p)
@@ -53,6 +92,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    // Everything except Next build chunks, so the preview gate also covers images.
+    "/((?!_next/static|_next/image).*)",
   ],
 };

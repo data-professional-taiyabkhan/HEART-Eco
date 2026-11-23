@@ -28,14 +28,39 @@ const FRAMEWORKS = [
     },
 ];
 
-// Recent publications on LinkedIn. The curated flagship list from the founder will replace these.
+// Recent publications on LinkedIn, each linked to its own article/post.
+// The curated flagship list from the founder will replace these.
 const PUBLICATIONS = [
-    { type: "Global Ranking", title: "Launch and Release of the HEART Score Economic Model: Country Global Ranking 2025 and 2026 Outlook" },
-    { type: "Market Commentary", title: "November 5, 2026 Market Shock: US$2.5 Trillion Wiped Out – How HEART Identified NVIDIA’s Geopolitical Risk Months Earlier" },
-    { type: "Equity Valuation", title: "Anthropic’s $1.4 Trillion IPO: How the HEART Equity Quality Price Valuation Framework Prices Geopolitical Risk" },
-    { type: "Doctrine Essay", title: "From Roxas Boulevard, Manila to the “Big Two”: How a 1989 ADB Library Moment Became the HEART USC Economic Doctrine" },
-    { type: "Equity Valuation", title: "HEART Equity Framework – Repricing Apple (AAPL) in Five Layers" },
-    { type: "Country Reports", title: "Six deep-dive HEART Country Reports: USA, China, India, Saudi Arabia, Germany and Canada" },
+    {
+        type: "Global Ranking",
+        title: "Launch and Release of the HEART Score Economic Model: Country Global Ranking 2025 and 2026 Outlook",
+        url: "https://www.linkedin.com/pulse/launch-release-heart-score-economic-model-country-global-s5znc/",
+    },
+    {
+        type: "Market Commentary",
+        title: "November 5, 2026 Market Shock: US$2.5 Trillion Wiped Out – How HEART Identified NVIDIA’s Geopolitical Risk Months Earlier",
+        url: "https://www.linkedin.com/pulse/november-5-2026-market-shock-us25-trillion-wiped-out-how-7nj5c/",
+    },
+    {
+        type: "Equity Valuation",
+        title: "Anthropic’s $1.4 Trillion IPO: How the HEART Equity Quality Price Valuation Framework Prices Geopolitical Risk",
+        url: "https://www.linkedin.com/pulse/anthropics-14-trillion-ipo-how-heart-equity-quality-price-41onc/",
+    },
+    {
+        type: "Doctrine Essay",
+        title: "From Roxas Boulevard, Manila to the “Big Two”: How a 1989 ADB Library Moment Became the HEART USC Economic Doctrine",
+        url: "https://www.linkedin.com/pulse/from-roxas-boulevard-manila-big-two-how-1989-adb-library-3telc/",
+    },
+    {
+        type: "Equity Valuation",
+        title: "HEART Equity Framework – Repricing Apple (AAPL) in Five Layers",
+        url: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7529203427659407360/",
+    },
+    {
+        type: "New Terms",
+        title: "Naming the New Crisis: Why the World Needs HEART, ECOWARNATION, and EDIRGE",
+        url: "https://www.linkedin.com/pulse/naming-new-crisis-why-world-needs-heart-ecowarnation-edirge-idfhc/",
+    },
 ];
 
 const MEMBER_ACCESS = [
@@ -226,7 +251,7 @@ export default function LandingPage() {
                     {PUBLICATIONS.map((p) => (
                         <a
                             key={p.title}
-                            href={LINKEDIN_ACTIVITY}
+                            href={p.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 hover:border-brand-300 hover:shadow-lg transition"
